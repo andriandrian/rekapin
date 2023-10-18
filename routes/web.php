@@ -36,6 +36,34 @@ Route::get('/test', function () {
     return Inertia::render('Test');
 })->middleware(['auth', 'verified'])->name('test');
 
+Route::get('/inventory', function () {
+    return Inertia::render('Inventory');
+})->middleware(['auth', 'verified'])->name('inventory');
+
+Route::get('/customer', function () {
+    return Inertia::render('Customer');
+})->middleware(['auth', 'verified'])->name('customer');
+
+Route::get('/vendor', function () {
+    return Inertia::render('Vendor');
+})->middleware(['auth', 'verified'])->name('vendor');
+
+Route::get('/sales-order', function () {
+    return Inertia::render('SalesOrder');
+})->middleware(['auth', 'verified'])->name('sales-order');
+
+Route::get('/sales-invoice', function () {
+    return Inertia::render('SalesInvoice');
+})->middleware(['auth', 'verified'])->name('sales-invoice');
+
+Route::get('/purchasing', function () {
+    return Inertia::render('Purchasing');
+})->middleware(['auth', 'verified'])->name('purchasing');
+
+Route::get('/settings', function () {
+    return Inertia::render('Settings');
+})->middleware(['auth', 'verified'])->name('settings');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

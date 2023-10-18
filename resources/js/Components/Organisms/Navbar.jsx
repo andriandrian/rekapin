@@ -8,6 +8,7 @@ import {
     PurchasingIcon,
     ChartOfAccountsIcon,
     SettingsIcon,
+    SalesInvoiceIcon,
 } from "../../Assets";
 import { Link, usePage } from "@inertiajs/react";
 
@@ -23,76 +24,103 @@ export function Navbar() {
             />
             <div className="flex flex-col items-center w-[100%]">
                 <ul>
-                    <li className="flex flex-row items-center my-6 w-52 hover:bg-slate-300">
+                    <li
+                        className={`${url == "/inventory" ? "bg-slate-400" : ""}
+                            flex flex-row items-center my-6 w-52 hover:bg-slate-300 py-2 rounded-sm`}
+                    >
                         <Link
-                            href="/dashboard"
-                            className={`${
-                                url == "/test"
-                                    ? "text-slate-400"
-                                    : "text-slate-400"
-                            }text-black ml-[20px] font-bold flex flex-row items-center gap-5`}
+                            href="/inventory"
+                            className="text-black ml-[20px] font-bold flex flex-row items-center gap-5"
                         >
                             <img src={InventoryIcon} />
                             Inventory
                         </Link>
                     </li>
-                    <li className="flex flex-row items-center my-6 w-52">
+                    <li
+                        className={`${
+                            url == "/customer" ? "bg-slate-400" : ""
+                        } flex flex-row items-center my-6 w-52`}
+                    >
                         <Link
-                            to="/customer"
+                            href="/customer"
                             className="text-black ml-[20px] font-bold flex flex-row items-center gap-5"
                         >
                             <img src={CustomerIcon} />
                             Customer
                         </Link>
                     </li>
-                    <li className="flex flex-row items-center my-6">
+                    <li
+                        className={`${
+                            url == "/vendor" ? "bg-slate-400" : ""
+                        } flex flex-row items-center my-6 w-52`}
+                    >
                         <Link
-                            to="/vendor"
+                            href="/vendor"
                             className="text-black ml-[20px] font-bold flex flex-row items-center gap-5"
                         >
                             <img src={VendorIcon} />
                             Vendor
                         </Link>
                     </li>
-                    <li className="flex flex-row items-center my-6">
+                    <li
+                        className={`${
+                            url == "/sales-order" ? "bg-slate-400" : ""
+                        } flex flex-row items-center my-6 w-52`}
+                    >
                         <Link
-                            to="/customer"
+                            href="/sales-order"
                             className="text-black ml-[20px] font-bold flex flex-row items-center gap-5"
                         >
                             <img src={SalesOrderIcon} />
                             Sales Order
                         </Link>
                     </li>
-                    <li className="flex flex-row items-center my-6">
+                    <li
+                        className={`${
+                            url == "/sales-invoice" ? "bg-slate-400" : ""
+                        } flex flex-row items-center my-6 w-52`}
+                    >
                         <Link
-                            to="/customer"
+                            href="/sales-invoice"
                             className="text-black ml-[20px] font-bold flex flex-row items-center gap-5"
                         >
-                            <img src={CustomerIcon} />
+                            <img src={SalesInvoiceIcon} />
                             Sales Invoice
                         </Link>
                     </li>
-                    <li className="flex flex-row items-center my-6">
+                    <li
+                        className={`${
+                            url == "/purchasing" ? "bg-slate-400" : ""
+                        } flex flex-row items-center my-6 w-52`}
+                    >
                         <Link
-                            to="/customer"
+                            href="/purchasing"
                             className="text-black ml-[20px] font-bold flex flex-row items-center gap-5"
                         >
                             <img src={PurchasingIcon} />
                             Purchasing
                         </Link>
                     </li>
-                    <li className="flex flex-row items-center my-6">
+                    <li
+                        className={`${
+                            url == "/chartofaccounts" ? "bg-slate-400" : ""
+                        } flex flex-row items-center my-6 w-52`}
+                    >
                         <Link
-                            to="/customer"
+                            href="/chartofaccounts"
                             className="text-black ml-[20px] font-bold flex flex-row items-center gap-5"
                         >
                             <img src={ChartOfAccountsIcon} />
                             Chart of Accounts
                         </Link>
                     </li>
-                    <li className="flex flex-row items-center my-6">
+                    <li
+                        className={`${
+                            url == "/settings" ? "bg-slate-400" : ""
+                        } flex flex-row items-center my-6 w-52`}
+                    >
                         <Link
-                            to="/customer"
+                            href="/settings"
                             className="text-black ml-[20px] font-bold flex flex-row items-center gap-5"
                         >
                             <img src={SettingsIcon} />
