@@ -1,5 +1,6 @@
+import { PlusIcon, PrintIcon, RefreshIcon } from "@/Assets";
 import { Navbar } from "../Components";
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 
 export default function Vendor({ auth }) {
     return (
@@ -13,13 +14,19 @@ export default function Vendor({ auth }) {
                 <div className="mt-9 flex flex-row justify-between">
                     <h1 className="text-3xl font-bold">Vendor List</h1>
                     <div className="flex flex-row gap-5">
-                        <div className="bg-[#E4F2F0] py-3 px-6 border-[1.5px] border-black rounded-xl">
+                        <Link
+                            href="/vendor/add"
+                            className="flex flex-row gap-2 font-bold bg-[#E4F2F0] py-3 px-6 border-[1.5px] border-black rounded-xl"
+                        >
+                            <img src={RefreshIcon} />
                             Refresh
-                        </div>
-                        <div className="bg-[#CCE5E3] py-3 px-6 border-[1.5px] border-black rounded-xl">
+                        </Link>
+                        <Link className="flex flex-row gap-2 font-bold bg-[#CCE5E3] py-3 px-6 border-[1.5px] border-black rounded-xl">
+                            <img src={PrintIcon} />
                             Print Vendor List
-                        </div>
-                        <div className="bg-[#B7C9C7] py-3 px-6 border-[1.5px] border-black rounded-xl">
+                        </Link>
+                        <div className="flex flex-row gap-2 font-bold bg-[#B7C9C7] py-3 px-6 border-[1.5px] border-black rounded-xl">
+                            <img src={PlusIcon} />
                             Add Product
                         </div>
                     </div>

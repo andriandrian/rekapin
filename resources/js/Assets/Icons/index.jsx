@@ -9,6 +9,12 @@ import SettingsIcon from "./settings.svg";
 import RekapinLogo from "./rekapin-logo.svg";
 import BackIcon from "./back.svg";
 import TrashIcon from "./trash.svg";
+import SaveIcon from "./save.svg";
+import PlusIcon from "./plus.svg";
+import RefreshIcon from "./refresh.svg";
+import PrintIcon from "./print.svg";
+import SearchIcon from "./search.svg";
+
 
 export {
     ChartOfAccountsIcon,
@@ -22,4 +28,9 @@ export {
     RekapinLogo,
     BackIcon,
     TrashIcon,
+    SaveIcon,
+    PlusIcon,
+    RefreshIcon,
+    PrintIcon,
+    SearchIcon,
 };

@@ -107,17 +107,15 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/chartofaccounts"
-                                ? "opacity-100"
-                                : "opacity-30"
+                            url == "/accounts" ? "opacity-100" : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
-                            href="/chartofaccounts"
+                            href="/accounts"
                             className="text-black ml-[20px] font-bold flex flex-row items-center gap-5"
                         >
                             <img src={ChartOfAccountsIcon} />
-                            Chart of Accounts
+                            Accounts
                         </Link>
                     </li>
                     <li
