@@ -16,17 +16,19 @@ export function Navbar() {
     const { url } = usePage();
 
     return (
-        <div className="bg-[#CCE5E3] fixed h-full w-64">
+        <div className="bg-[#CCE5E3] h-full w-64 px-7 flex flex-col items-center">
             <img
                 src={RekapinLogo}
                 alt="Logo Rekapin"
-                className="w-auto mt-[53px] mx-6 mb-5"
+                className="w-52 mt-[54px] mx-6 mb-5 items-center flex"
             />
-            <div className="flex flex-col items-center w-[100%]">
+            <div className="flex flex-col items-center w-auto">
                 <ul>
                     <li
-                        className={`${url == "/inventory" ? "bg-slate-400" : ""}
-                            flex flex-row items-center my-6 w-52 hover:bg-slate-300 py-2 rounded-sm`}
+                        className={`${
+                            url == "/inventory" ? "opacity-100" : "opacity-30"
+                        }
+                            flex flex-row items-center my-6 w-52 rounded-sm`}
                     >
                         <Link
                             href="/inventory"
@@ -38,7 +40,7 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/customer" ? "bg-slate-400" : ""
+                            url == "/customer" ? "opacity-100" : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
@@ -51,7 +53,7 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/vendor" ? "bg-slate-400" : ""
+                            url == "/vendor" ? "opacity-100" : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
@@ -64,7 +66,7 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/sales-order" ? "bg-slate-400" : ""
+                            url == "/sales-order" ? "opacity-100" : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
@@ -77,7 +79,9 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/sales-invoice" ? "bg-slate-400" : ""
+                            url == "/sales-invoice"
+                                ? "opacity-100"
+                                : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
@@ -90,7 +94,7 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/purchasing" ? "bg-slate-400" : ""
+                            url == "/purchasing" ? "opacity-100" : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
@@ -103,7 +107,9 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/chartofaccounts" ? "bg-slate-400" : ""
+                            url == "/chartofaccounts"
+                                ? "opacity-100"
+                                : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
@@ -116,7 +122,7 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/settings" ? "bg-slate-400" : ""
+                            url == "/settings" ? "opacity-100" : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link

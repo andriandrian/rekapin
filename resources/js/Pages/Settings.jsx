@@ -5,7 +5,9 @@ export default function Settings({ auth }) {
     return (
         <div className="flex flex-row h-screen w-full ">
             <Navbar />
-            <h1 className="ml-64">Settings</h1>
+            <div className="flex flex-1 px-5 pt-14">
+                <h1>Settings</h1>
+            </div>
         </div>
     );
 }
