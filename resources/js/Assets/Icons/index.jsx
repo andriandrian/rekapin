@@ -14,6 +14,7 @@ import PlusIcon from "./plus.svg";
 import RefreshIcon from "./refresh.svg";
 import PrintIcon from "./print.svg";
 import SearchIcon from "./search.svg";
+import RightArrowIcon from "./right-arrow.svg";
 
 
 export {
@@ -33,4 +34,5 @@ export {
     RefreshIcon,
     PrintIcon,
     SearchIcon,
+    RightArrowIcon,
 };

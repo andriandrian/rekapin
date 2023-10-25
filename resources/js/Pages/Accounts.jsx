@@ -32,19 +32,16 @@ export default function Accounts({ auth }) {
                     <thead className="bg-[#B7C9C7] text-center">
                         <tr>
                             <td className="border-[1.5px] border-black py-3 px-2">
-                                No
+                                Code
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Vendor Name
+                                Description
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Vendor ID
+                                Account Type
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Phone Number
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Address
+                                Financial Statement
                             </td>
                             <td className="border-[1.5px] border-black"></td>
                         </tr>
@@ -52,21 +49,18 @@ export default function Accounts({ auth }) {
                     <tbody className="text-center">
                         <tr>
                             <td className="border-[1.5px] border-black py-3 px-2">
-                                1
+                                1-001
                             </td>
                             <td className="border-[1.5px] border-black">
-                                PT. Kalbe Farma
+                                Cash
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Vend0001
+                                Asset
                             </td>
                             <td className="border-[1.5px] border-black">
-                                0778 7665523
+                                Balance Sheet
                             </td>
-                            <td className="border-[1.5px] border-black">
-                                Tempor do et aliqua culpa sunt eiusmod elit.
-                            </td>
-                            <td className="border-[1.5px] border-black px-3">
+                            <td className="border-[1.5px] border-black px-1">
                                 :
                             </td>
                         </tr>

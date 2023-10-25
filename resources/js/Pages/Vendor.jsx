@@ -1,5 +1,5 @@
 import { PlusIcon, PrintIcon, RefreshIcon } from "@/Assets";
-import { Navbar } from "../Components";
+import { AddButton, Navbar, PrintButton, RefreshButton, SeacrhBarFull } from "../Components";
 import { Head, Link } from "@inertiajs/react";
 
 export default function Vendor({ auth }) {
@@ -7,28 +7,13 @@ export default function Vendor({ auth }) {
         <div className="flex flex-row h-screen w-full ">
             <Navbar />
             <div className="flex flex-1 px-5 pt-14 flex-col">
-                <input
-                    placeholder="Search for Vendor"
-                    className="w-full border-[1.5px] border-black p-4 rounded-xl"
-                ></input>
+                <SeacrhBarFull placeholder="Search for vendor" />
                 <div className="mt-9 flex flex-row justify-between">
                     <h1 className="text-3xl font-bold">Vendor List</h1>
                     <div className="flex flex-row gap-5">
-                        <Link
-                            href="/vendor/add"
-                            className="flex flex-row gap-2 font-bold bg-[#E4F2F0] py-3 px-6 border-[1.5px] border-black rounded-xl"
-                        >
-                            <img src={RefreshIcon} />
-                            Refresh
-                        </Link>
-                        <Link className="flex flex-row gap-2 font-bold bg-[#CCE5E3] py-3 px-6 border-[1.5px] border-black rounded-xl">
-                            <img src={PrintIcon} />
-                            Print Vendor List
-                        </Link>
-                        <div className="flex flex-row gap-2 font-bold bg-[#B7C9C7] py-3 px-6 border-[1.5px] border-black rounded-xl">
-                            <img src={PlusIcon} />
-                            Add Product
-                        </div>
+                        <RefreshButton />
+                        <PrintButton title="Print Vendor List" />
+                        <AddButton title="Add Vendor" />
                     </div>
                 </div>
 

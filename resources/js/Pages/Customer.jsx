@@ -1,5 +1,5 @@
-import { PlusIcon, PrintIcon, RefreshIcon } from "@/Assets";
-import { Navbar } from "../Components";
+import { PlusIcon, PrintIcon, RefreshIcon, SearchIcon } from "@/Assets";
+import { AddButton, Navbar, PrintButton, RefreshButton, SeacrhBarFull } from "../Components";
 import { Head, Link } from "@inertiajs/react";
 
 export default function Customer({ auth }) {
@@ -7,33 +7,32 @@ export default function Customer({ auth }) {
         <div className="flex flex-row h-screen w-full ">
             <Navbar />
             <div className="flex flex-1 px-5 pt-14 flex-col">
-                <input
-                    placeholder="Search for Vendor"
-                    className="w-full border-[1.5px] border-black p-4 rounded-xl"
-                ></input>
+                <SeacrhBarFull placeholder="Search for Customer" />
+                {/* <form action="">
+                    <div className="relative">
+                        <img
+                            className="w-4 h-4 absolute mt-2.5 ml-3.5"
+                            src={SearchIcon}
+                        />
+                    </div>
+                    <input
+                        type="text"
+                        name="search-bar"
+                        placeholder="Search..."
+                        className=" pr-3 pl-10 border-[1.5px] border-slate-400 w-full p-2 rounded-xl py-1.5 px-5 text-[12px]"
+                    ></input>
+                </form> */}
                 <div className="mt-9 flex flex-row justify-between">
                     <h1 className="text-3xl font-bold">Customer</h1>
                     <div className="flex flex-row gap-5">
-                        <Link
-                            href="/vendor/add"
-                            className="flex flex-row gap-2 font-bold bg-[#E4F2F0] py-3 px-6 border-[1.5px] border-black rounded-xl"
-                        >
-                            <img src={RefreshIcon} />
-                            Refresh
-                        </Link>
-                        <Link className="flex flex-row gap-2 font-bold bg-[#CCE5E3] py-3 px-6 border-[1.5px] border-black rounded-xl">
-                            <img src={PrintIcon} />
-                            Print Vendor List
-                        </Link>
-                        <div className="flex flex-row gap-2 font-bold bg-[#B7C9C7] py-3 px-6 border-[1.5px] border-black rounded-xl">
-                            <img src={PlusIcon} />
-                            Add Product
-                        </div>
+                        <RefreshButton />
+                        <PrintButton title="Print for Customer" />
+                        <AddButton title="Add Customer" />
                     </div>
                 </div>
 
                 <table className="mt-6">
-                    <thead className="bg-[#B7C9C7] text-center">
+                    <thead className="bg-[#B7C9C7] text-center ">
                         <tr>
                             <td className="border-[1.5px] border-black py-3 px-2">
                                 No

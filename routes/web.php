@@ -40,6 +40,14 @@ Route::get('/inventory', function () {
     return Inertia::render('Inventory');
 })->middleware(['auth', 'verified'])->name('inventory');
 
+Route::get('/inventory-create', function () {
+    return Inertia::render('InventoryCreate');
+})->middleware(['auth', 'verified'])->name('inventory-create');
+
+Route::get('/inventory-stock', function () {
+    return Inertia::render('InventoryStock');
+})->middleware(['auth', 'verified'])->name('inventory-stock');
+
 Route::get('/customer', function () {
     return Inertia::render('Customer');
 })->middleware(['auth', 'verified'])->name('customer');

@@ -17,11 +17,12 @@ export function Navbar() {
 
     return (
         <div className="bg-[#CCE5E3] h-full w-64 px-7 flex flex-col items-center">
-            <img
-                src={RekapinLogo}
-                alt="Logo Rekapin"
+            <Link
+                href="/dashboard"
                 className="w-52 mt-[54px] mx-6 mb-5 items-center flex"
-            />
+            >
+                <img src={RekapinLogo} alt="Logo Rekapin" />
+            </Link>
             <div className="flex flex-col items-center w-auto">
                 <ul>
                     <li
