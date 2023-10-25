@@ -1,5 +1,12 @@
 import { PlusIcon, PrintIcon, RefreshIcon } from "@/Assets";
-import { AddButton, Navbar, PrintButton, RefreshButton, SeacrhBarFull } from "../Components";
+import {
+    AddButton,
+    Navbar,
+    PrintButton,
+    RefreshButton,
+    SeacrhBarFull,
+    SeacrhBarMini,
+} from "../Components";
 import { Head, Link } from "@inertiajs/react";
 
 export default function Vendor({ auth }) {
@@ -7,7 +14,7 @@ export default function Vendor({ auth }) {
         <div className="flex flex-row h-screen w-full ">
             <Navbar />
             <div className="flex flex-1 px-5 pt-14 flex-col">
-                <SeacrhBarFull placeholder="Search for vendor" />
+                <SeacrhBarMini placeholder="Search for vendor" />
                 <div className="mt-9 flex flex-row justify-between">
                     <h1 className="text-3xl font-bold">Vendor List</h1>
                     <div className="flex flex-row gap-5">
