@@ -23,7 +23,7 @@ export function Navbar() {
             >
                 <img src={RekapinLogo} alt="Logo Rekapin" />
             </Link>
-            <div className="flex flex-col items-center w-auto">
+            <div className="flex flex-col items-center w-auto font">
                 <ul>
                     <li
                         className={`${
@@ -33,7 +33,7 @@ export function Navbar() {
                     >
                         <Link
                             href="/inventory"
-                            className="text-black ml-[20px] font-bold flex flex-row items-center gap-5 hover:scale-110 duration-100"
+                            className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={InventoryIcon} />
                             Inventory
@@ -46,7 +46,7 @@ export function Navbar() {
                     >
                         <Link
                             href="/customer"
-                            className="text-black ml-[20px] font-bold flex flex-row items-center gap-5 motion-safe hover:scale-110 duration-100"
+                            className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 motion-safe hover:scale-110 duration-100"
                         >
                             <img src={CustomerIcon} />
                             Customer
@@ -59,7 +59,7 @@ export function Navbar() {
                     >
                         <Link
                             href="/vendor"
-                            className="text-black ml-[20px] font-bold flex flex-row items-center gap-5 hover:scale-110 duration-100"
+                            className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={VendorIcon} />
                             Vendor
@@ -72,7 +72,7 @@ export function Navbar() {
                     >
                         <Link
                             href="/sales-order"
-                            className="text-black ml-[20px] font-bold flex flex-row items-center gap-5 hover:scale-110 duration-100"
+                            className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={SalesOrderIcon} />
                             Sales Order
@@ -87,7 +87,7 @@ export function Navbar() {
                     >
                         <Link
                             href="/sales-invoice"
-                            className="text-black ml-[20px] font-bold flex flex-row items-center gap-5 hover:scale-110 duration-100"
+                            className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={SalesInvoiceIcon} />
                             Sales Invoice
@@ -100,7 +100,7 @@ export function Navbar() {
                     >
                         <Link
                             href="/purchasing"
-                            className="text-black ml-[20px] font-bold flex flex-row items-center gap-5 hover:scale-110 duration-100"
+                            className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={PurchasingIcon} />
                             Purchasing
@@ -113,7 +113,7 @@ export function Navbar() {
                     >
                         <Link
                             href="/accounts"
-                            className="text-black ml-[20px] font-bold flex flex-row items-center gap-5 hover:scale-110 duration-100"
+                            className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={ChartOfAccountsIcon} />
                             Accounts
@@ -126,7 +126,7 @@ export function Navbar() {
                     >
                         <Link
                             href="/settings"
-                            className="text-black ml-[20px] font-bold flex flex-row items-center gap-5 hover:scale-110 duration-100"
+                            className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={SettingsIcon} />
                             Settings

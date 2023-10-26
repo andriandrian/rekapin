@@ -1,37 +1,46 @@
-import { PlusIcon, PrintIcon, RefreshIcon, SearchIcon } from "@/Assets";
-import { AddButton, Navbar, PrintButton, RefreshButton, SeacrhBarFull } from "../Components";
-import { Link } from "@inertiajs/react";
+import {
+    AddButton,
+    Navbar,
+    PrintButton,
+    RefreshButton,
+    SeacrhBarMini,
+} from "../../Components";
 
-export default function Inventory({ auth }) {
+export default function Customer({ auth }) {
     return (
         <div className="flex flex-row h-screen w-full ">
             <Navbar />
             <div className="flex flex-1 px-5 pt-14 flex-col">
-                <SeacrhBarFull placeholder="Search for any item" />
+                <SeacrhBarMini placeholder="Search for Customer" />
                 <div className="mt-9 flex flex-row justify-between">
-                    <h1 className="text-3xl font-bold">Inventory</h1>
+                    <h1 className="text-3xl font-semibold">Customer</h1>
                     <div className="flex flex-row gap-5">
                         <RefreshButton />
-                        <PrintButton title="Print Inventory List" />
-                        <AddButton title="Add Product" />
+                        <PrintButton title="Print for Customer" />
+                        <AddButton
+                            title="Add Customer"
+                            href="/customer-create"
+                        />
                     </div>
                 </div>
 
                 <table className="mt-6">
-                    <thead className="bg-[#B7C9C7] text-center">
+                    <thead className="bg-[#B7C9C7] text-center ">
                         <tr>
                             <td className="border-[1.5px] border-black py-3 px-2">
                                 No
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Product Name
+                                Vendor Name
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Product Code
+                                Vendor ID
                             </td>
-                            <td className="border-[1.5px] border-black">Qty</td>
                             <td className="border-[1.5px] border-black">
-                                Sales Price (@)
+                                Phone Number
+                            </td>
+                            <td className="border-[1.5px] border-black">
+                                Address
                             </td>
                             <td className="border-[1.5px] border-black"></td>
                         </tr>

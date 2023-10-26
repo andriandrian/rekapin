@@ -1,40 +1,34 @@
-import { SalesOrderIcon } from "@/Assets";
-import {
-    AddButton,
-    GoButton,
-    Navbar,
-    RefreshButton,
-    SeacrhBarFull,
-} from "../Components";
+import { PurchasingIcon, SalesOrderIcon } from "@/Assets";
+import { AddButton, GoButton, Navbar, RefreshButton, SeacrhBarFull } from "../../Components";
 import { Head } from "@inertiajs/react";
 
-export default function SalesOrder({ auth }) {
+export default function Purchasing({ auth }) {
     return (
         <div className="flex flex-row h-screen w-full ">
             <Navbar />
             <div className="flex flex-col flex-1  px-5 pt-14">
                 <div className="flex">
                     <div className="flex flex-row h-11 w-full  gap-5">
-                        <AddButton title="Add New Order" />
+                        <AddButton title="Add New Order" href="/purchasing-create"/>
                         <RefreshButton />
                         <SeacrhBarFull placeholder="Search for Sale Order" />
                     </div>
                 </div>
 
                 <div className="border-[1.5px] border-black rounded-xl mt-5 px-5 py-8 w-auto ">
-                    <div className="flex flex-row gap-5 text-xl font-bold">
-                        <img src={SalesOrderIcon} className="w-7" />
-                        <h1>Sales Order</h1>
+                    <div className="flex flex-row gap-3 text-xl font-semibold">
+                        <img src={PurchasingIcon} className="w-7" />
+                        <h1>Purchase Order</h1>
                     </div>
                     <form className="flex flex-row justify-between gap-6 mt-5">
                         <div className="flex flex-col gap-2 w-full">
                             <label for="item-detail" className="text-sm">
-                                Order Date
+                                Purchasing Date
                             </label>
                             <input
                                 name="item-detail"
                                 placeholder="Name"
-                                className="w-auto"
+                                className="w-auto rounded-xl"
                             ></input>
                         </div>
                         <div className="flex flex-col gap-2 w-full">
@@ -44,7 +38,7 @@ export default function SalesOrder({ auth }) {
                             <input
                                 name="item-id"
                                 placeholder="ID"
-                                className="w-auto"
+                                className="w-auto rounded-xl"
                             ></input>
                         </div>
                         <div className="flex flex-col gap-2 w-full">
@@ -55,7 +49,7 @@ export default function SalesOrder({ auth }) {
                                 <input
                                     name="vendor-name"
                                     placeholder="All Vendor"
-                                    className="w-full"
+                                    className="w-full rounded-xl"
                                 ></input>
                                 <GoButton />
                             </div>

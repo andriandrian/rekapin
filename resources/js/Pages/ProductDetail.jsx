@@ -1,5 +1,5 @@
 import { BackIcon } from "../Assets";
-import { Navbar } from "../Components";
+import { BackHeader, Navbar } from "../Components";
 
 export default function ProductDetail({ auth }) {
     return (
@@ -8,13 +8,11 @@ export default function ProductDetail({ auth }) {
             <div className="mt-14 flex-1 px-5">
                 <div>
                     <div className="flex flex-row">
-                        <img src={BackIcon} />
-                        <div className="flex flex-col justify-end ml-5">
-                            <p className="text-lg ">Inventory</p>
-                            <p className="text-[24px] font-bold">
-                                Edit Product Detail
-                            </p>
-                        </div>
+                        <BackHeader
+                            label="Back to Inventory"
+                            title="Edit Product Detail"
+                            href="/inventory"
+                        />
                     </div>
 
                     <div className="mt-5 flex w-full">

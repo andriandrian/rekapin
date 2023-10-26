@@ -1,4 +1,4 @@
-import { PlusIcon, PrintIcon, RefreshIcon, SearchIcon } from "@/Assets";
+import { PlusIcon, PrintIcon, RefreshIcon } from "@/Assets";
 import {
     AddButton,
     Navbar,
@@ -6,40 +6,26 @@ import {
     RefreshButton,
     SeacrhBarFull,
     SeacrhBarMini,
-} from "../Components";
+} from "../../Components";
 import { Head, Link } from "@inertiajs/react";
 
-export default function Customer({ auth }) {
+export default function Vendor({ auth }) {
     return (
         <div className="flex flex-row h-screen w-full ">
             <Navbar />
             <div className="flex flex-1 px-5 pt-14 flex-col">
-                <SeacrhBarMini placeholder="Search for Customer" />
-                {/* <form action="">
-                    <div className="relative">
-                        <img
-                            className="w-4 h-4 absolute mt-2.5 ml-3.5"
-                            src={SearchIcon}
-                        />
-                    </div>
-                    <input
-                        type="text"
-                        name="search-bar"
-                        placeholder="Search..."
-                        className=" pr-3 pl-10 border-[1.5px] border-slate-400 w-full p-2 rounded-xl py-1.5 px-5 text-[12px]"
-                    ></input>
-                </form> */}
+                <SeacrhBarMini placeholder="Search for vendor" />
                 <div className="mt-9 flex flex-row justify-between">
-                    <h1 className="text-3xl font-bold">Customer</h1>
+                    <h1 className="text-3xl font-semibold">Vendor List</h1>
                     <div className="flex flex-row gap-5">
                         <RefreshButton />
-                        <PrintButton title="Print for Customer" />
-                        <AddButton title="Add Customer" />
+                        <PrintButton title="Print Vendor List" />
+                        <AddButton title="Add Vendor" href="/vendor-create"/>
                     </div>
                 </div>
 
                 <table className="mt-6">
-                    <thead className="bg-[#B7C9C7] text-center ">
+                    <thead className="bg-[#B7C9C7] text-center">
                         <tr>
                             <td className="border-[1.5px] border-black py-3 px-2">
                                 No

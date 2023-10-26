@@ -16,15 +16,16 @@ use Inertia\Inertia;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
 Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
+Route::get('/login', function () {
     return Inertia::render('Auth/Login');
 })->name('auth.login');
 
@@ -32,41 +33,73 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/test', function () {
-    return Inertia::render('Test');
-})->middleware(['auth', 'verified'])->name('test');
+Route::get('/dashboard', function () {
+    return redirect()->route('inventory');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/inventory', function () {
-    return Inertia::render('Inventory');
+    return Inertia::render('Inventory/Inventory');
 })->middleware(['auth', 'verified'])->name('inventory');
 
 Route::get('/inventory-create', function () {
-    return Inertia::render('InventoryCreate');
+    return Inertia::render('Inventory/InventoryCreate');
 })->middleware(['auth', 'verified'])->name('inventory-create');
 
+Route::get('/inventory-edit', function () {
+    return Inertia::render('Inventory/InventoryEdit');
+})->middleware(['auth', 'verified'])->name('inventory-edit');
+
 Route::get('/inventory-stock', function () {
-    return Inertia::render('InventoryStock');
+    return Inertia::render('Inventory/InventoryStock');
 })->middleware(['auth', 'verified'])->name('inventory-stock');
 
 Route::get('/customer', function () {
-    return Inertia::render('Customer');
+    return Inertia::render('Customer/Customer');
 })->middleware(['auth', 'verified'])->name('customer');
 
+Route::get('/customer-create', function () {
+    return Inertia::render('Customer/CustomerCreate');
+})->middleware(['auth', 'verified'])->name('customer-create');
+
+Route::get('/customer-edit', function () {
+    return Inertia::render('Customer/CustomerEdit');
+})->middleware(['auth', 'verified'])->name('customer-edit');
+
 Route::get('/vendor', function () {
-    return Inertia::render('Vendor');
+    return Inertia::render('Vendor/Vendor');
 })->middleware(['auth', 'verified'])->name('vendor');
 
+Route::get('/vendor-create', function () {
+    return Inertia::render('Vendor/VendorCreate');
+})->middleware(['auth', 'verified'])->name('vendor-create');
+
 Route::get('/sales-order', function () {
-    return Inertia::render('SalesOrder');
+    return Inertia::render('SalesOrder/SalesOrder');
 })->middleware(['auth', 'verified'])->name('sales-order');
 
+Route::get('/sales-order-create', function () {
+    return Inertia::render('SalesOrder/SalesOrderCreate');
+})->middleware(['auth', 'verified'])->name('sales-order-create');
+
 Route::get('/sales-invoice', function () {
-    return Inertia::render('SalesInvoice');
+    return Inertia::render('SalesInvoice/SalesInvoice');
 })->middleware(['auth', 'verified'])->name('sales-invoice');
 
+Route::get('/sales-invoice', function () {
+    return Inertia::render('SalesInvoice/SalesInvoice');
+})->middleware(['auth', 'verified'])->name('sales-invoice');
+
+Route::get('/sales-invoice-create', function () {
+    return Inertia::render('SalesInvoice/SalesInvoiceCreate');
+})->middleware(['auth', 'verified'])->name('sales-invoice-create');
+
 Route::get('/purchasing', function () {
-    return Inertia::render('Purchasing');
+    return Inertia::render('Purchasing/Purchasing');
 })->middleware(['auth', 'verified'])->name('purchasing');
+
+Route::get('/purchasing-create', function () {
+    return Inertia::render('Purchasing/PurchasingCreate');
+})->middleware(['auth', 'verified'])->name('purchasing-create');
 
 Route::get('/settings', function () {
     return Inertia::render('Settings');

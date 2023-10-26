@@ -1,5 +1,5 @@
 import { PlusIcon, PrintIcon, RefreshIcon } from "@/Assets";
-import { Navbar } from "../Components";
+import { Navbar, SeacrhBarFull } from "../Components";
 import { Head, Link } from "@inertiajs/react";
 
 export default function Accounts({ auth }) {
@@ -7,12 +7,9 @@ export default function Accounts({ auth }) {
         <div className="flex flex-row h-screen w-full ">
             <Navbar />
             <div className="flex flex-1 px-5 pt-14 flex-col">
-                <input
-                    placeholder="Search"
-                    className="w-full border-[1.5px] border-black p-4 rounded-xl"
-                ></input>
+                <SeacrhBarFull placeholder="Search for Account"/>
                 <div className="mt-9 flex flex-row justify-between">
-                    <h1 className="text-3xl font-bold">Chart of Accounts</h1>
+                    <h1 className="text-3xl font-semibold">Chart of Accounts</h1>
                     <div className="flex flex-row gap-5">
                         <Link
                             href="/vendor/add"

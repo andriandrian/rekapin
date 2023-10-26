@@ -1,5 +1,12 @@
-import { BackIcon, SearchIcon, TrashIcon, SaveIcon } from "../Assets";
-import { Navbar } from "../Components";
+import { BackIcon, SearchIcon, TrashIcon, SaveIcon } from "../../Assets";
+import {
+    BackHeader,
+    Navbar,
+    PrintButton,
+    RefreshButton,
+    SaveButton,
+    SeacrhBarFull,
+} from "../../Components";
 
 export default function InventoryStock({ auth }) {
     return (
@@ -7,21 +14,16 @@ export default function InventoryStock({ auth }) {
             <Navbar />
             <div className="flex flex-1">
                 <div className="pt-14 px-5 w-full">
-                    <div className="flex flex-row">
-                        <img
-                            className="cursor-pointer hover:scale-110 duration-150"
-                            src={BackIcon}
+                    <div className="flex flex-row justify-between">
+                        <BackHeader
+                            label="Back to Inventory"
+                            title="Edit Product Stock"
+                            href="/inventory"
                         />
-                        <div className="flex flex-col justify-end ml-5">
-                            <p className="text-lg ">Inventory</p>
-                            <p className="text-[24px] font-bold mb-3">
-                                Edit Product Stock
-                            </p>
-                        </div>
-                        <img src={SaveIcon} className="ml-auto" />
+                        <SaveButton />
                     </div>
 
-                    <div className="border-[1.5px] border-black rounded-xl mt-5 px-5 py-8 w-auto ">
+                    <div className="border-[1.5px] border-[#6D7A79] rounded-xl mt-5 px-5 py-8 w-auto ">
                         <form className="flex flex-row justify-between gap-6">
                             <div className="flex flex-col gap-2 w-full">
                                 <label for="item-detail" className="text-sm">
@@ -29,8 +31,8 @@ export default function InventoryStock({ auth }) {
                                 </label>
                                 <input
                                     name="item-detail"
-                                    placeholder="Name"
-                                    className="w-auto"
+                                    placeholder="Promag"
+                                    className="w-auto rounded-xl"
                                 ></input>
                             </div>
                             <div className="flex flex-col gap-2 w-full">
@@ -40,7 +42,7 @@ export default function InventoryStock({ auth }) {
                                 <input
                                     name="item-id"
                                     placeholder="ID"
-                                    className="w-auto"
+                                    className="w-auto rounded-xl"
                                 ></input>
                             </div>
                             <div className="flex flex-col gap-2 w-full">
@@ -50,34 +52,17 @@ export default function InventoryStock({ auth }) {
                                 <input
                                     name="vendor-name"
                                     placeholder="All Vendor"
-                                    className="w-auto"
+                                    className="w-auto rounded-xl"
                                 ></input>
                             </div>
                         </form>
                     </div>
 
-                    <form action="">
-                        <div className="relative">
-                            <img
-                                className="absolute mt-2 ml-3"
-                                src={SearchIcon}
-                            />
-                        </div>
-                        <div className="mt-8 flex flex-roW gap-4">
-                            <input
-                                type="text"
-                                name="search-bar"
-                                placeholder="Search..."
-                                className=" pr-3 pl-10 border-[1.5px] border-black w-full p-2 rounded-xl px-5 py-2"
-                            ></input>
-                            <div className="border-[1.5px] border-black w-48 p-2 rounded-xl text-center">
-                                Refresh
-                            </div>
-                            <div className="border-[1.5px] border-black w-48 p-2 rounded-xl text-center bg-[#CCE5E3]">
-                                Print Stock
-                            </div>
-                        </div>
-                    </form>
+                    <div className="mt-8 flex flex-roW gap-4">
+                        <SeacrhBarFull placeholder="Search for items" />
+                        <RefreshButton />
+                        <PrintButton title="Print Stock" />
+                    </div>
                     <table
                         class="table-fixed"
                         className="mt-5 h-20 w-full text-center"
@@ -124,11 +109,14 @@ export default function InventoryStock({ auth }) {
                                     10%
                                 </td>
                                 <td className="border-2 border-black px-2 text-right">
-                                    RP 14.000
+                                    <div className="flex flex-row justify-between">
+                                        <p>@</p>
+                                        <p>RP 14.000</p>
+                                    </div>
                                 </td>
                                 <td className="mx-auto border-2 border-black px-2">
                                     <div className="flex justify-center">
-                                        <img className="" src={TrashIcon} />
+                                        <img className="w-4" src={TrashIcon} />
                                     </div>
                                 </td>
                             </tr>
