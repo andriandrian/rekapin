@@ -8,8 +8,8 @@ export default function InventoryCreate({ auth }) {
                 <div>
                     <div className="w-full">
                         <BackHeader
-                            label="Back to Customer List"
-                            title="Add a new Customer"
+                            label="Back to Inventory"
+                            title="Add a new product"
                             href="/customer"
                         />
                     </div>
@@ -18,33 +18,23 @@ export default function InventoryCreate({ auth }) {
                         <form className="flex flex-col md:flex-row md:gap-0 gap-4 justify-between w-full">
                             <div className="flex flex-col gap-4 w-1/2 pr-7">
                                 <FormInput
-                                    label="Customer Name"
+                                    label="Item Name"
                                     placeholder="Promag"
                                     name="item-name"
                                 />
                                 <FormInput
-                                    label="Customer ID"
-                                    placeholder="Cust000001"
+                                    label="Item ID"
+                                    placeholder="Pmg"
                                     name="item-name"
                                 />
                                 <FormInput
-                                    label="Customer Store"
-                                    placeholder="Grosir Gajah Keseleo"
+                                    label="Batch Number"
+                                    placeholder="PMG0000001"
                                     name="batch-number"
                                 />
                                 <FormInput
-                                    label="Phone Number"
-                                    placeholder="0821212121212"
-                                    name="item-name"
-                                />
-                                <FormInput
-                                    label="Email"
-                                    placeholder="Richard.lee@gmail.com"
-                                    name="item-name"
-                                />
-                                <FormInput
-                                    label="Address"
-                                    placeholder="Jl. Gajah Sembuh, Komplek Gajah Residence Blok G No. 11, Batam, Kepulauan Riau, Indonesia"
+                                    label="Barcode No"
+                                    placeholder="12115645415523"
                                     name="item-name"
                                 />
                             </div>

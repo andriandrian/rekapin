@@ -1,6 +1,7 @@
 import { PurchasingIcon, SalesOrderIcon, TrashIcon } from "@/Assets";
 import {
     BackHeader,
+    InvoiceButton,
     Navbar,
     PrintButton,
     RefreshButton,
@@ -43,6 +44,7 @@ export default function PurchasingCreate({ auth }) {
                                     </p>
                                 </div>
                             </div>
+                            <InvoiceButton />
                             <SaveButton />
                         </div>
                     </div>
@@ -85,10 +87,10 @@ export default function PurchasingCreate({ auth }) {
                     </div>
                     <table
                         class="table-fixed"
-                        className="mt-5 h-20 w-full text-center"
+                        className="mt-5 h-20 w-full text-center border"
                     >
                         <thead>
-                            <tr className="border-2 border-black bg-[#B7C9C7]">
+                            <tr className="border-[1.5px] border-black bg-[#B7C9C7]">
                                 <td className="px-3 py-2 border-2 border-black">
                                     No
                                 </td>
@@ -110,33 +112,135 @@ export default function PurchasingCreate({ auth }) {
                                 <td className="px-3 border-2 border-black"></td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td className="border-2 border-black px-2">
-                                    1
+                        <tbody className="gap-2">
+                            <tr className="py-2">
+                                <td rowspan="2" className="pt-2 px-1">
+                                    <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center">
+                                        1
+                                    </p>
                                 </td>
-                                <td className="border-2 border-black px-2">
-                                    Extra Joss (Exj)
+                                <td rowspan="2" className="pt-2 px-1">
+                                    <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center">
+                                        Extra Joss (Exj)
+                                    </p>
                                 </td>
-                                <td className="border-2 border-black px-2">
-                                    3
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        3
+                                    </p>
                                 </td>
-                                <td className="border-2 border-black px-2">
-                                    ED 08 / 2028
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        ED 08 / 2028
+                                    </p>
                                 </td>
-                                <td className="border-2 border-black px-2">
-                                    10%
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        10%
+                                    </p>
                                 </td>
-                                <td className="border-2 border-black px-2 text-right">
-                                    <div className="flex flex-row justify-between">
-                                        <p>@</p>
-                                        <p>RP 14.000</p>
-                                    </div>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        <div className="flex flex-row justify-between px-3">
+                                            <p>@</p>
+                                            <p>RP 14.000</p>
+                                        </div>
+                                    </p>
                                 </td>
-                                <td className="mx-auto border-2 border-black px-2">
-                                    <div className="flex justify-center">
+                                <td
+                                    className="mx-auto h-full pt-2 px-1"
+                                    rowspan="2"
+                                >
+                                    <div className="flex justify-center py-2 border-2 border-gray-400 rounded-xl h-full">
                                         <img className="w-4" src={TrashIcon} />
                                     </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        Pack
+                                    </p>
+                                </td>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        EX1023KS
+                                    </p>
+                                </td>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        RP. 14 . 000
+                                    </p>
+                                </td>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        RP. 126 . 000
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr className="py-2">
+                                <td rowspan="2" className="pt-2 px-1">
+                                    <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center">
+                                        2
+                                    </p>
+                                </td>
+                                <td rowspan="2" className="pt-2 px-1">
+                                    <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center">
+                                        Extra Joss (Exj)
+                                    </p>
+                                </td>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        3
+                                    </p>
+                                </td>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        ED 08 / 2028
+                                    </p>
+                                </td>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        10%
+                                    </p>
+                                </td>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        <div className="flex flex-row justify-between px-3">
+                                            <p>@</p>
+                                            <p>RP 14.000</p>
+                                        </div>
+                                    </p>
+                                </td>
+                                <td
+                                    className="mx-auto h-full pt-2 px-1"
+                                    rowspan="2"
+                                >
+                                    <div className="flex justify-center py-2 border-2 border-gray-400 rounded-xl h-full">
+                                        <img className="w-4" src={TrashIcon} />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        Pack
+                                    </p>
+                                </td>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        EX1023KS
+                                    </p>
+                                </td>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        RP. 14 . 000
+                                    </p>
+                                </td>
+                                <td className="pt-2 px-1">
+                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                        RP. 126 . 000
+                                    </p>
                                 </td>
                             </tr>
                         </tbody>

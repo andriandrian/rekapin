@@ -13,7 +13,10 @@ export default function Inventory({ auth }) {
                     <div className="flex flex-row gap-5">
                         <RefreshButton />
                         <PrintButton title="Print Inventory List" />
-                        <AddButton title="Add Product" href="/inventory-create"/>
+                        <AddButton
+                            title="Add Product"
+                            href="/inventory-create"
+                        />
                     </div>
                 </div>
 
@@ -42,16 +45,14 @@ export default function Inventory({ auth }) {
                                 1
                             </td>
                             <td className="border-[1.5px] border-black">
-                                PT. Kalbe Farma
+                                Bodrex Tablet
+                            </td>
+                            <td className="border-[1.5px] border-black">Bdx</td>
+                            <td className="border-[1.5px] border-black">
+                                1245
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Vend0001
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                0778 7665523
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Tempor do et aliqua culpa sunt eiusmod elit.
+                                75000
                             </td>
                             <td className="border-[1.5px] border-black px-3">
                                 :

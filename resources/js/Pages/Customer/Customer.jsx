@@ -31,10 +31,10 @@ export default function Customer({ auth }) {
                                 No
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Vendor Name
+                                Customer Name
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Vendor ID
+                                Customer ID
                             </td>
                             <td className="border-[1.5px] border-black">
                                 Phone Number
@@ -51,16 +51,16 @@ export default function Customer({ auth }) {
                                 1
                             </td>
                             <td className="border-[1.5px] border-black">
-                                PT. Kalbe Farma
+                                Martius Lim
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Vend0001
+                                Cust000001
                             </td>
                             <td className="border-[1.5px] border-black">
-                                0778 7665523
+                                0811111111111111
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Tempor do et aliqua culpa sunt eiusmod elit.
+                                Jalan Gajah Mada RT. 10 RW. 2
                             </td>
                             <td className="border-[1.5px] border-black px-3">
                                 :
