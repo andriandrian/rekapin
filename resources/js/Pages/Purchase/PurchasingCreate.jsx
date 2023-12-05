@@ -1,7 +1,7 @@
-import { PurchasingIcon, SalesOrderIcon, TrashIcon } from "@/Assets";
+import { PurchasingIcon, TrashIcon } from "@/Assets";
 import {
     BackHeader,
-    InvoiceButton,
+    CheckButton,
     Navbar,
     PrintButton,
     RefreshButton,
@@ -9,7 +9,7 @@ import {
     SeacrhBarFull,
 } from "../../Components";
 
-export default function PurchasingCreate({ auth }) {
+export default function PurchaseCreate({ auth }) {
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
@@ -17,18 +17,18 @@ export default function PurchasingCreate({ auth }) {
                 <div className="pt-14 px-5 w-full">
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row items-center">
-                            <BackHeader href="/sales-order" />
+                            <BackHeader href="/purchasing" />
                             <div className="flex flex-row items-center gap-3">
                                 <img
-                                    src={SalesOrderIcon}
+                                    src={PurchasingIcon}
                                     className="h-10 opacity-80"
                                 />
                                 <div className="flex flex-col">
                                     <p className="font-semibold text-lg">
-                                        Sales Order
+                                        Purchasing
                                     </p>
                                     <p className="text-sm">
-                                        SO - 01 - 09 - 2023 - 00001
+                                        PU - 01 - 09 - 2023 - 00001
                                     </p>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@ export default function PurchasingCreate({ auth }) {
                                     </p>
                                 </div>
                             </div>
-                            <InvoiceButton />
+                            <CheckButton />
                             <SaveButton />
                         </div>
                     </div>
@@ -52,9 +52,7 @@ export default function PurchasingCreate({ auth }) {
                     <div className="border-[1.5px] border-[#6D7A79] rounded-xl mt-5 px-5 py-8 w-auto ">
                         <form className="flex flex-row justify-between gap-6">
                             <div className="flex flex-col gap-2 w-full">
-                                <label className="text-sm">
-                                    Customer Store
-                                </label>
+                                <label className="text-sm">Vendor Name</label>
                                 <input
                                     name="item-detail"
                                     placeholder="Promag"
@@ -62,7 +60,7 @@ export default function PurchasingCreate({ auth }) {
                                 ></input>
                             </div>
                             <div className="flex flex-col gap-2 w-full">
-                                <label className="text-sm">Order Date</label>
+                                <label className="text-sm">Purchase Date</label>
                                 <input
                                     name="item-id"
                                     placeholder="ID"
@@ -247,7 +245,6 @@ export default function PurchasingCreate({ auth }) {
                     </table>
                 </div>
             </div>
-             
         </div>
     );
 }

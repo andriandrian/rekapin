@@ -1,6 +1,7 @@
 import { SalesInvoiceIcon, TrashIcon } from "@/Assets";
 import {
     BackHeader,
+    CheckButton,
     Navbar,
     PrintButton,
     RefreshButton,
@@ -43,6 +44,7 @@ export default function SalesInvoiceCreate({ auth }) {
                                     </p>
                                 </div>
                             </div>
+                            <CheckButton />
                             <SaveButton />
                         </div>
                     </div>
@@ -55,7 +57,7 @@ export default function SalesInvoiceCreate({ auth }) {
                                 </label>
                                 <input
                                     name="item-detail"
-                                    placeholder="Promag"
+                                    placeholder="Tk. Harapan Pupus"
                                     className="w-auto rounded-xl"
                                 ></input>
                             </div>
@@ -63,7 +65,7 @@ export default function SalesInvoiceCreate({ auth }) {
                                 <label className="text-sm">Order Date</label>
                                 <input
                                     name="item-id"
-                                    placeholder="ID"
+                                    placeholder="01 - 08 - 2023"
                                     className="w-auto rounded-xl"
                                 ></input>
                             </div>
@@ -71,7 +73,7 @@ export default function SalesInvoiceCreate({ auth }) {
                                 <label className="text-sm">Memo</label>
                                 <input
                                     name="vendor-name"
-                                    placeholder="All Vendor"
+                                    placeholder="Pack Carefully"
                                     className="w-auto rounded-xl"
                                 ></input>
                             </div>

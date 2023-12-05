@@ -20,7 +20,7 @@ export default function ProductDetail({ auth }) {
                             <div className="flex flex-col gap-4 w-1/2 pr-7">
                                 <div className="flex flex-col">
                                     <label
-                                        for="item-detail"
+                                        htmlFor="item-detail"
                                         className="text-sm"
                                     >
                                         Item Name
@@ -33,7 +33,7 @@ export default function ProductDetail({ auth }) {
                                 </div>
                                 <div className="flex flex-col">
                                     <label
-                                        for="item-detail"
+                                        htmlFor="item-detail"
                                         className="text-sm"
                                     >
                                         Item ID
@@ -46,7 +46,7 @@ export default function ProductDetail({ auth }) {
                                 </div>
                                 <div className="flex flex-col">
                                     <label
-                                        for="item-detail"
+                                        htmlFor="item-detail"
                                         className="text-sm"
                                     >
                                         Batch Number
@@ -59,7 +59,7 @@ export default function ProductDetail({ auth }) {
                                 </div>
                                 <div className="flex flex-col">
                                     <label
-                                        for="item-detail"
+                                        htmlFor="item-detail"
                                         className="text-sm"
                                     >
                                         Barcode No
@@ -72,7 +72,7 @@ export default function ProductDetail({ auth }) {
                                 </div>
                                 <div className="flex flex-col">
                                     <label
-                                        for="item-detail"
+                                        htmlFor="item-detail"
                                         className="text-sm"
                                     >
                                         Item Category

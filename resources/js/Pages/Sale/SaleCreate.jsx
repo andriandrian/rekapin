@@ -1,6 +1,7 @@
-import { PurchasingIcon, TrashIcon } from "@/Assets";
+import { PurchasingIcon, SalesOrderIcon, TrashIcon } from "@/Assets";
 import {
     BackHeader,
+    InvoiceButton,
     Navbar,
     PrintButton,
     RefreshButton,
@@ -8,7 +9,7 @@ import {
     SeacrhBarFull,
 } from "../../Components";
 
-export default function PurchasingCreate({ auth }) {
+export default function SaleCreate({ auth }) {
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
@@ -16,18 +17,18 @@ export default function PurchasingCreate({ auth }) {
                 <div className="pt-14 px-5 w-full">
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row items-center">
-                            <BackHeader href="/purchasing" />
+                            <BackHeader href="/sale" />
                             <div className="flex flex-row items-center gap-3">
                                 <img
-                                    src={PurchasingIcon}
+                                    src={SalesOrderIcon}
                                     className="h-10 opacity-80"
                                 />
                                 <div className="flex flex-col">
                                     <p className="font-semibold text-lg">
-                                        Purchasing
+                                        Sales Order
                                     </p>
                                     <p className="text-sm">
-                                        PU - 01 - 09 - 2023 - 00001
+                                        SO - 01 - 09 - 2023 - 00001
                                     </p>
                                 </div>
                             </div>
@@ -43,6 +44,7 @@ export default function PurchasingCreate({ auth }) {
                                     </p>
                                 </div>
                             </div>
+                            <InvoiceButton />
                             <SaveButton />
                         </div>
                     </div>
@@ -50,18 +52,18 @@ export default function PurchasingCreate({ auth }) {
                     <div className="border-[1.5px] border-[#6D7A79] rounded-xl mt-5 px-5 py-8 w-auto ">
                         <form className="flex flex-row justify-between gap-6">
                             <div className="flex flex-col gap-2 w-full">
-                                <label className="text-sm">Vendor Name</label>
+                                <label className="text-sm">Customer</label>
                                 <input
                                     name="item-detail"
-                                    placeholder="Promag"
+                                    placeholder="Enter customer name here"
                                     className="w-auto rounded-xl"
                                 ></input>
                             </div>
                             <div className="flex flex-col gap-2 w-full">
-                                <label className="text-sm">Purchase Date</label>
+                                <label className="text-sm">Order Date</label>
                                 <input
                                     name="item-id"
-                                    placeholder="ID"
+                                    type="date"
                                     className="w-auto rounded-xl"
                                 ></input>
                             </div>
@@ -69,7 +71,7 @@ export default function PurchasingCreate({ auth }) {
                                 <label className="text-sm">Memo</label>
                                 <input
                                     name="vendor-name"
-                                    placeholder="All Vendor"
+                                    placeholder="Enter memo here"
                                     className="w-auto rounded-xl"
                                 ></input>
                             </div>
@@ -81,13 +83,10 @@ export default function PurchasingCreate({ auth }) {
                         <RefreshButton />
                         <PrintButton title="Print Purchase Order" />
                     </div>
-                    <table
-                        class="table-fixed"
-                        className="mt-5 h-20 w-full text-center border"
-                    >
+                    <table className="table-fixed mt-5 h-20 w-full text-center border">
                         <thead>
                             <tr className="border-[1.5px] border-black bg-[#B7C9C7]">
-                                <td className="px-3 py-2 border-2 border-black">
+                                <td className="px-3 py-2 border-2 border-black w-12">
                                     No
                                 </td>
                                 <td className="px-3 border-2 border-black">
@@ -110,12 +109,12 @@ export default function PurchasingCreate({ auth }) {
                         </thead>
                         <tbody className="gap-2">
                             <tr className="py-2">
-                                <td rowspan="2" className="pt-2 px-1">
+                                <td rowSpan="2" className="pt-2 px-1">
                                     <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center">
                                         1
                                     </p>
                                 </td>
-                                <td rowspan="2" className="pt-2 px-1">
+                                <td rowSpan="2" className="pt-2 px-1">
                                     <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center">
                                         Extra Joss (Exj)
                                     </p>
@@ -136,16 +135,16 @@ export default function PurchasingCreate({ auth }) {
                                     </p>
                                 </td>
                                 <td className="pt-2 px-1">
-                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                    <div className="py-2 border-2 border-gray-400 rounded-xl">
                                         <div className="flex flex-row justify-between px-3">
                                             <p>@</p>
                                             <p>RP 14.000</p>
                                         </div>
-                                    </p>
+                                    </div>
                                 </td>
                                 <td
                                     className="mx-auto h-full pt-2 px-1"
-                                    rowspan="2"
+                                    rowSpan="2"
                                 >
                                     <div className="flex justify-center py-2 border-2 border-gray-400 rounded-xl h-full">
                                         <img className="w-4" src={TrashIcon} />
@@ -175,12 +174,12 @@ export default function PurchasingCreate({ auth }) {
                                 </td>
                             </tr>
                             <tr className="py-2">
-                                <td rowspan="2" className="pt-2 px-1">
+                                <td rowSpan="2" className="pt-2 px-1">
                                     <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center">
                                         2
                                     </p>
                                 </td>
-                                <td rowspan="2" className="pt-2 px-1">
+                                <td rowSpan="2" className="pt-2 px-1">
                                     <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center">
                                         Extra Joss (Exj)
                                     </p>
@@ -201,16 +200,16 @@ export default function PurchasingCreate({ auth }) {
                                     </p>
                                 </td>
                                 <td className="pt-2 px-1">
-                                    <p className="py-2 border-2 border-gray-400 rounded-xl">
+                                    <div className="py-2 border-2 border-gray-400 rounded-xl">
                                         <div className="flex flex-row justify-between px-3">
                                             <p>@</p>
                                             <p>RP 14.000</p>
                                         </div>
-                                    </p>
+                                    </div>
                                 </td>
                                 <td
                                     className="mx-auto h-full pt-2 px-1"
-                                    rowspan="2"
+                                    rowSpan="2"
                                 >
                                     <div className="flex justify-center py-2 border-2 border-gray-400 rounded-xl h-full">
                                         <img className="w-4" src={TrashIcon} />
@@ -243,6 +242,7 @@ export default function PurchasingCreate({ auth }) {
                     </table>
                 </div>
             </div>
+             
         </div>
     );
 }

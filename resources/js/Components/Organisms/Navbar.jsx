@@ -67,11 +67,11 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/sales-order" ? "opacity-100" : "opacity-30"
+                            url == "/sale" ? "opacity-100" : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
-                            href="/sales-order"
+                            href="/sale"
                             className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={SalesOrderIcon} />
@@ -95,18 +95,18 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/purchasing" ? "opacity-100" : "opacity-30"
+                            url == "/purchase" ? "opacity-100" : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
-                            href="/purchasing"
+                            href="/purchase"
                             className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={PurchasingIcon} />
                             Purchasing
                         </Link>
                     </li>
-                    <li
+                    {/* <li
                         className={`${
                             url == "/accounts" ? "opacity-100" : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
@@ -118,7 +118,7 @@ export function Navbar() {
                             <img src={ChartOfAccountsIcon} />
                             Accounts
                         </Link>
-                    </li>
+                    </li> */}
                     <li
                         className={`${
                             url == "/settings" ? "opacity-100" : "opacity-30"

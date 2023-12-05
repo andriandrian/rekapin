@@ -5,10 +5,12 @@ import {
     RefreshButton,
     SeacrhBarMini,
 } from "../../Components";
+import { Link, Head } from "@inertiajs/react";
 
-export default function Customer({ auth }) {
+export default function Customer(props) {
     return (
         <div className="flex flex-row h-screen w-full ">
+            <Head title="Customer" />
             <Navbar />
             <div className="flex flex-1 px-5 pt-14 flex-col">
                 <SeacrhBarMini placeholder="Search for Customer" />
@@ -16,10 +18,10 @@ export default function Customer({ auth }) {
                     <h1 className="text-3xl font-semibold">Customer</h1>
                     <div className="flex flex-row gap-5">
                         <RefreshButton />
-                        <PrintButton title="Print for Customer" />
+                        {/* <PrintButton title="Print for Customer" /> */}
                         <AddButton
                             title="Add Customer"
-                            href="/customer-create"
+                            href="/customer/create"
                         />
                     </div>
                 </div>
@@ -42,30 +44,94 @@ export default function Customer({ auth }) {
                             <td className="border-[1.5px] border-black">
                                 Address
                             </td>
-                            <td className="border-[1.5px] border-black"></td>
+                            <td className="border-[1.5px] border-black">
+                                Action
+                            </td>
                         </tr>
                     </thead>
                     <tbody className="text-center">
-                        <tr>
-                            <td className="border-[1.5px] border-black py-3 px-2">
-                                1
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Martius Lim
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Cust000001
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                0811111111111111
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Jalan Gajah Mada RT. 10 RW. 2
-                            </td>
-                            <td className="border-[1.5px] border-black px-3">
-                                :
-                            </td>
-                        </tr>
+                        {props.customer ? (
+                            props.customer.map((data, i) => {
+                                return (
+                                    <tr key={i}>
+                                        <td className="border-[1.5px] border-black py-3 px-2">
+                                            {i + 1}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            {data.name}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            {data.name}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            {data.phone}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            {data.address}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            <div className="flex flex-row gap-2 justify-center">
+                                                <Link
+                                                    href={route(
+                                                        "customer.edit"
+                                                    )}
+                                                    data={{ id: data.id }}
+                                                    method="get"
+                                                    as="button"
+                                                >
+                                                    Edit
+                                                </Link>
+
+                                                <Link
+                                                    href={route(
+                                                        "customer.destroy"
+                                                    )}
+                                                    data={{ id: data.id }}
+                                                    method="delete"
+                                                    as="button"
+                                                    onClick={() => {
+                                                        if (
+                                                            window.confirm(
+                                                                "Are you sure you want to delete this customer?"
+                                                            )
+                                                        ) {
+                                                            // Delete the customer
+                                                        }
+                                                    }}
+                                                >
+                                                    Delete
+                                                </Link>
+                                                {/* <a
+                                                    href={`/customer-edit/${data.id}`}
+                                                >
+                                                    <button className="bg-[#B7C9C7] w-8 h-8 rounded-full">
+                                                        <img
+                                                            src="/assets/edit.png"
+                                                            alt="edit"
+                                                        />
+                                                    </button>
+                                                </a>
+                                                <button className="bg-[#B7C9C7] w-8 h-8 rounded-full">
+                                                    <img
+                                                        src="/assets/delete.png"
+                                                        alt="delete"
+                                                    />
+                                                </button> */}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })
+                        ) : (
+                            <tr>
+                                <td
+                                    colSpan="6"
+                                    className="border-[1.5px] border-black py-3 px-2 text-center"
+                                >
+                                    No Data
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>

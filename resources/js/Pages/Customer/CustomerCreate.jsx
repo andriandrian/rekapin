@@ -1,6 +1,19 @@
 import { BackHeader, FormInput, Navbar, TextButton } from "../../Components";
+import { useForm } from "@inertiajs/react";
 
-export default function CustomerCreate({ auth }) {
+export default function CustomerCreate(props) {
+    const { data, setData, post, processing, errors } = useForm({
+        name: "",
+        phone: "",
+        email: "",
+        address: "",
+    });
+
+    function submit(e) {
+        e.preventDefault();
+        post("/customer/store");
+    }
+
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
@@ -15,14 +28,22 @@ export default function CustomerCreate({ auth }) {
                     </div>
 
                     <div className="mt-5 flex w-full">
-                        <form className="flex flex-col md:flex-row md:gap-0 gap-4 justify-between w-full">
+                        <form
+                            className="flex flex-col md:flex-row md:gap-0 gap-4 justify-between w-full"
+                            onSubmit={submit}
+                        >
                             <div className="flex flex-col gap-4 w-1/2 pr-7">
                                 <FormInput
                                     label="Customer Name"
-                                    placeholder="Promag"
-                                    name="item-name"
+                                    placeholder="Enter Customer Name"
+                                    name="customer-name"
+                                    value={data.name}
+                                    onChange={(e) =>
+                                        setData("name", e.target.value)
+                                    }
                                 />
-                                <FormInput
+                                {errors.name && <div>{errors.name}</div>}
+                                {/* <FormInput
                                     label="Customer ID"
                                     placeholder="Cust000001"
                                     name="item-name"
@@ -31,32 +52,63 @@ export default function CustomerCreate({ auth }) {
                                     label="Customer Store"
                                     placeholder="Grosir Gajah Keseleo"
                                     name="batch-number"
-                                />
+                                /> */}
                                 <FormInput
                                     label="Phone Number"
-                                    placeholder="0821212121212"
-                                    name="item-name"
+                                    placeholder="Enter Phone Number"
+                                    type="number"
+                                    name="phone"
+                                    value={data.phone}
+                                    onChange={(e) =>
+                                        setData("phone", e.target.value)
+                                    }
                                 />
+                                {errors.phone && <div>{errors.phone}</div>}
                                 <FormInput
                                     label="Email"
-                                    placeholder="Richard.lee@gmail.com"
-                                    name="item-name"
+                                    placeholder="Enter Email Address"
+                                    type="email"
+                                    name="email"
+                                    value={data.email}
+                                    onChange={(e) =>
+                                        setData("email", e.target.value)
+                                    }
                                 />
+                                {errors.email && <div>{errors.email}</div>}
                                 <FormInput
                                     label="Address"
-                                    placeholder="Jl. Gajah Sembuh, Komplek Gajah Residence Blok G No. 11, Batam, Kepulauan Riau, Indonesia"
-                                    name="item-name"
+                                    placeholder="Enter Address"
+                                    name="address"
+                                    value={data.address}
+                                    onChange={(e) =>
+                                        setData("address", e.target.value)
+                                    }
                                 />
+                                {errors.address && <div>{errors.address}</div>}
+                                <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
+                                    <TextButton
+                                        title="Cancel"
+                                        bgColor="#ffffff"
+                                        onClick="back"
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={processing}
+                                        className="flex flex-row gap-2 py-3 px-10 border-[1.5px] border-black rounded-xl h-12 min-w-fit place-items-center bg-[#CCE5E3]"
+                                    >
+                                        Add
+                                    </button>
+                                </div>
                             </div>
                             <div className="flex flex-col w-1/2 gap-4"></div>
-                            <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
+                            {/* <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
                                 <TextButton
                                     title="Cancel"
                                     bgColor="#ffffff"
                                     onClick="back"
                                 />
                                 <TextButton title="Add" bgColor="#CCE5E3" />
-                            </div>
+                            </div> */}
                         </form>
                     </div>
                 </div>
