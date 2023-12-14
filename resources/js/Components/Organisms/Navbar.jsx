@@ -12,11 +12,11 @@ import {
 } from "../../Assets";
 import { Link, usePage } from "@inertiajs/react";
 
-export function Navbar() {
+export function Navbar(props) {
     const { url } = usePage();
 
     return (
-        <div className="bg-[#CCE5E3] h-full w-64 px-7 flex flex-col items-center">
+        <div className="bg-[#CCE5E3] z-20 fixed h-full w-64 px-7 flex flex-col items-center">
             <Link
                 href="/dashboard"
                 className="w-52 mt-[54px] mx-6 mb-5 items-center flex"
@@ -27,7 +27,9 @@ export function Navbar() {
                 <ul>
                     <li
                         className={`${
-                            url == "/inventory" ? "opacity-100" : "opacity-30"
+                            url.startsWith("/inventory")
+                                ? "opacity-100"
+                                : "opacity-30"
                         }
                             flex flex-row items-center my-6 w-52 rounded-sm`}
                     >
@@ -41,7 +43,9 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/customer" ? "opacity-100" : "opacity-30"
+                            url.startsWith("/customer")
+                                ? "opacity-100"
+                                : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
@@ -54,7 +58,9 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/vendor" ? "opacity-100" : "opacity-30"
+                            url.startsWith("/vendor")
+                                ? "opacity-100"
+                                : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
@@ -67,7 +73,9 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/sale" ? "opacity-100" : "opacity-30"
+                            url.startsWith("/sale")
+                                ? "opacity-100"
+                                : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
@@ -80,13 +88,13 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/sales-invoice"
+                            url.startsWith("/invoice")
                                 ? "opacity-100"
                                 : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
-                            href="/sales-invoice"
+                            href="/invoice"
                             className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={SalesInvoiceIcon} />
@@ -95,7 +103,9 @@ export function Navbar() {
                     </li>
                     <li
                         className={`${
-                            url == "/purchase" ? "opacity-100" : "opacity-30"
+                            url.startsWith("/purchase")
+                                ? "opacity-100"
+                                : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
@@ -106,26 +116,15 @@ export function Navbar() {
                             Purchasing
                         </Link>
                     </li>
-                    {/* <li
-                        className={`${
-                            url == "/accounts" ? "opacity-100" : "opacity-30"
-                        } flex flex-row items-center my-6 w-52`}
-                    >
-                        <Link
-                            href="/accounts"
-                            className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
-                        >
-                            <img src={ChartOfAccountsIcon} />
-                            Accounts
-                        </Link>
-                    </li> */}
                     <li
                         className={`${
-                            url == "/settings" ? "opacity-100" : "opacity-30"
+                            url.startsWith("/profile")
+                                ? "opacity-100"
+                                : "opacity-30"
                         } flex flex-row items-center my-6 w-52`}
                     >
                         <Link
-                            href="/settings"
+                            href="/profile"
                             className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
                         >
                             <img src={SettingsIcon} />

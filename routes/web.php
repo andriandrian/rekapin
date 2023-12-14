@@ -9,7 +9,9 @@ use App\Http\Controllers\VendorController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\SaleInvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +25,7 @@ use App\Http\Controllers\PurchaseController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
+    return Inertia::render('Auth/Login', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
         'laravelVersion' => Application::VERSION,
@@ -35,13 +37,16 @@ Route::get('/login', function () {
     return Inertia::render('Auth/Login');
 })->name('auth.login');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::get('/dashboard', function () {
 //     return redirect()->route('inventory');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+});
 
 // CUSTOMER ========================================
 
@@ -83,56 +88,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/sale/create', [SaleController::class, 'create'])->name('sale.create');
     Route::post('/sale/store', [SaleController::class, 'store'])->name('sale.store');
     Route::get('/sale/edit', [SaleController::class, 'edit'])->name('sale.edit');
-    Route::patch('/sale/update', [SaleController::class, 'update'])->name('sale.update');
+    Route::post('/sale/update', [SaleController::class, 'update'])->name('sale.update');
     Route::delete('/sale/delete', [SaleController::class, 'destroy'])->name('sale.destroy');
+    Route::post('/invoice/create', [SaleInvoiceController::class, 'create'])->name('invoice.create');
+    Route::get('/invoice', [SaleInvoiceController::class, 'index'])->name('invoice.index');
+    Route::get('/invoice/edit', [SaleInvoiceController::class, 'edit'])->name('invoice.edit');
+    Route::delete('/invoice/delete', [SaleInvoiceController::class, 'destroy'])->name('invoice.destroy');
 });
-
-// Route::get('/sales-order', function () {
-//     return Inertia::render('SalesOrder/SalesOrder');
-// })->middleware(['auth', 'verified'])->name('sales-order');
-
-// Route::get('/sales-order-create', function () {
-//     return Inertia::render('SalesOrder/SalesOrderCreate');
-// })->middleware(['auth', 'verified'])->name('sales-order-create');
-
-Route::get('/sales-invoice', function () {
-    return Inertia::render('SalesInvoice/SalesInvoice');
-})->middleware(['auth', 'verified'])->name('sales-invoice');
-
-Route::get('/sales-invoice-create', function () {
-    return Inertia::render('SalesInvoice/SalesInvoiceCreate');
-})->middleware(['auth', 'verified'])->name('sales-invoice-create');
-
-
-
 
 // PURCHASE ========================================
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/purchase', [PurchaseController::class, 'index'])->name('purchase.edit');
-    Route::get('/purchase/create', [PurchaseController::class, 'create'])->name('purchase.edit');
+    Route::get('/purchase', [PurchaseController::class, 'index'])->name('purchase.index');
+    Route::get('/purchase/create', [PurchaseController::class, 'create'])->name('purchase.create');
+    Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
+    Route::get('/purchase/edit', [PurchaseController::class, 'edit'])->name('purchase.edit');
+    Route::post('/purchase/update', [PurchaseController::class, 'update'])->name('purchase.update');
+    Route::delete('/purchase/delete', [PurchaseController::class, 'destroy'])->name('purchase.destroy');
 });
 
-Route::get('/purchasing', function () {
-    return Inertia::render('Purchasing/Purchasing');
-})->middleware(['auth', 'verified'])->name('purchasing');
+// Route::get('/settings', function () {
+//     return Inertia::render('Settings');
+// })->middleware(['auth', 'verified'])->name('settings');
 
-Route::get('/purchasing-create', function () {
-    return Inertia::render('Purchasing/PurchasingCreate');
-})->middleware(['auth', 'verified'])->name('purchasing-create');
-
-Route::get('/settings', function () {
-    return Inertia::render('Settings');
-})->middleware(['auth', 'verified'])->name('settings');
-
-Route::get('/product-detail', function () {
-    return Inertia::render('ProductDetail');
-})->middleware(['auth', 'verified'])->name('product-detail');
-
-Route::get('/accounts', function () {
-    return Inertia::render('Accounts');
-})->middleware(['auth', 'verified'])->name('accounts');
-
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     Route::get('/settings', [SettingController::class, 'edit'])->name('setting.edit');
+//     Route::patch('/settings', [settingController::class, 'update'])->name('setting.update');
+//     Route::delete('/settings', [settingController::class, 'destroy'])->name('setting.destroy');
+// });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

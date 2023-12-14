@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('purchase_order_lines', function (Blueprint $table) {
+        Schema::create('sale_invoice_order_lines', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('purchase_id')->constrained('purchases')->onUpdate('cascade')->onDelete('cascade'); // 'purchases' is the table name of 'purchases
+            $table->foreignId('invoice_id')->constrained('sale_invoices')->onUpdate('cascade')->onDelete('cascade'); // 'saleinvoices' is the table name of 'saleinvoices'
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade'); // 'products' is the table name of 'products
             $table->integer('product_quantity')->default(0);
             $table->integer('discount')->default(0);
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('purchase_order_lines');
+        Schema::dropIfExists('sale_invoice_order_lines');
     }
 };

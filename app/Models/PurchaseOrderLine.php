@@ -9,11 +9,15 @@ class PurchaseOrderLine extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'purchase_id',
-        'product_id',
-        'product_quantity',
-        'price_total',
+    // protected $fillable = [
+    //     'purchase_id',
+    //     'product_id',
+    //     'product_quantity',
+    //     'price_total',
+    // ];
+
+    protected $guarded = [
+        'id'
     ];
 
     public function purchase()

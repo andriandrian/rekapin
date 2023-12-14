@@ -1,16 +1,18 @@
+import { PurchasingIcon, SaveIcon, TrashIcon } from "@/Assets";
 import {
-    SalesInvoiceIcon,
-    SalesOrderIcon,
-    SaveIcon,
-    TrashIcon,
-} from "@/Assets";
-import { BackHeader, Navbar } from "../../Components";
+    BackHeader,
+    CheckButton,
+    Navbar,
+    PrintButton,
+    RefreshButton,
+    SaveButton,
+    SeacrhBarFull,
+} from "../../Components";
 import { useForm } from "@inertiajs/react";
 import React from "react";
 import Select from "react-select";
 
-export default function SaleCreate(props) {
-    console.log(props);
+export default function PurchaseCreate(props) {
     const { data, setData, post, processing, errors } = useForm({
         partner_id: "",
         date: "",
@@ -21,14 +23,14 @@ export default function SaleCreate(props) {
 
     function submit(e) {
         e.preventDefault();
-        post("/sale/store");
+        post("/purchase/store");
     }
 
-    const customers = props.customer;
+    const vendors = props.vendor;
 
-    const customerOptions = customers.map((customer) => ({
-        value: customer.id,
-        label: customer.name,
+    const vendorOptions = vendors.map((vendor) => ({
+        value: vendor.id,
+        label: vendor.name,
     }));
 
     const product = props.product;
@@ -40,8 +42,6 @@ export default function SaleCreate(props) {
         default_code: product.default_code,
         label: product.name,
         price: product.sale_price,
-        uom: product.uom,
-        available_stock: product.available_stock,
         discount: 0,
         discount_percent: 0,
         subtotal: 0,
@@ -49,7 +49,6 @@ export default function SaleCreate(props) {
     }));
 
     const insertProduct = (data) => {
-        // check if product already exist
         setData((prevState) => ({
             ...prevState,
             products: [...prevState.products, data],
@@ -99,6 +98,7 @@ export default function SaleCreate(props) {
             products: products,
         }));
         countSubtotal(index);
+        console.log(data.products);
     };
 
     const countDiscount = (discount, index, price) => {
@@ -122,7 +122,6 @@ export default function SaleCreate(props) {
             price_total: total,
         }));
     };
-
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
@@ -130,23 +129,25 @@ export default function SaleCreate(props) {
                 <div className="pt-14 px-5 w-full">
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row items-center">
-                            <BackHeader href="/sale" />
+                            <BackHeader href="/purchase" />
                             <div className="flex flex-row items-center gap-3">
                                 <img
-                                    src={SalesOrderIcon}
+                                    src={PurchasingIcon}
                                     className="h-10 opacity-80"
                                 />
                                 <div className="flex flex-col">
                                     <p className="font-semibold text-lg">
-                                        Sales Order
+                                        Purchasing
                                     </p>
                                     <p className="text-sm">
-                                        Create new sales order
+                                        Create new Purchasing
                                     </p>
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-row align-middle gap-3"></div>
+                        {/* <div className="flex flex-row align-middle gap-3">
+                            <SaveButton />
+                        </div> */}
                     </div>
 
                     <div>
@@ -155,22 +156,21 @@ export default function SaleCreate(props) {
                                 <div className="flex flex-col gap-2 w-full">
                                     <div>
                                         <label
-                                            htmlFor="customer"
+                                            htmlFor="vendor"
                                             className="font-semibold text-sm"
                                         >
-                                            <p>Customer</p>
+                                            <p>Vendor</p>
                                         </label>
                                     </div>
                                     <Select
-                                        name="customer"
-                                        options={customerOptions}
-                                        placeholder="Select Customer..."
+                                        name="vendor"
+                                        options={vendorOptions}
+                                        placeholder="Select Vendor..."
                                         value={data.partner_id}
                                         onChange={(e) =>
                                             setData("partner_id", e)
                                         }
                                         className="w-auto rounded-xl mt-1"
-                                        // required
                                     />
                                     {errors.partner_id && (
                                         <div>{errors.partner_id}</div>
@@ -207,12 +207,12 @@ export default function SaleCreate(props) {
                                     {errors.memo && <div>{errors.memo}</div>}
                                 </div>
                                 <div className="absolute top-0 right-0 mr-5 mb-5 flex gap-4 mt-14">
-                                    <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
+                                    {/* <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
                                         <img
                                             src={SalesInvoiceIcon}
                                             className="w-6"
                                         />
-                                    </button>
+                                    </button> */}
                                     <button
                                         type="submit"
                                         disabled={processing}
@@ -291,7 +291,7 @@ export default function SaleCreate(props) {
                                                             <span className="font-semibold mr-1">
                                                                 {row.label}
                                                             </span>
-                                                            {/* ({row.batch_no}) */}
+                                                            ({row.batch_no})
                                                         </p>
                                                     </td>
                                                     <td className="pt-2 px-1">
@@ -371,7 +371,7 @@ export default function SaleCreate(props) {
                                                     </td>
                                                     <td className="pt-2 px-1">
                                                         <p className="py-2 border-2 border-gray-400 rounded-xl">
-                                                            {row.uom}
+                                                            pcs
                                                         </p>
                                                         {errors.product_quantity && (
                                                             <div>
@@ -414,7 +414,6 @@ export default function SaleCreate(props) {
                     </div>
                 </div>
             </div>
-             
         </div>
     );
 }

@@ -5,24 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SaleOrderLine extends Model
+class SaleInvoiceOrderLine extends Model
 {
     use HasFactory;
-
-    // protected $fillable = [
-    //     'sale_id',
-    //     'product_id',
-    //     'product_quantity',
-    //     'price_total',
-    // ];
 
     protected $guarded = [
         'id'
     ];
 
-    public function sale()
+    public function saleinvoice()
     {
-        return $this->belongsTo(Sale::class, 'sale_id');
+        return $this->belongsTo(SaleInvoice::class, 'invoice_id');
     }
 
     public function product()

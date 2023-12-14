@@ -1,7 +1,10 @@
 import { BackHeader, FormInput, Navbar, TextButton } from "../../Components";
 import { useForm } from "@inertiajs/react";
+import React from "react";
+import Select from "react-select";
 
 export default function InventoryEdit(props) {
+    console.log(props);
     const { data, setData, post, processing, errors } = useForm({
         id: props.product.id,
         name: props.product.name || "",
@@ -12,18 +15,25 @@ export default function InventoryEdit(props) {
         batch_no: props.product.batch_no || "",
         available_stock: props.product.available_stock || "",
         uom: props.product.uom || "",
-        vendor_id: props.product.vendor_id || "",
+        vendor_id: props.currentVendor || "",
     });
 
     function submit(e) {
         e.preventDefault();
-        post("/product/update");
+        post("/inventory/update");
     }
+
+    const vendors = props.vendor;
+
+    const vendorOptions = vendors.map((vendor) => ({
+        value: vendor.id,
+        label: vendor.name,
+    }));
 
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
-            <div className="flex flex-1 px-5 pt-14 flex-col h-screen">
+            <div className="flex flex-1 ml-64 px-5 pt-14 flex-col h-screen">
                 <div>
                     <div className="w-full">
                         <BackHeader
@@ -38,11 +48,11 @@ export default function InventoryEdit(props) {
                             className="flex flex-row md:flex-row md:gap-0 gap-4 justify-between w-full"
                             onSubmit={submit}
                         >
-                            <div className="flex flex-col gap-4 w-1/2 pr-7">
+                            <div className="flex flex-col gap-4 w-full pr-7">
                                 <FormInput
-                                    label="Product Name"
-                                    placeholder="Enter Prouct Name"
-                                    name="name"
+                                    label="Item Name"
+                                    placeholder="Enter Item Name"
+                                    name="item-name"
                                     value={data.name}
                                     onChange={(e) =>
                                         setData("name", e.target.value)
@@ -52,7 +62,7 @@ export default function InventoryEdit(props) {
                                 <FormInput
                                     label="Purchase Price"
                                     placeholder="Enter Purchase Price"
-                                    name="purchase_price"
+                                    name="purchase-price"
                                     value={data.purchase_price}
                                     onChange={(e) =>
                                         setData(
@@ -67,7 +77,7 @@ export default function InventoryEdit(props) {
                                 <FormInput
                                     label="Sale Price"
                                     placeholder="Enter Sale Price"
-                                    name="sale_price"
+                                    name="sale-price"
                                     value={data.sale_price}
                                     onChange={(e) =>
                                         setData("sale_price", e.target.value)
@@ -79,7 +89,7 @@ export default function InventoryEdit(props) {
                                 <FormInput
                                     label="Default Code"
                                     placeholder="Enter Default Code"
-                                    name="default_code"
+                                    name="default-code"
                                     value={data.default_code}
                                     onChange={(e) =>
                                         setData("default_code", e.target.value)
@@ -89,9 +99,21 @@ export default function InventoryEdit(props) {
                                     <div>{errors.default_code}</div>
                                 )}
                                 <FormInput
+                                    label="Unit of Measure"
+                                    placeholder="Enter Unit of Measure"
+                                    name="default-code"
+                                    value={data.uom}
+                                    onChange={(e) =>
+                                        setData("uom", e.target.value)
+                                    }
+                                />
+                                {errors.uom && <div>{errors.uom}</div>}
+                            </div>
+                            <div className="flex flex-col gap-4 w-full pr-7">
+                                <FormInput
                                     label="Barcode No"
                                     placeholder="Enter Barcode No"
-                                    name="barcode_no"
+                                    name="barcode-no"
                                     value={data.barcode_no}
                                     onChange={(e) =>
                                         setData("barcode_no", e.target.value)
@@ -100,12 +122,10 @@ export default function InventoryEdit(props) {
                                 {errors.barcode_no && (
                                     <div>{errors.barcode_no}</div>
                                 )}
-                            </div>
-                            <div className="flex flex-col gap-4 w-1/2 pr-7">
                                 <FormInput
                                     label="Batch No"
                                     placeholder="Enter Batch"
-                                    name="batch_no"
+                                    name="batch-no"
                                     value={data.batch_no}
                                     onChange={(e) =>
                                         setData("batch_no", e.target.value)
@@ -117,7 +137,7 @@ export default function InventoryEdit(props) {
                                 <FormInput
                                     label="Available Stock"
                                     placeholder="Enter Available Stock"
-                                    name="available_stock"
+                                    name="available-stock"
                                     value={data.available_stock}
                                     onChange={(e) =>
                                         setData(
@@ -129,7 +149,7 @@ export default function InventoryEdit(props) {
                                 {errors.available_stock && (
                                     <div>{errors.available_stock}</div>
                                 )}
-                                <FormInput
+                                {/* <FormInput
                                     label="UOM"
                                     placeholder="Enter UOM"
                                     name="uom"
@@ -138,27 +158,66 @@ export default function InventoryEdit(props) {
                                         setData("uom", e.target.value)
                                     }
                                 />
-                                {errors.uom && <div>{errors.uom}</div>}
-                                <FormInput
-                                    label="Vendor"
-                                    placeholder="Enter Vendor"
-                                    name="vendor_id"
-                                    value={data.vendor_id}
-                                    onChange={(e) =>
-                                        setData("vendor_id", e.target.value)
-                                    }
-                                />
-                                {errors.vendor_id && (
-                                    <div>{errors.vendor_id}</div>
-                                )}
+                                {errors.uom && <div>{errors.uom}</div>} */}
+                                <div>
+                                    <label
+                                        htmlFor="vendor_id"
+                                        className="font-semibold text-sm"
+                                    >
+                                        <p>Vendor</p>
+                                    </label>
+                                    {/* <select
+                                        id="vendor_id"
+                                        name="vendor_id"
+                                        value={data.vendor_id}
+                                        onChange={(e) =>
+                                            setData(
+                                                "vendor_id",
+                                                e.target.selected
+                                            )
+                                        }
+                                        className="w-full rounded-md mt-2"
+                                    >
+                                        {props.vendor.map((vendor) => (
+                                            <option
+                                                key={vendor.id}
+                                                value={vendor.id}
+                                            >
+                                                {vendor.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {errors.vendor_id && (
+                                        <div>{errors.vendor_id}</div>
+                                    )} */}
+                                    <Select
+                                        name="vendor_id"
+                                        options={vendorOptions}
+                                        placeholder="Select Vendor..."
+                                        value={data.vendor_id}
+                                        onChange={(e) =>
+                                            setData("vendor_id", e)
+                                        }
+                                        className="w-auto rounded-xl mt-2"
+                                    />
+                                    {errors.vendor_id && (
+                                        <div>{errors.vendor_id}</div>
+                                    )}
+                                </div>
                             </div>
                             <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
                                 <TextButton
                                     title="Cancel"
                                     bgColor="#ffffff"
-                                    onClick="back"
+                                    href="/inventory"
                                 />
-                                <TextButton title="Save" bgColor="#CCE5E3" />
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="flex flex-row gap-2 py-3 px-10 border-[1.5px] border-black rounded-xl h-12 min-w-fit place-items-center bg-[#CCE5E3]"
+                                >
+                                    Update
+                                </button>
                             </div>
                         </form>
                     </div>

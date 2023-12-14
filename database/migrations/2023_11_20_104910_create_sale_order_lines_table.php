@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sale_id')->constrained('sales')->onUpdate('cascade')->onDelete('cascade'); // 'sales' is the table name of 'sales'
             $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade'); // 'products' is the table name of 'products
-            $table->string('product_quantity');
-            $table->string('price_total');
+            $table->integer('product_quantity')->default(0);
+            $table->integer('discount')->default(0);
+            $table->integer('discount_percent')->default(0);
+            $table->integer('subtotal')->default(0);
             $table->timestamps();
         });
     }

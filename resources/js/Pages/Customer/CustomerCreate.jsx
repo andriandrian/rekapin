@@ -17,7 +17,7 @@ export default function CustomerCreate(props) {
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
-            <div className="flex flex-1 px-5 pt-14 flex-col">
+            <div className="flex flex-1 px-5 pt-14 ml-64 flex-col">
                 <div>
                     <div className="w-full">
                         <BackHeader
@@ -89,7 +89,7 @@ export default function CustomerCreate(props) {
                                     <TextButton
                                         title="Cancel"
                                         bgColor="#ffffff"
-                                        onClick="back"
+                                        href="/customer"
                                     />
                                     <button
                                         type="submit"

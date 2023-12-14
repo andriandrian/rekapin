@@ -14,10 +14,14 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('partner_id')->constrained('vendors')->onUpdate('cascade')->onDelete('cascade'); // 'vendors' is the table name of 'partners'
-            $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade'); // 'products' is the table name of 'products'
+            $table->string('purchase_no')->unique();
             $table->date('date');
             $table->string('price_total');
             $table->string('memo')->nullable();
+            $table->enum(
+                'status',
+                ['unpaid', 'paid']
+            )->default('unpaid');
             $table->timestamps();
         });
     }

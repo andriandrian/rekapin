@@ -10,7 +10,7 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::paginate(10);
         return Inertia::render('Customer/Customer', [
             'title' => 'Customer',
             'active' => 'customer',
@@ -32,7 +32,7 @@ class CustomerController extends Controller
             'name' => 'required',
             'address' => 'required',
             'phone' => 'required|min:10',
-            'email' => 'required|email'
+            'email' => 'required|email:dns'
         ]);
 
         Customer::create([
@@ -42,7 +42,11 @@ class CustomerController extends Controller
             'email' => $request->email
         ]);
 
-        return redirect()->route('customer.index');
+        return redirect()->route('customer.index')->with(['message' => [
+            'type' => 'success',
+            'text' => 'Customer created successfully.',
+            'button' => 'OK!',
+        ]]);
     }
 
     public function edit(Customer $customer, Request $request)

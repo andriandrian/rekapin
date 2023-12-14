@@ -1,4 +1,4 @@
-import { PurchasingIcon, SalesOrderIcon } from "@/Assets";
+import { DeleteIcon, EditIcon, PurchasingIcon } from "@/Assets";
 import {
     AddButton,
     GoButton,
@@ -6,19 +6,61 @@ import {
     RefreshButton,
     SeacrhBarFull,
 } from "../../Components";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
+import { ToastContainer, toast } from "react-toastify";
+import { useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Purchase(props) {
+    const { flash } = usePage().props;
+    useEffect(() => {
+        if (flash.message?.type == "success") {
+            toast.success(flash.message.text, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        } else if (flash.message?.type == "error") {
+            toast.error("🦄 Wow so easy!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }, []);
+
     return (
         <div className="flex flex-row h-screen w-full ">
             <Head title="Purchasing" />
             <Navbar />
-            <div className="flex flex-col flex-1  px-5 pt-14">
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            <div className="flex flex-col flex-1 ml-64 px-5 pt-14">
                 <div className="flex">
                     <div className="flex flex-row h-11 w-full  gap-5">
                         <AddButton
                             title="Add New Purchasing"
-                            href="/purchasing-create"
+                            href="/purchase/create"
                         />
                         <RefreshButton />
                         <SeacrhBarFull placeholder="Search for Purchase Order" />
@@ -64,11 +106,12 @@ export default function Purchase(props) {
                                 Status
                             </label>
                             <div className="flex flex-row w-full mx-auto gap-2">
-                                <input
-                                    name="vendor-name"
-                                    placeholder="Enter Status   "
-                                    className="w-full rounded-xl"
-                                ></input>
+                                <select className="w-full rounded-xl focus:ring-0">
+                                    <option value="unreceived">
+                                        Unreceived
+                                    </option>
+                                    <option value="received">Received</option>
+                                </select>
                                 <GoButton />
                             </div>
                         </div>
@@ -78,7 +121,7 @@ export default function Purchase(props) {
                 <table className="mt-6">
                     <thead className="bg-[#B7C9C7] text-center font-bold">
                         <tr>
-                            <td className="border-[1.5px] border-black py-3 px-2">
+                            <td className="border-[1.5px] border-black py-3 px-2 w-8">
                                 No
                             </td>
                             <td className="border-[1.5px] border-black">
@@ -96,69 +139,94 @@ export default function Purchase(props) {
                             <td className="border-[1.5px] border-black">
                                 Total
                             </td>
-                            <td className="border-[1.5px] border-black"></td>
+                            <td className="border-[1.5px] border-black w-20">
+                                Action
+                            </td>
                         </tr>
                     </thead>
                     <tbody className="text-center">
-                        {props.purchase && props.purchase.length > 0 ? (
-                            props.purchase.map((purchase, index) => (
-                                <tr key={purchase.id}>
-                                    <td className="border-[1.5px] border-black py-3 px-2">
-                                        {index + 1}
-                                    </td>
-                                    <td className="border-[1.5px] border-black">
-                                        {purchase.id}
-                                    </td>
-                                    <td className="border-[1.5px] border-black">
-                                        {purchase.created_at}
-                                    </td>
-                                    <td className="border-[1.5px] border-black">
-                                        {purchase.vendor_name}
-                                    </td>
-                                    <td className="border-[1.5px] border-black">
-                                        {purchase.status}
-                                    </td>
-                                    <td className="border-[1.5px] border-black px-3">
-                                        {purchase.total}
-                                    </td>
-                                    <td className="border-[1.5px] border-black px-3">
-                                        <GoButton />
-                                    </td>
-                                </tr>
-                            ))
+                        {props.purchase.data &&
+                        props.purchase.data.length > 0 ? (
+                            props.purchase.data.map((data, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td className="border-[1.5px] border-black py-3 px-2">
+                                            {index + 1}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            {data.purchase_no}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            {data.date}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            {data.vendor.name}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            {data.status}
+                                        </td>
+                                        <td className="border-[1.5px] border-black px-3">
+                                            <p>
+                                                Rp{" "}
+                                                {Number(
+                                                    data.price_total
+                                                ).toLocaleString()}
+                                            </p>
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            <div className="flex flex-row gap-2 justify-center">
+                                                <Link
+                                                    href={route(
+                                                        "purchase.edit"
+                                                    )}
+                                                    data={{ id: data.id }}
+                                                    method="get"
+                                                    as="button"
+                                                >
+                                                    <img
+                                                        src={EditIcon}
+                                                        alt=""
+                                                        className="h-4"
+                                                    />
+                                                </Link>
+                                                <Link
+                                                    href={route(
+                                                        "purchase.destroy"
+                                                    )}
+                                                    data={{ id: data.id }}
+                                                    method="delete"
+                                                    as="button"
+                                                    onClick={() => {
+                                                        if (
+                                                            window.confirm(
+                                                                "Are you sure you want to delete this purchase order?"
+                                                            )
+                                                        ) {
+                                                            // Delete the customer
+                                                        }
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={DeleteIcon}
+                                                        alt=""
+                                                        className="h-4"
+                                                    />
+                                                </Link>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })
                         ) : (
                             <tr>
                                 <td
                                     colSpan="7"
-                                    className="border-[1.5px] border-black py-3 px-2 text-center"
+                                    className="border-[1.5px] border-black py-3 px-2"
                                 >
                                     No Data
                                 </td>
                             </tr>
                         )}
-                        {/* <tr>
-                            <td className="border-[1.5px] border-black py-3 px-2">
-                                1
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                P0 - 01 - 09 - 2023 - 00001 01 / 09 / 2023
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                01 / 09 / 2023
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                TK . Harapan Orang Tua
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Received
-                            </td>
-                            <td className="border-[1.5px] border-black px-3">
-                                100. 000
-                            </td>
-                            <td className="border-[1.5px] border-black px-3">
-                                :
-                            </td>
-                        </tr> */}
                     </tbody>
                 </table>
             </div>

@@ -13,7 +13,7 @@ class VendorController extends Controller
         return Inertia::render('Vendor/Vendor', [
             'title' => 'Vendor',
             'active' => 'vendor',
-            'vendor' => Vendor::all(),
+            'vendor' => Vendor::paginate(10),
         ]);
     }
 
@@ -31,7 +31,7 @@ class VendorController extends Controller
             'name' => 'required',
             'address' => 'required',
             'phone' => 'required|min:10',
-            'email' => 'required|email'
+            'email' => 'required|email:dns'
         ]);
 
         Vendor::create([
@@ -39,6 +39,30 @@ class VendorController extends Controller
             'address' => $request->address,
             'phone' => $request->phone,
             'email' => $request->email
+        ]);
+
+        return redirect()->route('vendor.index')->with(['message' => [
+            'type' => 'success',
+            'text' => 'Vendor created successfully.',
+            'button' => 'OK!',
+        ]]);
+    }
+
+    public function edit(Vendor $vendor, Request $request)
+    {
+        return Inertia::render('Vendor/VendorEdit', [
+            'active' => 'customer',
+            'vendor' => $vendor->find($request->id)
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        Vendor::find($request->id)->update([
+            'name' => $request->name,
+            'address' => $request->address,
+            'phone' => $request->phone,
+            'email' => $request->email,
         ]);
 
         return redirect()->route('vendor.index');

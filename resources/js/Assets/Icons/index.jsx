@@ -16,7 +16,8 @@ import PrintIcon from "./print.svg";
 import SearchIcon from "./search.svg";
 import RightArrowIcon from "./right-arrow.svg";
 import CheckIcon from "./check.svg";
-
+import EditIcon from "./edit.svg";
+import DeleteIcon from "./delete.svg";
 
 export {
     ChartOfAccountsIcon,
@@ -37,4 +38,6 @@ export {
     SearchIcon,
     RightArrowIcon,
     CheckIcon,
+    EditIcon,
+    DeleteIcon,
 };

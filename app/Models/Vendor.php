@@ -9,10 +9,14 @@ class Vendor extends Model
 {
     use HasFactory;
 
-    protected $fillable=[
-        'name',
-        'phone',
-        'email',
-        'address',
+    // protected $fillable=[
+    //     'name',
+    //     'phone',
+    //     'email',
+    //     'address',
+    // ];
+
+    protected $guarded = [
+        'id'
     ];
 }

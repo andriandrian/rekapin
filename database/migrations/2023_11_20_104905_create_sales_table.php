@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->foreignId('partner_id')->constrained('customers')->onUpdate('cascade')->onDelete('cascade'); // 'customers' is the table name of 'partners
-            $table->foreignId('product_id')->constrained('products')->onUpdate('cascade')->onDelete('cascade'); // 'products' is the table name of 'products
+            $table->string('sale_no')->unique();
             $table->date('date');
             $table->string('price_total');
             $table->string('memo')->nullable();
-            $table->enum('status', ['draft', 'confirm', 'done', 'cancel'])->default('draft');
+            $table->enum('status', ['waiting', 'proceed'])->default('waiting');
             $table->timestamps();
         });
     }

@@ -1,19 +1,66 @@
-import { SalesOrderIcon } from "@/Assets";
+import { DeleteIcon, EditIcon, SalesOrderIcon } from "@/Assets";
 import {
     AddButton,
     GoButton,
     Navbar,
+    Paginator,
     RefreshButton,
     SeacrhBarFull,
 } from "../../Components";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
+import { ToastContainer, toast } from "react-toastify";
+import { useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Sale(props) {
+    const { flash } = usePage().props;
+
+    // notify();
+    useEffect(() => {
+        if (flash.message?.type == "success") {
+            toast.success(flash.message.text, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        } else if (flash.message?.type == "error") {
+            toast.error(flash.message.text, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            });
+        }
+    }, []);
+
     return (
         <div className="flex flex-row h-screen w-full ">
             <Head title="Sale" />
             <Navbar />
-            <div className="flex flex-col flex-1  px-5 pt-14">
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
+            <div className="flex flex-col flex-1 ml-64 px-5 pt-14">
+                {/* Same as */}
+                <ToastContainer />
                 <div className="flex">
                     <div className="flex flex-row h-11 w-full  gap-5">
                         <AddButton title="Add New Order" href="sale/create" />
@@ -63,11 +110,12 @@ export default function Sale(props) {
                                 Status
                             </label>
                             <div className="flex flex-row w-full mx-auto gap-2">
-                                <input
-                                    name="vendor-name"
-                                    placeholder="Enter Status"
-                                    className="w-full rounded-xl"
-                                ></input>
+                                <select className="w-full rounded-xl focus:ring-0">
+                                    <option value="waiting">
+                                        Waiting to Process
+                                    </option>
+                                    <option value="proceeded">Proceeded</option>
+                                </select>
                                 <GoButton />
                             </div>
                         </div>
@@ -75,9 +123,9 @@ export default function Sale(props) {
                 </div>
 
                 <table className="mt-6">
-                    <thead className="bg-[#B7C9C7] text-center font-bold">
+                    <thead className="bg-[#B7C9C7] text-center font-semibold">
                         <tr>
-                            <td className="border-[1.5px] border-black py-3 px-2">
+                            <td className="border-[1.5px] border-black py-3 px-2 w-8">
                                 No
                             </td>
                             <td className="border-[1.5px] border-black">
@@ -95,21 +143,21 @@ export default function Sale(props) {
                             <td className="border-[1.5px] border-black">
                                 Total
                             </td>
-                            <td className="border-[1.5px] border-black">
+                            <td className="border-[1.5px] border-black w-20">
                                 Action
                             </td>
                         </tr>
                     </thead>
                     <tbody className="text-center">
-                        {props.sale && props.sale.length > 0 ? (
-                            props.sale.map((data, index) => {
+                        {props.sale.data && props.sale.data.length > 0 ? (
+                            props.sale.data.map((data, index) => {
                                 return (
                                     <tr key={index}>
                                         <td className="border-[1.5px] border-black py-3 px-2">
                                             {index + 1}
                                         </td>
                                         <td className="border-[1.5px] border-black">
-                                            {data.id}
+                                            {data.sale_no}
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {data.customer.name}
@@ -121,7 +169,12 @@ export default function Sale(props) {
                                             {data.status}
                                         </td>
                                         <td className="border-[1.5px] border-black px-3">
-                                            {data.price_total}
+                                            <p>
+                                                Rp{" "}
+                                                {Number(
+                                                    data.price_total
+                                                ).toLocaleString()}
+                                            </p>
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             <div className="flex flex-row gap-2 justify-center">
@@ -131,7 +184,11 @@ export default function Sale(props) {
                                                     method="get"
                                                     as="button"
                                                 >
-                                                    Edit
+                                                    <img
+                                                        src={EditIcon}
+                                                        alt=""
+                                                        className="h-4"
+                                                    />
                                                 </Link>
                                                 <Link
                                                     href={route("sale.destroy")}
@@ -144,11 +201,17 @@ export default function Sale(props) {
                                                                 "Are you sure you want to delete this sale order?"
                                                             )
                                                         ) {
-                                                            // Delete the customer
+                                                            // Delete the sale order
+                                                        } else {
+                                                            return false;
                                                         }
                                                     }}
                                                 >
-                                                    Delete
+                                                    <img
+                                                        src={DeleteIcon}
+                                                        alt=""
+                                                        className="h-4"
+                                                    />
                                                 </Link>
                                             </div>
                                         </td>
@@ -165,77 +228,13 @@ export default function Sale(props) {
                                 </td>
                             </tr>
                         )}
-                        {/* <tr>
-                            <td className="border-[1.5px] border-black py-3 px-2">
-                                1
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                S0 - 01 - 09 - 2023 - 00001 01 / 09 / 2023
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                TK . Harapan Orang Tua
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Barangnya diantar hari ini
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Waiting to Process
-                            </td>
-                            <td className="border-[1.5px] border-black px-3">
-                                100. 000
-                            </td>
-                            <td className="border-[1.5px] border-black px-3">
-                                :
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="border-[1.5px] border-black py-3 px-2">
-                                2
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                S0 - 01 - 09 - 2023 - 00001 01 / 09 / 2023
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                TK . Harapan Orang Tua
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Barangnya diantar hari ini
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Waiting to Process
-                            </td>
-                            <td className="border-[1.5px] border-black px-3">
-                                100. 000
-                            </td>
-                            <td className="border-[1.5px] border-black px-3">
-                                :
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="border-[1.5px] border-black py-3 px-2">
-                                3
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                S0 - 01 - 09 - 2023 - 00001 01 / 09 / 2023
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                TK . Harapan Orang Tua
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Barangnya diantar hari ini
-                            </td>
-                            <td className="border-[1.5px] border-black">
-                                Waiting to Process
-                            </td>
-                            <td className="border-[1.5px] border-black px-3">
-                                100. 000
-                            </td>
-                            <td className="border-[1.5px] border-black px-3">
-                                :
-                            </td>
-                        </tr> */}
                     </tbody>
                 </table>
+                {props.sale.total > 10 && (
+                    <div className="flex justify-center mt-5">
+                        <Paginator meta={props.sale} />
+                    </div>
+                )}
             </div>
         </div>
     );

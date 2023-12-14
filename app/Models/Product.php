@@ -9,16 +9,20 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'purchase_price',
-        'sale_price',
-        'default_code',
-        'barcode_no',
-        'batch_no',
-        'available_stock',
-        'uom',
-        'vendor_id',
+    // protected $fillable = [
+    //     'name',
+    //     'purchase_price',
+    //     'sale_price',
+    //     'default_code',
+    //     'barcode_no',
+    //     'batch_no',
+    //     'available_stock',
+    //     'uom',
+    //     'vendor_id',
+    // ];
+
+    protected $guarded = [
+        'id'
     ];
 
     protected $with = ['vendor'];

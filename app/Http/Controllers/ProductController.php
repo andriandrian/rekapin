@@ -11,7 +11,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
+        $products = Product::paginate(10);
         return Inertia::render('Inventory/Inventory', [
             'title' => 'Inventory',
             'active' => 'inventory',
@@ -30,6 +30,18 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'default_code' => 'required',
+            'sale_price' => 'required',
+            'purchase_price' => 'required',
+            'barcode_no' => 'required',
+            'batch_no' => 'required',
+            'available_stock' => 'required',
+            'vendor_id' => 'required',
+            'uom' => 'required',
+        ]);
+
         Product::create([
             'name' => $request->name,
             'default_code' => $request->default_code,
@@ -38,23 +50,50 @@ class ProductController extends Controller
             'barcode_no' => $request->barcode_no,
             'batch_no' => $request->batch_no,
             'available_stock' => $request->available_stock,
+            // 'vendor_id' => $request->vendor_id,
+            'vendor_id' => $request->vendor_id['value'],
             'uom' => $request->uom,
-            'vendor_id' => $request->vendor_id ?? 1,
         ]);
 
-        return redirect()->route('product.index');
+        return redirect()->route('product.index')->with(['message' => [
+            'type' => 'success',
+            'text' => 'Product created successfully.',
+            'button' => 'OK!',
+        ]]);;
     }
 
     public function edit(Product $product, Request $request)
     {
+        $currentProduct = Product::where('id', $request->id)->first();
+        $currentVendor = $currentProduct->vendor;
+        $vendor = Vendor::find($currentVendor);
+        $vendorFields = [
+            'value' => $currentVendor->id,
+            'label' => $currentVendor->name,
+        ];
+
         return Inertia::render('Inventory/InventoryEdit', [
             'active' => 'product',
-            'product' => $product->find($request->id)
+            'product' => $product->find($request->id),
+            'vendor' => Vendor::all(),
+            'currentVendor' => $vendorFields,
         ]);
     }
 
     public function update(Request $request)
     {
+        $request->validate([
+            'name' => 'required',
+            'default_code' => 'required',
+            'sale_price' => 'required',
+            'purchase_price' => 'required',
+            'barcode_no' => 'required',
+            'batch_no' => 'required',
+            'available_stock' => 'required',
+            'vendor_id' => 'required',
+            'uom' => 'required',
+        ]);
+
         Product::find($request->id)->update([
             'name' => $request->name,
             'default_code' => $request->default_code,
@@ -63,8 +102,9 @@ class ProductController extends Controller
             'barcode_no' => $request->barcode_no,
             'batch_no' => $request->batch_no,
             'available_stock' => $request->available_stock,
+            // 'vendor_id' => $request->vendor_id,
+            'vendor_id' => $request->vendor_id['value'],
             'uom' => $request->uom,
-            'vendor_id' => $request->vendor_id,
         ]);
 
         return redirect()->route('product.index');

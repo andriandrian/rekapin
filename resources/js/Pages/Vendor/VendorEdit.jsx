@@ -1,54 +1,95 @@
 import { BackHeader, FormInput, Navbar, TextButton } from "../../Components";
+import { useForm } from "@inertiajs/react";
 
-export default function VendorEdit({ auth }) {
+export default function VendorEdit(props) {
+    const { data, setData, post, processing, errors } = useForm({
+        id: props.vendor.id,
+        name: props.vendor.name || "",
+        phone: props.vendor.phone || "",
+        email: props.vendor.email || "",
+        address: props.vendor.address || "",
+    });
+
+    function submit(e) {
+        e.preventDefault();
+        post("/vendor/update");
+    }
+
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
-            <div className="flex flex-1 px-5 pt-14 flex-col">
+            <div className="flex flex-1 px-5 ml-64 pt-14 flex-col">
                 <div>
                     <div className="w-full">
                         <BackHeader
                             label="Back to Vendor List"
-                            title="Add a new Vendor"
+                            title="Edit Vendor Profile"
                             href="/vendor"
                         />
                     </div>
 
                     <div className="mt-5 flex w-full">
-                        <form className="flex flex-col md:flex-row md:gap-0 gap-4 justify-between w-full">
-                            <div className="flex flex-col gap-4 w-1/2 pr-7">
+                        <form
+                            className="flex flex-col md:flex-row md:gap-0 gap-4 justify-between w-full"
+                            onSubmit={submit}
+                        >
+                            <div className="flex flex-col gap-4 w-full pr-7">
                                 <FormInput
-                                    label="Vendor Name"
-                                    placeholder="PT. Tempo Scan Group"
-                                    name="item-name"
+                                    label="Customer Name"
+                                    placeholder="Enter Customer Name"
+                                    name="customer-name"
+                                    value={data.name}
+                                    onChange={(e) =>
+                                        setData("name", e.target.value)
+                                    }
                                 />
+                                {errors.name && <div>{errors.name}</div>}
                                 <FormInput
-                                    label="Vendor ID"
-                                    placeholder="Tempo"
-                                    name="item-name"
+                                    label="Phone Number"
+                                    placeholder="Enter Phone Number"
+                                    name="phone"
+                                    value={data.phone}
+                                    onChange={(e) =>
+                                        setData("phone", e.target.value)
+                                    }
                                 />
-                                <FormInput
-                                    label="Vendor Phone Number"
-                                    placeholder="(62-21) 2921-8888"
-                                    name="batch-number"
-                                />
-                                <FormInput
-                                    label="Website"
-                                    placeholder="https://www.temposcangroup.com/id"
-                                    name="item-name"
-                                />
+                                {errors.phone && <div>{errors.phone}</div>}
                                 <FormInput
                                     label="Email"
-                                    placeholder="corporate.secretary@thetempogroup.com"
-                                    name="item-name"
+                                    placeholder="Enter Email Address"
+                                    name="email"
+                                    value={data.email}
+                                    onChange={(e) =>
+                                        setData("email", e.target.value)
+                                    }
                                 />
+                                {errors.email && <div>{errors.email}</div>}
                                 <FormInput
-                                    label="Warehouse"
-                                    placeholder="Jl. Gajah Sembuh, Komplek Gajah Residence Blok G No. 11, Batam, Kepulauan Riau, Indonesia"
-                                    name="item-name"
+                                    label="Address"
+                                    placeholder="Enter Address"
+                                    name="address"
+                                    value={data.address}
+                                    onChange={(e) =>
+                                        setData("address", e.target.value)
+                                    }
                                 />
+                                {errors.address && <div>{errors.address}</div>}
+                                <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
+                                    <TextButton
+                                        title="Cancel"
+                                        bgColor="#ffffff"
+                                        onClick="back"
+                                    />
+                                    <button
+                                        type="submit"
+                                        disabled={processing}
+                                        className="flex flex-row gap-2 py-3 px-10 border-[1.5px] border-black rounded-xl h-12 min-w-fit place-items-center bg-[#CCE5E3]"
+                                    >
+                                        Add
+                                    </button>
+                                </div>
                             </div>
-                            <div className="flex flex-col w-1/2 gap-4"></div>
+                            <div className="flex flex-col w-full gap-4"></div>
                             <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
                                 <TextButton
                                     title="Cancel"

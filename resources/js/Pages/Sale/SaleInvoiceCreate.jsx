@@ -9,11 +9,11 @@ import {
     SeacrhBarFull,
 } from "../../Components";
 
-export default function SalesInvoiceCreate({ auth }) {
+export default function SaleInvoiceCreate(props) {
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
-            <div className="flex flex-1">
+            <div className="flex flex-1 ml-64 ">
                 <div className="pt-14 px-5 w-full">
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row items-center">

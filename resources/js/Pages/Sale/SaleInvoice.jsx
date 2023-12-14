@@ -1,25 +1,24 @@
 import {
     DeleteIcon,
     EditIcon,
-    PlusIcon,
-    PrintIcon,
-    RefreshIcon,
+    SalesInvoiceIcon,
+    SalesOrderIcon,
 } from "@/Assets";
 import {
     AddButton,
+    GoButton,
     Navbar,
-    Paginator,
-    PrintButton,
     RefreshButton,
     SeacrhBarFull,
-    SeacrhBarMini,
 } from "../../Components";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function Vendor(props) {
+export default function SaleInvoice(props) {
+    router.reload({ only: ["invoice"] });
+
     const { flash } = usePage().props;
 
     useEffect(() => {
@@ -50,7 +49,7 @@ export default function Vendor(props) {
 
     return (
         <div className="flex flex-row h-screen w-full ">
-            <Head title="Vendor" />
+            <Head title="Sales Invoice" />
             <Navbar />
             <ToastContainer
                 position="top-right"
@@ -64,34 +63,84 @@ export default function Vendor(props) {
                 pauseOnHover
                 theme="light"
             />
-            <div className="flex flex-1 px-5 ml-64 pt-14 flex-col">
-                <SeacrhBarMini placeholder="Search for vendor" />
-                <div className="mt-9 flex flex-row justify-between">
-                    <h1 className="text-3xl font-semibold">Vendor List</h1>
-                    <div className="flex flex-row gap-5">
-                        <RefreshButton />
-                        {/* <PrintButton title="Print Vendor List" /> */}
-                        <AddButton title="Add Vendor" href="/vendor/create" />
+            <div className="flex flex-col flex-1 ml-64 px-5 pt-14">
+                <div className="flex">
+                    <div className="flex flex-row h-11 w-full  gap-5">
+                        <AddButton title="Add New Invoice" href="/sale" />
+                        <RefreshButton only={["invoice"]} />
+                        <SeacrhBarFull placeholder="Search for Sales Invoice" />
                     </div>
                 </div>
 
+                <div className="border-[1.5px] border-black rounded-xl mt-5 px-5 py-8 w-auto ">
+                    <div className="flex flex-row gap-3 text-xl font-semibold">
+                        <img src={SalesInvoiceIcon} className="w-7" />
+                        <h1>Sales Invoice</h1>
+                    </div>
+                    <form className="flex flex-row justify-between gap-6 mt-5">
+                        <div className="flex flex-col gap-2 w-full">
+                            <label htmlFor="item-detail" className="text-sm">
+                                Invoice Date
+                            </label>
+                            <div className="flex flex-row justify-between items-center gap-1 border-[1px] border-black rounded-xl">
+                                <input
+                                    name="item-detail"
+                                    type="date"
+                                    className="w-auto rounded-xl border-none text-center focus:ring-0"
+                                ></input>
+                                <p className="font-light">-</p>
+                                <input
+                                    name="item-detail"
+                                    type="date"
+                                    className="w-auto rounded-xl border-none text-center focus:ring-0"
+                                ></input>
+                            </div>
+                        </div>
+                        <div className="flex flex-col gap-2 w-full">
+                            <label htmlFor="item-detail" className="text-sm">
+                                Customer Name
+                            </label>
+                            <input
+                                name="item-id"
+                                placeholder="Enter Customer Name"
+                                className="w-auto rounded-xl"
+                            ></input>
+                        </div>
+                        <div className="flex flex-col gap-2 w-full">
+                            <label htmlFor="item-detail" className="text-sm">
+                                Status
+                            </label>
+                            <div className="flex flex-row w-full mx-auto gap-2">
+                                <select className="w-full rounded-xl focus:ring-0">
+                                    <option value="unfinish">Unfinish</option>
+                                    <option value="finish">Finish</option>
+                                </select>
+                                <GoButton />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
                 <table className="mt-6">
-                    <thead className="bg-[#B7C9C7] text-center font-semibold">
+                    <thead className="bg-[#B7C9C7] text-center font-bold">
                         <tr>
                             <td className="border-[1.5px] border-black py-3 px-2">
                                 No
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Vendor Name
+                                Sales Invoice No
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Vendor ID
+                                Customer Name
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Phone Number
+                                Description
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Address
+                                Status
+                            </td>
+                            <td className="border-[1.5px] border-black">
+                                Total
                             </td>
                             <td className="border-[1.5px] border-black w-20">
                                 Action
@@ -99,32 +148,38 @@ export default function Vendor(props) {
                         </tr>
                     </thead>
                     <tbody className="text-center">
-                        {props.vendor.data ? (
-                            props.vendor.data.map((vendor, i) => {
+                        {props.invoice.data && props.invoice.data.length > 0 ? (
+                            props.invoice.data.map((data, index) => {
                                 return (
-                                    <tr key={i}>
+                                    <tr key={index}>
                                         <td className="border-[1.5px] border-black py-3 px-2 w-8">
-                                            {i + 1}
+                                            {index + 1}
                                         </td>
                                         <td className="border-[1.5px] border-black">
-                                            {vendor.name}
+                                            {data.invoice_no}
                                         </td>
                                         <td className="border-[1.5px] border-black">
-                                            {vendor.id}
+                                            {data.customer.name}
                                         </td>
                                         <td className="border-[1.5px] border-black">
-                                            {vendor.phone}
+                                            {data.memo}
                                         </td>
                                         <td className="border-[1.5px] border-black">
-                                            <p className="line-clamp-1">
-                                                {vendor.address}
+                                            {data.status}
+                                        </td>
+                                        <td className="border-[1.5px] border-black px-3">
+                                            <p>
+                                                Rp{" "}
+                                                {Number(
+                                                    data.price_total
+                                                ).toLocaleString()}
                                             </p>
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             <div className="flex flex-row gap-2 justify-center">
                                                 <Link
-                                                    href={route("vendor.edit")}
-                                                    data={{ id: vendor.id }}
+                                                    href={route("invoice.edit")}
+                                                    data={{ id: data.id }}
                                                     method="get"
                                                     as="button"
                                                 >
@@ -136,15 +191,15 @@ export default function Vendor(props) {
                                                 </Link>
                                                 <Link
                                                     href={route(
-                                                        "vendor.destroy"
+                                                        "invoice.destroy"
                                                     )}
-                                                    data={{ id: vendor.id }}
+                                                    data={{ id: data.id }}
                                                     method="delete"
                                                     as="button"
                                                     onClick={() => {
                                                         if (
                                                             window.confirm(
-                                                                "Are you sure you want to delete this vendor?"
+                                                                "Are you sure you want to delete this sale order?"
                                                             )
                                                         ) {
                                                             // Delete the customer
@@ -165,7 +220,7 @@ export default function Vendor(props) {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan="6"
+                                    colSpan="7"
                                     className="border-[1.5px] border-black py-3 px-2"
                                 >
                                     No Data
@@ -174,11 +229,6 @@ export default function Vendor(props) {
                         )}
                     </tbody>
                 </table>
-                {props.vendor.total > 10 && (
-                    <div className="flex justify-center mt-5">
-                        <Paginator meta={props.vendor} />
-                    </div>
-                )}
             </div>
         </div>
     );

@@ -5,23 +5,35 @@ import {
     TrashIcon,
 } from "@/Assets";
 import { BackHeader, Navbar } from "../../Components";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import React from "react";
 import Select from "react-select";
+import { ToastContainer, toast } from "react-toastify";
+import { useEffect } from "react";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function SaleCreate(props) {
+export default function SaleEdit(props) {
+    const { flash } = usePage().props;
     console.log(props);
+
     const { data, setData, post, processing, errors } = useForm({
-        partner_id: "",
-        date: "",
-        memo: "",
-        price_total: 0,
-        products: [],
+        id: props.sale.id,
+        partner_id: props.partner || "",
+        date: props.sale.date || "",
+        memo: props.sale.memo || "",
+        price_total: props.sale.price_total || 0,
+        products: props.saleOrderLines || [],
+        status: props.sale.status || "",
     });
 
     function submit(e) {
         e.preventDefault();
-        post("/sale/store");
+        post("/sale/update");
+    }
+
+    function createInvoice(e) {
+        e.preventDefault();
+        post("/invoice/create");
     }
 
     const customers = props.customer;
@@ -40,12 +52,8 @@ export default function SaleCreate(props) {
         default_code: product.default_code,
         label: product.name,
         price: product.sale_price,
-        uom: product.uom,
-        available_stock: product.available_stock,
         discount: 0,
-        discount_percent: 0,
         subtotal: 0,
-        product_quantity: 0,
     }));
 
     const insertProduct = (data) => {
@@ -126,7 +134,8 @@ export default function SaleCreate(props) {
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
-            <div className="flex flex-1 ml-64 ">
+            <ToastContainer />
+            <div className="flex flex-1 ml-64">
                 <div className="pt-14 px-5 w-full">
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row items-center">
@@ -141,7 +150,7 @@ export default function SaleCreate(props) {
                                         Sales Order
                                     </p>
                                     <p className="text-sm">
-                                        Create new sales order
+                                        {props.sale.sale_no}
                                     </p>
                                 </div>
                             </div>
@@ -170,7 +179,6 @@ export default function SaleCreate(props) {
                                             setData("partner_id", e)
                                         }
                                         className="w-auto rounded-xl mt-1"
-                                        // required
                                     />
                                     {errors.partner_id && (
                                         <div>{errors.partner_id}</div>
@@ -207,12 +215,15 @@ export default function SaleCreate(props) {
                                     {errors.memo && <div>{errors.memo}</div>}
                                 </div>
                                 <div className="absolute top-0 right-0 mr-5 mb-5 flex gap-4 mt-14">
-                                    <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
-                                        <img
-                                            src={SalesInvoiceIcon}
-                                            className="w-6"
-                                        />
-                                    </button>
+                                    {data.status == "waiting" && (
+                                        <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
+                                            <img
+                                                src={SalesInvoiceIcon}
+                                                onClick={createInvoice}
+                                                className="w-6"
+                                            />
+                                        </button>
+                                    )}
                                     <button
                                         type="submit"
                                         disabled={processing}
@@ -237,7 +248,9 @@ export default function SaleCreate(props) {
                                     <div className="flex flex-row justify-between border-2 w-full py-1 px-2 rounded-md ">
                                         <p>Rp </p>
                                         <p>
-                                            {data.price_total.toLocaleString()}
+                                            {Number(
+                                                data.price_total
+                                            ).toLocaleString()}
                                         </p>
                                     </div>
                                 </div>
@@ -288,10 +301,7 @@ export default function SaleCreate(props) {
                                                         className="pt-2 px-1"
                                                     >
                                                         <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center">
-                                                            <span className="font-semibold mr-1">
-                                                                {row.label}
-                                                            </span>
-                                                            {/* ({row.batch_no}) */}
+                                                            {row.label}
                                                         </p>
                                                     </td>
                                                     <td className="pt-2 px-1">
@@ -303,6 +313,9 @@ export default function SaleCreate(props) {
                                                         <input
                                                             placeholder="Quantity"
                                                             className="py-2 w-full text-center border-2 border-gray-400 rounded-xl focus:outline-double"
+                                                            value={
+                                                                row.product_quantity
+                                                            }
                                                             onChange={(e) =>
                                                                 insertQuantity(
                                                                     e.target
@@ -318,6 +331,9 @@ export default function SaleCreate(props) {
                                                     <td className="pt-2 px-1">
                                                         <input
                                                             placeholder="Discount (%)"
+                                                            value={
+                                                                row.discount_percent
+                                                            }
                                                             onChange={(e) => {
                                                                 insertDiscount(
                                                                     e.target
@@ -371,7 +387,7 @@ export default function SaleCreate(props) {
                                                     </td>
                                                     <td className="pt-2 px-1">
                                                         <p className="py-2 border-2 border-gray-400 rounded-xl">
-                                                            {row.uom}
+                                                            pcs
                                                         </p>
                                                         {errors.product_quantity && (
                                                             <div>

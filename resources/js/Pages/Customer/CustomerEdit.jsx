@@ -18,12 +18,12 @@ export default function CustomerEdit(props) {
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
-            <div className="flex flex-1 px-5 pt-14 flex-col">
+            <div className="flex flex-1 px-5 pt-14 ml-64 flex-col">
                 <div>
                     <div className="w-full">
                         <BackHeader
                             label="Back to Customer List"
-                            title="Add a new Customer"
+                            title="Edit Customer Profile"
                             href="/customer"
                         />
                     </div>
@@ -84,18 +84,21 @@ export default function CustomerEdit(props) {
                                     }
                                 />
                                 {errors.address && <div>{errors.address}</div>}
-                                <button type="submit" disabled={processing}>
-                                    Save
-                                </button>
                             </div>
                             <div className="flex flex-col w-1/2 gap-4"></div>
                             <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
                                 <TextButton
                                     title="Cancel"
                                     bgColor="#ffffff"
-                                    onClick="back"
+                                    href="/customer"
                                 />
-                                <TextButton title="Save" bgColor="#CCE5E3" />
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="flex flex-row gap-2 py-3 px-10 border-[1.5px] border-black rounded-xl h-12 min-w-fit place-items-center bg-[#CCE5E3]"
+                                >
+                                    Update
+                                </button>
                             </div>
                         </form>
                     </div>

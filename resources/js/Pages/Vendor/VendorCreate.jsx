@@ -16,7 +16,7 @@ export default function VendorCreate(props) {
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
-            <div className="flex flex-1 px-5 pt-14 flex-col">
+            <div className="flex flex-1 px-5 ml-64 pt-14 flex-col">
                 <div>
                     <div className="w-full">
                         <BackHeader

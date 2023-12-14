@@ -1,7 +1,10 @@
 import { BackHeader, FormInput, Navbar, TextButton } from "../../Components";
 import { useForm } from "@inertiajs/react";
+import React from "react";
+import Select from "react-select";
 
 export default function InventoryCreate(props) {
+    console.log(props);
     const { data, setData, post, processing, errors } = useForm({
         name: "",
         purchase_price: "",
@@ -10,8 +13,8 @@ export default function InventoryCreate(props) {
         barcode_no: "",
         batch_no: "",
         available_stock: "",
-        uom: "",
         vendor_id: "",
+        uom: "",
     });
 
     function submit(e) {
@@ -19,10 +22,17 @@ export default function InventoryCreate(props) {
         post("/inventory/store");
     }
 
+    const vendors = props.vendor;
+
+    const vendorOptions = vendors.map((vendor) => ({
+        value: vendor.id,
+        label: vendor.name,
+    }));
+
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
-            <div className="flex flex-1 px-5 pt-14 flex-col">
+            <div className="flex flex-1 ml-64 px-5 pt-14 flex-col">
                 <div>
                     <div className="w-full">
                         <BackHeader
@@ -34,10 +44,10 @@ export default function InventoryCreate(props) {
 
                     <div className="mt-5 flex w-full">
                         <form
-                            className="flex flex-col md:flex-row md:gap-0 gap-4 justify-between w-full"
+                            className="flex flex-row md:flex-row md:gap-0 gap-4 justify-between w-full"
                             onSubmit={submit}
                         >
-                            <div className="flex flex-col gap-4 w-1/2 pr-7">
+                            <div className="flex flex-col gap-4 w-full pr-7">
                                 <FormInput
                                     label="Item Name"
                                     placeholder="Enter Item Name"
@@ -53,6 +63,7 @@ export default function InventoryCreate(props) {
                                     placeholder="Enter Purchase Price"
                                     name="purchase-price"
                                     value={data.purchase_price}
+                                    type="number"
                                     onChange={(e) =>
                                         setData(
                                             "purchase_price",
@@ -67,6 +78,7 @@ export default function InventoryCreate(props) {
                                     label="Sale Price"
                                     placeholder="Enter Sale Price"
                                     name="sale-price"
+                                    type="number"
                                     value={data.sale_price}
                                     onChange={(e) =>
                                         setData("sale_price", e.target.value)
@@ -87,6 +99,18 @@ export default function InventoryCreate(props) {
                                 {errors.default_code && (
                                     <div>{errors.default_code}</div>
                                 )}
+                                <FormInput
+                                    label="Unit of Measure"
+                                    placeholder="Enter Unit of Measure"
+                                    name="default-code"
+                                    value={data.uom}
+                                    onChange={(e) =>
+                                        setData("uom", e.target.value)
+                                    }
+                                />
+                                {errors.uom && <div>{errors.uom}</div>}
+                            </div>
+                            <div className="flex flex-col gap-4 w-full pr-7">
                                 <FormInput
                                     label="Barcode No"
                                     placeholder="Enter Barcode No"
@@ -126,7 +150,7 @@ export default function InventoryCreate(props) {
                                 {errors.available_stock && (
                                     <div>{errors.available_stock}</div>
                                 )}
-                                <FormInput
+                                {/* <FormInput
                                     label="UOM"
                                     placeholder="Enter UOM"
                                     name="uom"
@@ -135,44 +159,67 @@ export default function InventoryCreate(props) {
                                         setData("uom", e.target.value)
                                     }
                                 />
-                                {errors.uom && <div>{errors.uom}</div>}
-                                <label htmlFor="vendor_id">Vendor</label>
-                                <select
-                                    id="vendor_id"
-                                    name="vendor_id"
-                                    value={data.vendor_id}
-                                    onChange={(e) =>
-                                        setData("vendor_id", e.target.selected)
-                                    }
-                                >
-                                    {props.vendor.map((vendor) => (
-                                        <option
-                                            key={vendor.id}
-                                            value={vendor.id}
-                                        >
-                                            {vendor.name}
-                                        </option>
-                                    ))}
-                                </select>
-                                {errors.vendor_id && (
-                                    <div>{errors.vendor_id}</div>
-                                )}
-                                <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
-                                    <TextButton
-                                        title="Cancel"
-                                        bgColor="#ffffff"
-                                        onClick="back"
-                                    />
-                                    <button
-                                        type="submit"
-                                        disabled={processing}
-                                        className="flex flex-row gap-2 py-3 px-10 border-[1.5px] border-black rounded-xl h-12 min-w-fit place-items-center bg-[#CCE5E3]"
+                                {errors.uom && <div>{errors.uom}</div>} */}
+                                <div>
+                                    <label
+                                        htmlFor="vendor_id"
+                                        className="font-semibold text-sm"
                                     >
-                                        Add
-                                    </button>
+                                        <p>Vendor</p>
+                                    </label>
+                                    {/* <select
+                                        id="vendor_id"
+                                        name="vendor_id"
+                                        value={data.vendor_id}
+                                        onChange={(e) =>
+                                            setData(
+                                                "vendor_id",
+                                                e.target.selected
+                                            )
+                                        }
+                                        className="w-full rounded-md mt-2"
+                                    >
+                                        {props.vendor.map((vendor) => (
+                                            <option
+                                                key={vendor.id}
+                                                value={vendor.id}
+                                            >
+                                                {vendor.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    {errors.vendor_id && (
+                                        <div>{errors.vendor_id}</div>
+                                    )} */}
+                                    <Select
+                                        name="vendor_id"
+                                        options={vendorOptions}
+                                        placeholder="Select Vendor..."
+                                        value={data.vendor_id}
+                                        onChange={(e) =>
+                                            setData("vendor_id", e)
+                                        }
+                                        className="w-auto rounded-xl mt-2"
+                                    />
+                                    {errors.vendor_id && (
+                                        <div>{errors.vendor_id}</div>
+                                    )}
                                 </div>
                             </div>
-                            <div className="flex flex-col w-1/2 gap-4"></div>
+                            <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
+                                <TextButton
+                                    title="Cancel"
+                                    bgColor="#ffffff"
+                                    href="/inventory"
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={processing}
+                                    className="flex flex-row gap-2 py-3 px-10 border-[1.5px] border-black rounded-xl h-12 min-w-fit place-items-center bg-[#CCE5E3]"
+                                >
+                                    Add
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>

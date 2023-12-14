@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('sale_invoices', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('partner_id')->constrained('customers')->onUpdate('cascade')->onDelete('cascade'); // 'customers' is the table name of 'partners
+            $table->string('invoice_no')->unique();
+            $table->date('date');
+            $table->string('price_total');
+            $table->string('memo')->nullable();
+            $table->enum('status', ['unfinish', 'finish'])->default('unfinish');
             $table->timestamps();
         });
     }

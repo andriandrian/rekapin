@@ -24,7 +24,7 @@ export default function InventoryStock({ auth }) {
                     </div>
 
                     <div className="border-[1.5px] border-[#6D7A79] rounded-xl mt-5 px-5 py-8 w-auto ">
-                        <form className="flex flex-row justify-between gap-6">
+                        <form className="flex flex-row ml-64 justify-between gap-6">
                             <div className="flex flex-col gap-2 w-full">
                                 <label
                                     htmlFor="item-detail"
