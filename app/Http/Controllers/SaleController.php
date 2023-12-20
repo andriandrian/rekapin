@@ -7,17 +7,20 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\Sale;
 use App\Models\SaleOrderLine;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class SaleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         return Inertia::render('Sale/Sale', [
             'title' => 'Sale',
             'active' => 'sale',
-            'sale' => Sale::paginate(10),
+            'sale' => Sale::search($request->search)->orderBy('date', 'asc')
+                ->query(fn (Builder $query) => $query->with('customer')->orderBy('date', 'asc'))
+                ->paginate(10),
         ]);
     }
 
@@ -129,7 +132,6 @@ class SaleController extends Controller
 
     public function update(Request $request)
     {
-        dd($request->all());
         $rules = [
             'partner_id' => 'required',
             'date' => 'required',
@@ -152,27 +154,30 @@ class SaleController extends Controller
 
         try {
             $newSale = Sale::find($request->id)->update([
-                'partner_id' => $request->partner_id["value"],
+                'partner_id' => $request->partner_id['value'],
                 'date' => $request->date,
                 'price_total' => $request->price_total,
                 'memo' => $request->memo,
             ]);
-            // dd($request->all());
 
             foreach ($request->products as $product) {
-                if ($product['id'] == null) {
+                // dd(request()->all());
+                $saleOrderLine = SaleOrderLine::where('sale_id', $request->id)->where('product_id', $product['product_id'])->first();
+                // dd($saleOrderLine);
+                if ($saleOrderLine == null) {
                     SaleOrderLine::create([
-                        'sale_id' => $newSale->id,
+                        'sale_id' => $request->id,
                         'product_id' => $product['value'],
                         'product_quantity' => $product['product_quantity'],
                         'discount' => $product['discount'],
                         'discount_percent' => $product['discount_percent'],
                         'subtotal' => $product['subtotal'],
                     ]);
+
+                    // $selectedProduct = Product::find($product['value']);
+                    // $updatedStock = (int)$selectedProduct['available_stock'] - (int)$product['product_quantity'];
+                    // Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
                 } else {
-                    // find sale order line with sale id and product id
-                    $saleOrderLine = SaleOrderLine::where('sale_id', $request->id)->where('product_id', $product['value'])->first();
-                    // update sale order line
                     $saleOrderLine->update([
                         'product_quantity' => $product['product_quantity'],
                         'discount' => $product['discount'],
@@ -180,10 +185,6 @@ class SaleController extends Controller
                         'subtotal' => $product['subtotal'],
                     ]);
                 }
-
-                $selectedProduct = Product::find($product['value']);
-                $updatedStock = (int)$selectedProduct['available_stock'] - (int)$product['product_quantity'];
-                Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
             }
 
             DB::commit();
@@ -191,7 +192,7 @@ class SaleController extends Controller
             return redirect()->route('sale.index')->with('success', 'Sale created successfully.');
         } catch (\Exception $e) {
             DB::rollback();
-            // dd($e->getMessage());
+            dd($e->getMessage());
 
             return redirect()->back()->with('error', 'Sale failed to create.');
         }

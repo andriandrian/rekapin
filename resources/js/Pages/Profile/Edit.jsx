@@ -6,7 +6,7 @@ import { Head, Link } from "@inertiajs/react";
 import { Navbar } from "@/Components";
 
 export default function Edit({ auth, mustVerifyEmail, status }) {
-    console.log(auth);
+    // console.log(auth);
     return (
         <div
         // user={auth.user}

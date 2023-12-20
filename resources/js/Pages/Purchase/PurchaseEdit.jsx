@@ -1,4 +1,4 @@
-import { PurchasingIcon, SaveIcon, TrashIcon } from "@/Assets";
+import { CheckIcon, PurchasingIcon, SaveIcon, TrashIcon } from "@/Assets";
 import {
     BackHeader,
     CheckButton,
@@ -14,10 +14,12 @@ import Select from "react-select";
 
 export default function Edit(props) {
     const { data, setData, post, processing, errors } = useForm({
+        id: props.purchase.id || "",
         partner_id: props.partner || "",
         date: props.purchase.date || "",
         memo: props.purchase.memo || "",
         price_total: props.purchase.price_total || 0,
+        status: props.purchase.status || "",
         products: props.purchaseOrderLines || [],
     });
 
@@ -122,6 +124,12 @@ export default function Edit(props) {
             price_total: total,
         }));
     };
+
+    function setFinish(e) {
+        e.preventDefault();
+        post("/purchase/status");
+    }
+
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
@@ -146,7 +154,26 @@ export default function Edit(props) {
                             </div>
                         </div>
                         <div className="flex flex-row align-middle gap-3">
-                            <SaveButton />
+                            <div className="absolute top-0 right-0 mr-5 mb-5 flex gap-4 mt-14">
+                                {data.status == "Unpaid" && (
+                                    <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
+                                        <img
+                                            src={CheckIcon}
+                                            onClick={setFinish}
+                                            className="w-6"
+                                        />
+                                    </button>
+                                )}
+                                {data.status == "Unpaid" && (
+                                    <button
+                                        type="submit"
+                                        disabled={processing}
+                                        className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16"
+                                    >
+                                        <img src={SaveIcon} className="w-6" />
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
 
@@ -206,30 +233,17 @@ export default function Edit(props) {
                                     ></input>
                                     {errors.memo && <div>{errors.memo}</div>}
                                 </div>
-                                <div className="absolute top-0 right-0 mr-5 mb-5 flex gap-4 mt-14">
-                                    {/* <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
-                                        <img
-                                            src={SalesInvoiceIcon}
-                                            className="w-6"
-                                        />
-                                    </button> */}
-                                    <button
-                                        type="submit"
-                                        disabled={processing}
-                                        className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16"
-                                    >
-                                        <img src={SaveIcon} className="w-6" />
-                                    </button>
-                                </div>
                             </div>
                             <div className="mt-4 flex flex-roW gap-4">
-                                <Select
-                                    name="product"
-                                    options={productOptions}
-                                    placeholder="Insert Product..."
-                                    onChange={(e) => insertProduct(e)}
-                                    className="w-full rounded-xl mt-1"
-                                />
+                                {props.purchase.status == "Unpaid" && (
+                                    <Select
+                                        name="product"
+                                        options={productOptions}
+                                        placeholder="Insert Product..."
+                                        onChange={(e) => insertProduct(e)}
+                                        className="w-full rounded-xl mt-1"
+                                    />
+                                )}
                                 <div className="flex flex-row justify-between w-1/3 self-center gap-2">
                                     <p className="min-w-fit self-center">
                                         Total Price
@@ -268,7 +282,9 @@ export default function Edit(props) {
                                         <td className="px-3 border-2 border-black">
                                             Total
                                         </td>
-                                        <td className="px-3 border-2 border-black w-14"></td>
+                                        {props.purchase.status == "Unpaid" && (
+                                            <td className="px-3 border-2 border-black w-14"></td>
+                                        )}
                                     </tr>
                                 </thead>
                                 <tbody className="gap-2">
@@ -303,6 +319,8 @@ export default function Edit(props) {
                                                     </td>
                                                     <td className="pt-2 px-1">
                                                         <input
+                                                            type="number"
+                                                            min={0}
                                                             placeholder="Quantity"
                                                             className="py-2 w-full text-center border-2 border-gray-400 rounded-xl focus:outline-double"
                                                             value={
@@ -321,6 +339,9 @@ export default function Edit(props) {
                                                     </td>
                                                     <td className="pt-2 px-1">
                                                         <input
+                                                            type="number"
+                                                            min={0}
+                                                            max={100}
                                                             placeholder="Discount (%)"
                                                             value={
                                                                 row.discount_percent
@@ -349,26 +370,31 @@ export default function Edit(props) {
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td
-                                                        className="mx-auto h-full pt-2 px-1"
-                                                        rowSpan="2"
-                                                    >
-                                                        <div
-                                                            onClick={(
-                                                                index
-                                                            ) => {
-                                                                deleteRows(
-                                                                    index
-                                                                );
-                                                            }}
-                                                            className="flex justify-center py-2 border-2 border-gray-400 rounded-xl h-full"
+                                                    {props.purchase.status ==
+                                                        "Unpaid" && (
+                                                        <td
+                                                            className="mx-auto h-full pt-2 px-1"
+                                                            rowSpan="2"
                                                         >
-                                                            <img
-                                                                className="w-4"
-                                                                src={TrashIcon}
-                                                            />
-                                                        </div>
-                                                    </td>
+                                                            <div
+                                                                onClick={(
+                                                                    index
+                                                                ) => {
+                                                                    deleteRows(
+                                                                        index
+                                                                    );
+                                                                }}
+                                                                className="flex justify-center py-2 border-2 border-gray-400 rounded-xl h-full"
+                                                            >
+                                                                <img
+                                                                    className="w-4"
+                                                                    src={
+                                                                        TrashIcon
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </td>
+                                                    )}
                                                 </tr>
                                                 <tr>
                                                     <td className="pt-2 px-1">

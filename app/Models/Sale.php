@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Sale extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     // protected $fillable = [
     //     'partner_id',
@@ -54,5 +55,12 @@ class Sale extends Model
         static::creating(function ($sale) {
             $sale->sale_no = self::generateSaleNumber();
         });
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'sale_no' => $this->sale_no,
+        ];
     }
 }

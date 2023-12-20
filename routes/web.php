@@ -51,7 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // CUSTOMER ========================================
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
+    Route::get('/customer', [CustomerController::class, 'index'])->name('customer');
     Route::get('/customer/create', [CustomerController::class, 'create'])->name('customer.create');
     Route::post('/customer/store', [CustomerController::class, 'store'])->name('customer.store');
     Route::get('/customer/edit', [CustomerController::class, 'edit'])->name('customer.edit');
@@ -62,7 +62,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // INVENTORY ========================================
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/inventory', [ProductController::class, 'index'])->name('product.index');
+    Route::get('/inventory', [ProductController::class, 'index'])->name('inventory');
     Route::get('/inventory/create', [ProductController::class, 'create'])->name('product.create');
     Route::post('/inventory/store', [ProductController::class, 'store'])->name('product.store');
     Route::get('/inventory/edit', [ProductController::class, 'edit'])->name('product.edit');
@@ -73,7 +73,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // VENDOR ========================================
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/vendor', [VendorController::class, 'index'])->name('vendor.index');
+    Route::get('/vendor', [VendorController::class, 'index'])->name('vendor');
     Route::get('/vendor/create', [VendorController::class, 'create'])->name('vendor.create');
     Route::post('/vendor/store', [VendorController::class, 'store'])->name('vendor.store');
     Route::get('/vendor/edit', [VendorController::class, 'edit'])->name('vendor.edit');
@@ -84,13 +84,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // SALES ========================================
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/sale', [SaleController::class, 'index'])->name('sale.index');
+    Route::get('/sale', [SaleController::class, 'index'])->name('sale');
     Route::get('/sale/create', [SaleController::class, 'create'])->name('sale.create');
     Route::post('/sale/store', [SaleController::class, 'store'])->name('sale.store');
     Route::get('/sale/edit', [SaleController::class, 'edit'])->name('sale.edit');
     Route::post('/sale/update', [SaleController::class, 'update'])->name('sale.update');
     Route::delete('/sale/delete', [SaleController::class, 'destroy'])->name('sale.destroy');
     Route::post('/invoice/create', [SaleInvoiceController::class, 'create'])->name('invoice.create');
+    Route::post('/invoice/status', [SaleInvoiceController::class, 'status'])->name('invoice.status');
     Route::get('/invoice', [SaleInvoiceController::class, 'index'])->name('invoice.index');
     Route::get('/invoice/edit', [SaleInvoiceController::class, 'edit'])->name('invoice.edit');
     Route::delete('/invoice/delete', [SaleInvoiceController::class, 'destroy'])->name('invoice.destroy');
@@ -99,11 +100,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 // PURCHASE ========================================
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/purchase', [PurchaseController::class, 'index'])->name('purchase.index');
+    Route::get('/purchase', [PurchaseController::class, 'index'])->name('purchase');
     Route::get('/purchase/create', [PurchaseController::class, 'create'])->name('purchase.create');
     Route::post('/purchase/store', [PurchaseController::class, 'store'])->name('purchase.store');
     Route::get('/purchase/edit', [PurchaseController::class, 'edit'])->name('purchase.edit');
     Route::post('/purchase/update', [PurchaseController::class, 'update'])->name('purchase.update');
+    Route::post('/purchase/status', [PurchaseController::class, 'status'])->name('purchase.status');
     Route::delete('/purchase/delete', [PurchaseController::class, 'destroy'])->name('purchase.destroy');
 });
 

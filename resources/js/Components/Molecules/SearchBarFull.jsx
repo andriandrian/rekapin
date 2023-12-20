@@ -7,6 +7,11 @@ export function SeacrhBarFull(props) {
             <input
                 placeholder={props.placeholder}
                 className="w-full border-none focus:ring-0"
+                label="Search"
+                name="search"
+                type="text"
+                value={props.value}
+                onChange={props.onChange}
             ></input>
         </div>
     );

@@ -4,18 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Vendor;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $products = Product::paginate(10);
         return Inertia::render('Inventory/Inventory', [
             'title' => 'Inventory',
             'active' => 'inventory',
-            'product' => $products,
+            'product' => Product::search($request->search)
+                ->query(fn (Builder $query) => $query->with('vendor')->orderBy('name', 'asc'))
+                ->paginate(10),
         ]);
     }
 
@@ -55,7 +57,7 @@ class ProductController extends Controller
             'uom' => $request->uom,
         ]);
 
-        return redirect()->route('product.index')->with(['message' => [
+        return redirect()->route('inventory')->with(['message' => [
             'type' => 'success',
             'text' => 'Product created successfully.',
             'button' => 'OK!',
@@ -107,12 +109,16 @@ class ProductController extends Controller
             'uom' => $request->uom,
         ]);
 
-        return redirect()->route('product.index');
+        return redirect()->route('inventory');
     }
 
     public function destroy(Request $request)
     {
         Product::find($request->id)->delete();
-        return redirect()->route('product.index');
+        return redirect()->route('inventory')->with(['message' => [
+            'type' => 'success',
+            'text' => 'Product deleted successfully.',
+            'button' => 'OK!',
+        ]]);;
     }
 }

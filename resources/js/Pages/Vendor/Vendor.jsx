@@ -14,13 +14,32 @@ import {
     SeacrhBarFull,
     SeacrhBarMini,
 } from "../../Components";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Vendor(props) {
     const { flash } = usePage().props;
+    const [search, setSearch] = useState("");
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        getData();
+    };
+
+    const getData = () => {
+        router.get(
+            route().current(),
+            {
+                search: search,
+            },
+            {
+                preserveScroll: true,
+                preserveState: true,
+            }
+        );
+    };
 
     useEffect(() => {
         if (flash.message?.type == "success") {
@@ -65,7 +84,20 @@ export default function Vendor(props) {
                 theme="light"
             />
             <div className="flex flex-1 px-5 ml-64 pt-14 flex-col">
-                <SeacrhBarMini placeholder="Search for vendor" />
+                <form onSubmit={handleSearch}>
+                    <SeacrhBarMini
+                        // className="w-full"
+                        placeholder="Search Vendor"
+                        label="Search"
+                        name="search"
+                        type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <button type="submit" className="hidden">
+                        Search
+                    </button>
+                </form>
                 <div className="mt-9 flex flex-row justify-between">
                     <h1 className="text-3xl font-semibold">Vendor List</h1>
                     <div className="flex flex-row gap-5">
@@ -85,48 +117,49 @@ export default function Vendor(props) {
                                 Vendor Name
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Vendor ID
+                                Phone Number
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Phone Number
+                                Email
                             </td>
                             <td className="border-[1.5px] border-black">
                                 Address
                             </td>
-                            <td className="border-[1.5px] border-black w-20">
+                            <td className="border-[1.5px] border-black">
                                 Action
                             </td>
                         </tr>
                     </thead>
                     <tbody className="text-center">
-                        {props.vendor.data ? (
+                        {props.vendor.data && props.vendor.data.length > 0 ? (
                             props.vendor.data.map((vendor, i) => {
                                 return (
                                     <tr key={i}>
                                         <td className="border-[1.5px] border-black py-3 px-2 w-8">
-                                            {i + 1}
+                                            {props.vendor.from + i}
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {vendor.name}
                                         </td>
                                         <td className="border-[1.5px] border-black">
-                                            {vendor.id}
+                                            {vendor.phone}
                                         </td>
                                         <td className="border-[1.5px] border-black">
-                                            {vendor.phone}
+                                            {vendor.email}
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             <p className="line-clamp-1">
                                                 {vendor.address}
                                             </p>
                                         </td>
-                                        <td className="border-[1.5px] border-black">
+                                        <td className="border-[1.5px] border-black px-2 w-24">
                                             <div className="flex flex-row gap-2 justify-center">
                                                 <Link
                                                     href={route("vendor.edit")}
                                                     data={{ id: vendor.id }}
                                                     method="get"
                                                     as="button"
+                                                    className="border-[1.5px] border-black rounded-md px-2 py-1 bg-[#b7c9c7] hover:bg-[#8fa4a1] transition duration-300 ease-in-out text-white"
                                                 >
                                                     <img
                                                         src={EditIcon}
@@ -141,6 +174,7 @@ export default function Vendor(props) {
                                                     data={{ id: vendor.id }}
                                                     method="delete"
                                                     as="button"
+                                                    className="border-[1.5px] border-black rounded-md px-2 py-1 bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out text-white"
                                                     onClick={() => {
                                                         if (
                                                             window.confirm(

@@ -7,6 +7,11 @@ export function SeacrhBarMini(props) {
             <input
                 placeholder={props.placeholder}
                 className="w-full border-none text-[12px] focus:ring-0"
+                label="Search"
+                name="search"
+                type="text"
+                value={props.value}
+                onChange={props.onChange}
             ></input>
         </div>
     );

@@ -41,7 +41,8 @@ export default function PurchaseCreate(props) {
         barcode_no: product.barcode_no,
         default_code: product.default_code,
         label: product.name,
-        price: product.sale_price,
+        price: product.purchase_price,
+        uom: product.uom,
         discount: 0,
         discount_percent: 0,
         subtotal: 0,
@@ -291,7 +292,6 @@ export default function PurchaseCreate(props) {
                                                             <span className="font-semibold mr-1">
                                                                 {row.label}
                                                             </span>
-                                                            ({row.batch_no})
                                                         </p>
                                                     </td>
                                                     <td className="pt-2 px-1">
@@ -301,6 +301,8 @@ export default function PurchaseCreate(props) {
                                                     </td>
                                                     <td className="pt-2 px-1">
                                                         <input
+                                                            type="number"
+                                                            min={0}
                                                             placeholder="Quantity"
                                                             className="py-2 w-full text-center border-2 border-gray-400 rounded-xl focus:outline-double"
                                                             onChange={(e) =>
@@ -317,6 +319,9 @@ export default function PurchaseCreate(props) {
                                                     </td>
                                                     <td className="pt-2 px-1">
                                                         <input
+                                                            type="number"
+                                                            min={0}
+                                                            max={100}
                                                             placeholder="Discount (%)"
                                                             onChange={(e) => {
                                                                 insertDiscount(
@@ -371,7 +376,7 @@ export default function PurchaseCreate(props) {
                                                     </td>
                                                     <td className="pt-2 px-1">
                                                         <p className="py-2 border-2 border-gray-400 rounded-xl">
-                                                            pcs
+                                                            {row.uom}
                                                         </p>
                                                         {errors.product_quantity && (
                                                             <div>

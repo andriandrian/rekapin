@@ -68,7 +68,7 @@ class SaleInvoiceController extends Controller
                 // $updatedStock = (int)$selectedProduct['available_stock'] - (int)$product['product_quantity'];
                 // Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
             }
-            Sale::where('id', $request->id)->update(['status' => 'proceed']);
+            Sale::where('id', $request->id)->update(['status' => 'Proceed']);
 
             DB::commit();
 
@@ -116,11 +116,22 @@ class SaleInvoiceController extends Controller
         ]);
     }
 
+    public function status(Request $request)
+    {
+        // dd($request->all());
+        SaleInvoice::where('id', $request->id)->update(['status' => 'Finish']);
+        return redirect()->route('invoice.index')->with(['message' => [
+            'type' => 'success',
+            'text' => 'Sale Invoice status updated successfully.',
+            'button' => 'OK!',
+        ]]);
+    }
+
     public function destroy(Request $request)
     {
         SaleInvoice::find($request->id)->delete();
         // delete order line
         SaleInvoiceOrderLine::where('invoice_id', $request->id)->delete();
-        return redirect()->route('sale.index');
+        return redirect()->route('sale');
     }
 }

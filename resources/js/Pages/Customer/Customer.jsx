@@ -6,14 +6,35 @@ import {
     SeacrhBarMini,
     Paginator,
 } from "../../Components";
-import { Link, Head, usePage } from "@inertiajs/react";
+import { Link, Head, usePage, router } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { DeleteIcon, EditIcon } from "@/Assets";
 
 export default function Customer(props) {
     const { flash } = usePage().props;
+    const [search, setSearch] = useState("");
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        getData();
+        // window.location.href = `/inventory?search=${search.current.value}`;
+    };
+
+    const getData = () => {
+        router.get(
+            route().current(),
+            {
+                search: search,
+            },
+            {
+                preserveScroll: true,
+                preserveState: true,
+            }
+        );
+    };
+
     useEffect(() => {
         if (flash.message?.type == "success") {
             toast.success(flash.message.text, {
@@ -57,7 +78,20 @@ export default function Customer(props) {
                 theme="light"
             />
             <div className="flex flex-1 px-5 ml-64 pt-14 flex-col">
-                <SeacrhBarMini placeholder="Search for Customer" />
+                <form onSubmit={handleSearch}>
+                    <SeacrhBarMini
+                        // className="w-full"
+                        placeholder="Search Customer"
+                        label="Search"
+                        name="search"
+                        type="text"
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <button type="submit" className="hidden">
+                        Search
+                    </button>
+                </form>
                 <div className="mt-9 flex flex-row justify-between">
                     <h1 className="text-3xl font-semibold">Customer List</h1>
                     <div className="flex flex-row gap-5">
@@ -79,11 +113,11 @@ export default function Customer(props) {
                             <td className="border-[1.5px] border-black">
                                 Customer Name
                             </td>
-                            {/* <td className="border-[1.5px] border-black">
-                                Customer ID
-                            </td> */}
                             <td className="border-[1.5px] border-black">
                                 Phone Number
+                            </td>
+                            <td className="border-[1.5px] border-black">
+                                Email
                             </td>
                             <td className="border-[1.5px] border-black">
                                 Address
@@ -99,21 +133,21 @@ export default function Customer(props) {
                                 return (
                                     <tr key={i}>
                                         <td className="border-[1.5px] border-black py-3 px-2">
-                                            {i + 1}
+                                            {props.customer.from + i}
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {data.name}
                                         </td>
-                                        {/* <td className="border-[1.5px] border-black">
-                                            {data.name}
-                                        </td> */}
                                         <td className="border-[1.5px] border-black">
                                             {data.phone}
                                         </td>
                                         <td className="border-[1.5px] border-black">
-                                            {data.address}
+                                            {data.email}
                                         </td>
                                         <td className="border-[1.5px] border-black">
+                                            {data.address}
+                                        </td>
+                                        <td className="border-[1.5px] border-black px-2 w-24">
                                             <div className="flex flex-row gap-2 justify-center">
                                                 <Link
                                                     href={route(
@@ -122,6 +156,7 @@ export default function Customer(props) {
                                                     data={{ id: data.id }}
                                                     method="get"
                                                     as="button"
+                                                    className="border-[1.5px] border-black rounded-md px-2 py-1 bg-[#b7c9c7] hover:bg-[#8fa4a1] transition duration-300 ease-in-out text-white"
                                                 >
                                                     <img
                                                         src={EditIcon}
@@ -137,6 +172,7 @@ export default function Customer(props) {
                                                     data={{ id: data.id }}
                                                     method="delete"
                                                     as="button"
+                                                    className="border-[1.5px] border-black rounded-md px-2 py-1 bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out text-white"
                                                     onClick={() => {
                                                         if (
                                                             window.confirm(

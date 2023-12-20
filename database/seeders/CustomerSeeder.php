@@ -49,19 +49,19 @@ class CustomerSeeder extends Seeder
             'address' => 'Jl. Raya No. 5',
         ]);
 
-        $customersData = [];
+        // $customersData = [];
 
-        for ($i = 1; $i <= 25; $i++) {
-            $customersData[] = [
-                'name' => "Customer $i",
-                'phone' => '081234567890',
-                'email' => "customer$i@mail.com",
-                'address' => "Jl. Raya No. $i",
-            ];
-        }
+        // for ($i = 1; $i <= 25; $i++) {
+        //     $customersData[] = [
+        //         'name' => "Customer $i",
+        //         'phone' => '081234567890',
+        //         'email' => "customer$i@mail.com",
+        //         'address' => "Jl. Raya No. $i",
+        //     ];
+        // }
 
-        foreach ($customersData as $customer) {
-            Customer::create($customer);
-        }
+        // foreach ($customersData as $customer) {
+        //     Customer::create($customer);
+        // }
     }
 }

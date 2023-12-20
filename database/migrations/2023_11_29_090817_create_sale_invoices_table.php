@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->string('price_total');
             $table->string('memo')->nullable();
-            $table->enum('status', ['unfinish', 'finish'])->default('unfinish');
+            $table->enum('status', ['Unfinish', 'Finish'])->default('Unfinish');
             $table->timestamps();
         });
     }

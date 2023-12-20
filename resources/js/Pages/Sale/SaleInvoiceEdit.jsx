@@ -1,4 +1,4 @@
-import { SalesInvoiceIcon, TrashIcon } from "@/Assets";
+import { CheckIcon, SalesInvoiceIcon, TrashIcon } from "@/Assets";
 import {
     BackHeader,
     CheckButton,
@@ -14,14 +14,21 @@ import Select from "react-select";
 
 export default function SaleInvoiceEdit(props) {
     console.log(props);
-
     const { data, setData, post, processing, errors } = useForm({
+        id: props.invoice.id || "",
         partner_id: props.partner || "",
         date: props.invoice.date || "",
         memo: props.invoice.memo || "",
         price_total: props.invoice.price_total || 0,
         products: props.saleOrderLines || [],
+        status: props.invoice.status || "",
     });
+
+    function setFinish(e) {
+        e.preventDefault();
+        post("/invoice/status");
+    }
+
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
@@ -29,7 +36,7 @@ export default function SaleInvoiceEdit(props) {
                 <div className="pt-14 px-5 w-full">
                     <div className="flex flex-row justify-between">
                         <div className="flex flex-row items-center">
-                            <BackHeader href="/sales-invoice" />
+                            <BackHeader href="/invoice" />
                             <div className="flex flex-row items-center gap-3">
                                 <img
                                     src={SalesInvoiceIcon}
@@ -46,14 +53,23 @@ export default function SaleInvoiceEdit(props) {
                             </div>
                         </div>
                         <div className="flex flex-row align-middle gap-3">
-                            <CheckButton />
+                            {/* <CheckButton onClick={setFinish} /> */}
+                            {data.status == "Unfinish" && (
+                                <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
+                                    <img
+                                        src={CheckIcon}
+                                        onClick={setFinish}
+                                        className="w-6"
+                                    />
+                                </button>
+                            )}
                             {/* <SaveButton /> */}
                         </div>
                     </div>
 
                     <div className="border-[1.5px] border-[#6D7A79] rounded-xl mt-5 px-5 py-8 w-auto ">
                         <form className="flex flex-row justify-between gap-6">
-                            <div className="flex flex-col gap-2 w-full">
+                            {/* <div className="flex flex-col gap-2 w-full">
                                 <label className="text-sm">Customer</label>
                                 <input
                                     name="item-detail"
@@ -70,20 +86,52 @@ export default function SaleInvoiceEdit(props) {
                                     className="w-auto rounded-xl"
                                     value={data.date}
                                 ></input>
+                            </div> */}
+                            <div className="flex flex-col gap-2 w-full">
+                                <label className="text-sm">Customer</label>
+                                <p
+                                    name="vendor-name"
+                                    className="w-auto rounded-xl border-[1px] border-gray-400 px-3 py-2"
+                                >
+                                    {data.partner_id.label}
+                                </p>
+                            </div>
+                            <div className="flex flex-col gap-2 w-full">
+                                <label className="text-sm">Order Date</label>
+                                <p
+                                    name="vendor-name"
+                                    className="w-auto rounded-xl border-[1px] border-gray-400 px-3 py-2"
+                                >
+                                    {data.date}
+                                </p>
                             </div>
                             <div className="flex flex-col gap-2 w-full">
                                 <label className="text-sm">Memo</label>
                                 <p
                                     name="vendor-name"
-                                    className="w-auto rounded-xl border-2 border-gray-400 px-3 py-2"
+                                    className="w-auto rounded-xl border-[1px] border-gray-400 px-3 py-2"
                                 >
                                     {data.memo}
+                                </p>
+                            </div>
+                            <div className="flex flex-col gap-2 w-full">
+                                <label className="text-sm">Total Price</label>
+                                <p
+                                    name="vendor-name"
+                                    className="w-auto rounded-xl border-[1px] border-gray-400 px-3 py-2"
+                                >
+                                    <p>
+                                        Rp{" "}
+                                        {Number(
+                                            data.price_total
+                                        ).toLocaleString()}
+                                    </p>
                                 </p>
                             </div>
                         </form>
                     </div>
 
-                    <div className="mt-8 flex flex-roW gap-4">
+                    <div className="mt-5 flex flex-roW gap-4">
                         {/* <SeacrhBarFull placeholder="Search for items" /> */}
                         {/* <RefreshButton /> */}
                     </div>

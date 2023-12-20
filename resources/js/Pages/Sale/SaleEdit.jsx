@@ -52,8 +52,12 @@ export default function SaleEdit(props) {
         default_code: product.default_code,
         label: product.name,
         price: product.sale_price,
+        uom: product.uom,
+        available_stock: product.available_stock,
         discount: 0,
+        discount_percent: 0,
         subtotal: 0,
+        product_id: product.id,
     }));
 
     const insertProduct = (data) => {
@@ -215,7 +219,7 @@ export default function SaleEdit(props) {
                                     {errors.memo && <div>{errors.memo}</div>}
                                 </div>
                                 <div className="absolute top-0 right-0 mr-5 mb-5 flex gap-4 mt-14">
-                                    {data.status == "waiting" && (
+                                    {data.status == "Waiting" && (
                                         <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
                                             <img
                                                 src={SalesInvoiceIcon}
@@ -300,7 +304,7 @@ export default function SaleEdit(props) {
                                                         rowSpan="2"
                                                         className="pt-2 px-1"
                                                     >
-                                                        <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center">
+                                                        <p className="py-auto h-full border-2 border-gray-400 rounded-xl items-center flex text-center justify-center font-semibold">
                                                             {row.label}
                                                         </p>
                                                     </td>
@@ -311,7 +315,12 @@ export default function SaleEdit(props) {
                                                     </td>
                                                     <td className="pt-2 px-1">
                                                         <input
-                                                            placeholder="Quantity"
+                                                            type="number"
+                                                            min="0"
+                                                            max={
+                                                                row.available_stock
+                                                            }
+                                                            placeholder={`Available stock: ${row.available_stock}`}
                                                             className="py-2 w-full text-center border-2 border-gray-400 rounded-xl focus:outline-double"
                                                             value={
                                                                 row.product_quantity
@@ -331,6 +340,8 @@ export default function SaleEdit(props) {
                                                     <td className="pt-2 px-1">
                                                         <input
                                                             placeholder="Discount (%)"
+                                                            min={0}
+                                                            max={100}
                                                             value={
                                                                 row.discount_percent
                                                             }

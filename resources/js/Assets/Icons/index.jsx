@@ -18,6 +18,11 @@ import RightArrowIcon from "./right-arrow.svg";
 import CheckIcon from "./check.svg";
 import EditIcon from "./edit.svg";
 import DeleteIcon from "./delete.svg";
+import ChartIcon from "./chart.svg";
+import VendorDashboard from "./vendor-icon.png";
+import CustomerDashboard from "./customer-icon.png";
+import InventoryDashboard from "./inventory-icon.png";
+import SalesOrderDashboard from "./sales-order-icon.png";
 
 export {
     ChartOfAccountsIcon,
@@ -40,4 +45,9 @@ export {
     CheckIcon,
     EditIcon,
     DeleteIcon,
+    ChartIcon,
+    VendorDashboard,
+    CustomerDashboard,
+    InventoryDashboard,
+    SalesOrderDashboard,
 };

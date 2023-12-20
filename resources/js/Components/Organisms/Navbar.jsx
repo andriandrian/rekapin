@@ -9,6 +9,7 @@ import {
     ChartOfAccountsIcon,
     SettingsIcon,
     SalesInvoiceIcon,
+    ChartIcon,
 } from "../../Assets";
 import { Link, usePage } from "@inertiajs/react";
 
@@ -25,6 +26,22 @@ export function Navbar(props) {
             </Link>
             <div className="flex flex-col items-center w-auto font">
                 <ul>
+                    <li
+                        className={`${
+                            url.startsWith("/dashboard")
+                                ? "opacity-100"
+                                : "opacity-30"
+                        }
+                            flex flex-row items-center my-6 w-52 rounded-sm`}
+                    >
+                        <Link
+                            href="/dashboard"
+                            className="text-black ml-[20px] font-semibold flex flex-row items-center gap-5 hover:scale-110 duration-100"
+                        >
+                            <img src={ChartIcon} />
+                            Dashboard
+                        </Link>
+                    </li>
                     <li
                         className={`${
                             url.startsWith("/inventory")

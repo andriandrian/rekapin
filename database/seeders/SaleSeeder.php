@@ -18,7 +18,6 @@ class SaleSeeder extends Seeder
             'partner_id' => 1,
             'date' => '2021-01-01',
             'price_total' => '100000',
-            'status' => 'waiting',
             'memo' => 'memo',
         ]);
 
@@ -26,7 +25,6 @@ class SaleSeeder extends Seeder
             'partner_id' => 2,
             'date' => '2021-01-02',
             'price_total' => '200000',
-            'status' => 'waiting',
             'memo' => 'memo',
         ]);
 
@@ -34,7 +32,6 @@ class SaleSeeder extends Seeder
             'partner_id' => 3,
             'date' => '2021-01-03',
             'price_total' => '300000',
-            'status' => 'waiting',
             'memo' => 'memo',
         ]);
     }

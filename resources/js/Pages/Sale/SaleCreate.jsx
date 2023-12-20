@@ -301,7 +301,12 @@ export default function SaleCreate(props) {
                                                     </td>
                                                     <td className="pt-2 px-1">
                                                         <input
-                                                            placeholder="Quantity"
+                                                            type="number"
+                                                            min="0"
+                                                            max={
+                                                                row.available_stock
+                                                            }
+                                                            placeholder={`Available stock: ${row.available_stock}`}
                                                             className="py-2 w-full text-center border-2 border-gray-400 rounded-xl focus:outline-double"
                                                             onChange={(e) =>
                                                                 insertQuantity(
@@ -373,11 +378,9 @@ export default function SaleCreate(props) {
                                                         <p className="py-2 border-2 border-gray-400 rounded-xl">
                                                             {row.uom}
                                                         </p>
-                                                        {errors.product_quantity && (
+                                                        {errors.uom && (
                                                             <div>
-                                                                {
-                                                                    errors.product_quantity
-                                                                }
+                                                                {errors.uom}
                                                             </div>
                                                         )}
                                                     </td>

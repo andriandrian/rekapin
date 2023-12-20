@@ -81,14 +81,14 @@ class PurchaseController extends Controller
 
             DB::commit();
 
-            return redirect()->route('purchase.index')->with(['message' => [
+            return redirect()->route('purchase')->with(['message' => [
                 'type' => 'success',
                 'text' => 'Purchase created successfully.',
                 'button' => 'OK!',
             ]]);
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e->getMessage());
+            // dd($e->getMessage());
 
             // return redirect()->back()->with('error', 'Purchase failed to create.');
         }
@@ -176,7 +176,11 @@ class PurchaseController extends Controller
 
             DB::commit();
 
-            return redirect()->route('purchase.index')->with('success', 'Purchase created successfully.');
+            return redirect()->route('purchase')->with(['message' => [
+                'type' => 'success',
+                'text' => 'Purchase updated successfully.',
+                'button' => 'OK!',
+            ]]);
         } catch (\Exception $e) {
             DB::rollback();
             // dd($e->getMessage());
@@ -184,12 +188,25 @@ class PurchaseController extends Controller
             return redirect()->back()->with('error', 'Purchase failed to create.');
         }
 
-        return redirect()->route('purchase.index');
+        return redirect()->route('purchase');
+    }
+
+    public function status(Request $request)
+    {
+        Purchase::find($request->id)->update([
+            'status' => "Paid",
+        ]);
+
+        return redirect()->route('purchase')->with(['message' => [
+            'type' => 'success',
+            'text' => 'Purchase updated successfully.',
+            'button' => 'OK!',
+        ]]);
     }
 
     public function destroy(Request $request)
     {
         Purchase::find($request->id)->delete();
-        return redirect()->route('purchase.index');
+        return redirect()->route('purchase');
     }
 }

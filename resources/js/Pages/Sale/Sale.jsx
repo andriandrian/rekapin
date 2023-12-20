@@ -6,14 +6,36 @@ import {
     Paginator,
     RefreshButton,
     SeacrhBarFull,
+    SeacrhBarMini,
+    StatusTag,
 } from "../../Components";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Sale(props) {
     const { flash } = usePage().props;
+    const [search, setSearch] = useState("");
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        getData();
+        // window.location.href = `/inventory?search=${search.current.value}`;
+    };
+
+    const getData = () => {
+        router.get(
+            route().current(),
+            {
+                search: search,
+            },
+            {
+                preserveScroll: true,
+                preserveState: true,
+            }
+        );
+    };
 
     // notify();
     useEffect(() => {
@@ -65,7 +87,19 @@ export default function Sale(props) {
                     <div className="flex flex-row h-11 w-full  gap-5">
                         <AddButton title="Add New Order" href="sale/create" />
                         <RefreshButton />
-                        <SeacrhBarFull placeholder="Search for Sale Order" />
+                        <form onSubmit={handleSearch} className="w-full">
+                            <SeacrhBarFull
+                                placeholder="Search for Sale Order"
+                                label="Search"
+                                name="search"
+                                type="text"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                            />
+                            <button type="submit" className="hidden">
+                                Search
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -138,12 +172,12 @@ export default function Sale(props) {
                                 Description
                             </td>
                             <td className="border-[1.5px] border-black">
+                                Total
+                            </td>
+                            <td className="border-[1.5px] border-black">
                                 Status
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Total
-                            </td>
-                            <td className="border-[1.5px] border-black w-20">
                                 Action
                             </td>
                         </tr>
@@ -154,7 +188,7 @@ export default function Sale(props) {
                                 return (
                                     <tr key={index}>
                                         <td className="border-[1.5px] border-black py-3 px-2">
-                                            {index + 1}
+                                            {props.sale.from + index}
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {data.sale_no}
@@ -165,9 +199,6 @@ export default function Sale(props) {
                                         <td className="border-[1.5px] border-black">
                                             {data.memo}
                                         </td>
-                                        <td className="border-[1.5px] border-black">
-                                            {data.status}
-                                        </td>
                                         <td className="border-[1.5px] border-black px-3">
                                             <p>
                                                 Rp{" "}
@@ -176,10 +207,19 @@ export default function Sale(props) {
                                                 ).toLocaleString()}
                                             </p>
                                         </td>
-                                        <td className="border-[1.5px] border-black">
+                                        <td className="border-[1.5px] border-black w-4 px-2">
+                                            {/* {data.status} */}
+                                            <div className="flex justify-center">
+                                                <StatusTag
+                                                    status={data.status}
+                                                />
+                                            </div>
+                                        </td>
+                                        <td className="border-[1.5px] border-black px-2 w-24">
                                             <div className="flex flex-row gap-2 justify-center">
                                                 <Link
                                                     href={route("sale.edit")}
+                                                    className="border-[1.5px] border-black rounded-md px-2 py-1 bg-[#b7c9c7] hover:bg-[#8fa4a1] transition duration-300 ease-in-out text-white"
                                                     data={{ id: data.id }}
                                                     method="get"
                                                     as="button"
@@ -192,6 +232,7 @@ export default function Sale(props) {
                                                 </Link>
                                                 <Link
                                                     href={route("sale.destroy")}
+                                                    className="border-[1.5px] border-black rounded-md px-2 py-1 bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out text-white"
                                                     data={{ id: data.id }}
                                                     method="delete"
                                                     as="button"

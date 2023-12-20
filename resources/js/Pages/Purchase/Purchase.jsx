@@ -5,6 +5,7 @@ import {
     Navbar,
     RefreshButton,
     SeacrhBarFull,
+    StatusTag,
 } from "../../Components";
 import { Head, Link, usePage } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
@@ -134,12 +135,12 @@ export default function Purchase(props) {
                                 Vendor Name
                             </td>
                             <td className="border-[1.5px] border-black">
+                                Total
+                            </td>
+                            <td className="border-[1.5px] border-black">
                                 Status
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Total
-                            </td>
-                            <td className="border-[1.5px] border-black w-20">
                                 Action
                             </td>
                         </tr>
@@ -151,7 +152,7 @@ export default function Purchase(props) {
                                 return (
                                     <tr key={index}>
                                         <td className="border-[1.5px] border-black py-3 px-2">
-                                            {index + 1}
+                                            {props.purchase.from + index}
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {data.purchase_no}
@@ -162,9 +163,6 @@ export default function Purchase(props) {
                                         <td className="border-[1.5px] border-black">
                                             {data.vendor.name}
                                         </td>
-                                        <td className="border-[1.5px] border-black">
-                                            {data.status}
-                                        </td>
                                         <td className="border-[1.5px] border-black px-3">
                                             <p>
                                                 Rp{" "}
@@ -173,9 +171,18 @@ export default function Purchase(props) {
                                                 ).toLocaleString()}
                                             </p>
                                         </td>
-                                        <td className="border-[1.5px] border-black">
+                                        <td className="border-[1.5px] border-black w-4 px-2">
+                                            {/* {data.status} */}
+                                            <div className="flex justify-center">
+                                                <StatusTag
+                                                    status={data.status}
+                                                />
+                                            </div>
+                                        </td>
+                                        <td className="border-[1.5px] border-black px-2 w-24">
                                             <div className="flex flex-row gap-2 justify-center">
                                                 <Link
+                                                    className="border-[1.5px] border-black rounded-md px-2 py-1 bg-[#b7c9c7] hover:bg-[#8fa4a1] transition duration-300 ease-in-out text-white"
                                                     href={route(
                                                         "purchase.edit"
                                                     )}
@@ -190,6 +197,7 @@ export default function Purchase(props) {
                                                     />
                                                 </Link>
                                                 <Link
+                                                    className="border-[1.5px] border-black rounded-md px-2 py-1 bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out text-white"
                                                     href={route(
                                                         "purchase.destroy"
                                                     )}

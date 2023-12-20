@@ -10,6 +10,7 @@ import {
     Navbar,
     RefreshButton,
     SeacrhBarFull,
+    StatusTag,
 } from "../../Components";
 import { Head, Link, router, usePage } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
@@ -17,7 +18,8 @@ import { useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function SaleInvoice(props) {
-    router.reload({ only: ["invoice"] });
+    // console.log(props);
+    // router.reload({ only: ["invoice"] });
 
     const { flash } = usePage().props;
 
@@ -137,10 +139,10 @@ export default function SaleInvoice(props) {
                                 Description
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Status
+                                Total
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Total
+                                Status
                             </td>
                             <td className="border-[1.5px] border-black w-20">
                                 Action
@@ -153,7 +155,7 @@ export default function SaleInvoice(props) {
                                 return (
                                     <tr key={index}>
                                         <td className="border-[1.5px] border-black py-3 px-2 w-8">
-                                            {index + 1}
+                                            {props.invoice.from + index}
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {data.invoice_no}
@@ -164,9 +166,6 @@ export default function SaleInvoice(props) {
                                         <td className="border-[1.5px] border-black">
                                             {data.memo}
                                         </td>
-                                        <td className="border-[1.5px] border-black">
-                                            {data.status}
-                                        </td>
                                         <td className="border-[1.5px] border-black px-3">
                                             <p>
                                                 Rp{" "}
@@ -175,9 +174,18 @@ export default function SaleInvoice(props) {
                                                 ).toLocaleString()}
                                             </p>
                                         </td>
-                                        <td className="border-[1.5px] border-black">
+                                        <td className="border-[1.5px] border-black w-4 px-4">
+                                            {/* {data.status} */}
+                                            <div className="flex justify-center">
+                                                <StatusTag
+                                                    status={data.status}
+                                                />
+                                            </div>
+                                        </td>
+                                        <td className="border-[1.5px] border-black px-2 w-24">
                                             <div className="flex flex-row gap-2 justify-center">
                                                 <Link
+                                                    className="border-[1.5px] border-black rounded-md px-2 py-1 bg-[#b7c9c7] hover:bg-[#8fa4a1] transition duration-300 ease-in-out text-white"
                                                     href={route("invoice.edit")}
                                                     data={{ id: data.id }}
                                                     method="get"
@@ -190,6 +198,7 @@ export default function SaleInvoice(props) {
                                                     />
                                                 </Link>
                                                 <Link
+                                                    className="border-[1.5px] border-black rounded-md px-2 py-1 bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out text-white"
                                                     href={route(
                                                         "invoice.destroy"
                                                     )}
