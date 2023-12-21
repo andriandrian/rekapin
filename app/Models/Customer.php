@@ -21,6 +21,11 @@ class Customer extends Model
         'id'
     ];
 
+    public function sale()
+    {
+        return $this->hasMany(Sale::class, 'partner_id');
+    }
+
     public function toSearchableArray(): array
     {
         return [

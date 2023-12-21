@@ -7,18 +7,74 @@ use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleInvoice;
 use App\Models\SaleInvoiceOrderLine;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class SaleInvoiceController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        // dd($request->all());
+        $startDate = $request->startDate ?? null;
+        $endDate = $request->endDate ?? null;
+        $status = $request->status ?? null;
+        if ($status == 'all') {
+            $status = null;
+        }
+        $search = $request->search ?? null;
+        $customer = $request->customer ?? null;
+
+        if ($search != null) {
+            $invoice = SaleInvoice::search($request->search)->orderBy('date', 'asc')
+                ->query(fn (Builder $query) => $query->with('customer')->orderBy('date', 'asc'))
+                ->paginate(10);
+        } else if ($startDate && $endDate && $customer && $status) {
+            $invoice = SaleInvoice::orderBy('date', 'asc')
+                ->where('partner_id', $customer)
+                ->whereBetween('date', [$startDate, $endDate])
+                ->where('status', $status)
+                ->paginate(10);
+        } else if ($startDate && $endDate && $status) {
+            $invoice = SaleInvoice::orderBy('date', 'asc')
+                ->whereBetween('date', [$startDate, $endDate])
+                ->where('status', $status)
+                ->paginate(10);
+        } else if ($startDate && $endDate && $customer) {
+            $invoice = SaleInvoice::orderBy('date', 'asc')
+                ->where('partner_id', $customer)
+                ->whereBetween('date', [$startDate, $endDate])
+                ->paginate(10);
+        } else if ($startDate && $endDate) {
+            $invoice = SaleInvoice::orderBy('date', 'asc')
+                ->whereBetween('date', [$startDate, $endDate])
+                ->paginate(10);
+        } else if ($status && $customer) {
+            $invoice = SaleInvoice::orderBy('date', 'asc')
+                ->where('partner_id', $customer)
+                ->where('status', $status)
+                ->paginate(10);
+        } else if ($status) {
+            $invoice = SaleInvoice::orderBy('date', 'asc')
+                ->where('status', $status)
+                ->paginate(10);
+        } else if ($customer) {
+            $invoice = SaleInvoice::orderBy('date', 'asc')
+                ->where('partner_id', $customer)
+                ->paginate(10);
+        } else {
+            $invoice = SaleInvoice::orderBy('date', 'asc')
+                ->paginate(10);
+        }
+
         return Inertia::render('Sale/SaleInvoice', [
             'title' => 'Sale Invoice',
             'active' => 'invoice',
-            'invoice' => SaleInvoice::paginate(10),
+            'customer' => Customer::all(),
+            'invoice' => $invoice,
+            // SaleInvoice::search($request->search)->orderBy('date', 'asc')
+            //     ->paginate(10),
         ]);
     }
 
@@ -68,11 +124,11 @@ class SaleInvoiceController extends Controller
                 // $updatedStock = (int)$selectedProduct['available_stock'] - (int)$product['product_quantity'];
                 // Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
             }
-            Sale::where('id', $request->id)->update(['status' => 'Proceed']);
+            Sale::where('id', $request->id)->update(['status' => 'Proceeded']);
 
             DB::commit();
 
-            return redirect()->route('invoice.index')->with(['message' => [
+            return redirect()->route('invoice')->with(['message' => [
                 'type' => 'success',
                 'text' => 'Sale Invoice created successfully.',
                 'button' => 'OK!',
@@ -120,7 +176,7 @@ class SaleInvoiceController extends Controller
     {
         // dd($request->all());
         SaleInvoice::where('id', $request->id)->update(['status' => 'Finish']);
-        return redirect()->route('invoice.index')->with(['message' => [
+        return redirect()->route('invoice')->with(['message' => [
             'type' => 'success',
             'text' => 'Sale Invoice status updated successfully.',
             'button' => 'OK!',
@@ -132,6 +188,6 @@ class SaleInvoiceController extends Controller
         SaleInvoice::find($request->id)->delete();
         // delete order line
         SaleInvoiceOrderLine::where('invoice_id', $request->id)->delete();
-        return redirect()->route('sale');
+        return redirect()->route('invoice');
     }
 }

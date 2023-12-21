@@ -6,18 +6,72 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\PurchaseOrderLine;
 use App\Models\Vendor;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class PurchaseController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $startDate = $request->startDate ?? null;
+        $endDate = $request->endDate ?? null;
+        $status = $request->status ?? null;
+        if ($status == 'all') {
+            $status = null;
+        }
+        $search = $request->search ?? null;
+        $vendor = $request->vendor ?? null;
+        // dd($request->all());
+
+        if ($search != null) {
+            $purchase = Purchase::search($request->search)->orderBy('date', 'asc')
+                ->query(fn (Builder $query) => $query->with('vendor')->orderBy('date', 'asc'))
+                ->paginate(10);
+        } else if ($startDate && $endDate && $vendor && $status) {
+            $purchase = Purchase::orderBy('date', 'asc')
+                ->where('partner_id', $vendor)
+                ->whereBetween('date', [$startDate, $endDate])
+                ->where('status', $status)
+                ->paginate(10);
+        } else if ($startDate && $endDate && $status) {
+            $purchase = Purchase::orderBy('date', 'asc')
+                ->whereBetween('date', [$startDate, $endDate])
+                ->where('status', $status)
+                ->paginate(10);
+        } else if ($startDate && $endDate && $vendor) {
+            $purchase = Purchase::orderBy('date', 'asc')
+                ->where('partner_id', $vendor)
+                ->whereBetween('date', [$startDate, $endDate])
+                ->paginate(10);
+        } else if ($startDate && $endDate) {
+            $purchase = Purchase::orderBy('date', 'asc')
+                ->whereBetween('date', [$startDate, $endDate])
+                ->paginate(10);
+        } else if ($status && $vendor) {
+            $purchase = Purchase::orderBy('date', 'asc')
+                ->where('partner_id', $vendor)
+                ->where('status', $status)
+                ->paginate(10);
+        } else if ($status) {
+            $purchase = Purchase::orderBy('date', 'asc')
+                ->where('status', $status)
+                ->paginate(10);
+        } else if ($vendor) {
+            $purchase = Purchase::orderBy('date', 'asc')
+                ->where('partner_id', $vendor)
+                ->paginate(10);
+        } else {
+            $purchase = Purchase::orderBy('date', 'asc')
+                ->paginate(10);
+        }
+
         return Inertia::render('Purchase/Purchase', [
             'title' => 'Purchase',
             'active' => 'purchase',
-            'purchase' => Purchase::paginate(10),
+            'vendor' => Vendor::all(),
+            'purchase' => $purchase,
         ]);
     }
 
@@ -48,7 +102,7 @@ class PurchaseController extends Controller
         ];
 
         $messages = [
-            'partner_id.required' => 'The customer field is required.',
+            'partner_id.required' => 'The vendor field is required.',
         ];
 
 
@@ -144,7 +198,7 @@ class PurchaseController extends Controller
         ];
 
         $messages = [
-            'partner_id.required' => 'The customer field is required.',
+            'partner_id.required' => 'The vendor field is required.',
         ];
 
         $request->validate($rules, $messages);

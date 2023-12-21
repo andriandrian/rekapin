@@ -13,28 +13,76 @@ import { Head, Link, router, usePage } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import { pickBy } from "lodash";
+import React from "react";
+import Select from "react-select";
 
 export default function Sale(props) {
+    // console.log(props);
     const { flash } = usePage().props;
+    const [isLoading, setIsLoading] = useState(false);
     const [search, setSearch] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+    const [status, setStatus] = useState("");
+    const [filterCustomer, setFilterCustomer] = useState(null);
+
+    const customers = props.customer;
+
+    const customerOptions = customers.map((customer) => ({
+        value: customer.id,
+        label: customer.name,
+    }));
 
     const handleSearch = (e) => {
         e.preventDefault();
         getData();
-        // window.location.href = `/inventory?search=${search.current.value}`;
     };
 
-    const getData = () => {
+    const handleFilter = (e) => {
+        e.preventDefault();
+        getFilter();
+    };
+
+    const getFilter = () => {
         router.get(
             route().current(),
-            {
-                search: search,
-            },
+            pickBy({
+                status: status,
+                startDate: startDate,
+                endDate: endDate,
+                customer: filterCustomer?.value,
+            }),
             {
                 preserveScroll: true,
                 preserveState: true,
             }
         );
+    };
+
+    const getData = () => {
+        router.get(
+            route().current(),
+            pickBy({
+                search: search,
+            }),
+            {
+                preserveScroll: true,
+                preserveState: true,
+            }
+        );
+    };
+
+    const handleDelete = (id) => {
+        if (confirm("Are you sure you want to delete this sale?")) {
+            router.delete(route("sale.destroy", { id: id }), {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: () => {
+                    getData();
+                },
+            });
+        }
     };
 
     // notify();
@@ -108,49 +156,74 @@ export default function Sale(props) {
                         <img src={SalesOrderIcon} className="w-7" />
                         <h1>Sales Order</h1>
                     </div>
-                    <form className="flex flex-row justify-between gap-6 mt-5">
+                    <form
+                        className="flex flex-row justify-between gap-6 mt-5"
+                        onSubmit={handleFilter}
+                    >
                         <div className="flex flex-col gap-2 w-full">
                             <label htmlFor="item-detail" className="text-sm">
                                 Order Date
                             </label>
                             <div className="flex flex-row justify-between items-center gap-1 border-[1px] border-black rounded-xl">
                                 <input
-                                    name="item-detail"
+                                    name="startDate"
                                     type="date"
-                                    placeholder=""
+                                    value={startDate}
+                                    onChange={(e) => {
+                                        setStartDate(e.target.value);
+                                        // console.log(e.target.value);
+                                    }}
                                     className="w-auto rounded-xl border-none text-center focus:ring-0"
                                 ></input>
                                 <p className="font-light">-</p>
                                 <input
-                                    name="item-detail"
+                                    name="endDate"
                                     type="date"
-                                    placeholder=""
+                                    value={endDate}
+                                    onChange={(e) => {
+                                        setEndDate(e.target.value);
+                                    }}
                                     className="w-auto rounded-xl border-none text-center focus:ring-0"
                                 ></input>
+                                <button type="submit" className="hidden">
+                                    Search
+                                </button>
                             </div>
                         </div>
                         <div className="flex flex-col gap-2 w-full">
                             <label htmlFor="item-detail" className="text-sm">
                                 Customer Name
                             </label>
-                            <input
-                                name="item-id"
-                                placeholder="Enter Customer Name"
-                                className="w-auto rounded-xl"
-                            ></input>
+                            <Select
+                                name="customer"
+                                options={customerOptions}
+                                placeholder="Select Customer..."
+                                value={filterCustomer}
+                                onChange={(e) => setFilterCustomer(e)}
+                                className="w-auto rounded-xl mt-1"
+                                // required
+                            />
                         </div>
                         <div className="flex flex-col gap-2 w-full">
                             <label htmlFor="item-detail" className="text-sm">
                                 Status
                             </label>
                             <div className="flex flex-row w-full mx-auto gap-2">
-                                <select className="w-full rounded-xl focus:ring-0">
+                                <select
+                                    className="w-full rounded-xl focus:ring-0"
+                                    name="status"
+                                    value={status}
+                                    onChange={(e) => {
+                                        setStatus(e.target.value);
+                                    }}
+                                >
+                                    <option value="">All</option>
                                     <option value="waiting">
                                         Waiting to Process
                                     </option>
                                     <option value="proceeded">Proceeded</option>
                                 </select>
-                                <GoButton />
+                                <GoButton type="submit" />
                             </div>
                         </div>
                     </form>
@@ -230,30 +303,22 @@ export default function Sale(props) {
                                                         className="h-4"
                                                     />
                                                 </Link>
-                                                <Link
-                                                    href={route("sale.destroy")}
+                                                <button
+                                                    // href={route("sale.destroy")}
                                                     className="border-[1.5px] border-black rounded-md px-2 py-1 bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out text-white"
                                                     data={{ id: data.id }}
                                                     method="delete"
                                                     as="button"
-                                                    onClick={() => {
-                                                        if (
-                                                            window.confirm(
-                                                                "Are you sure you want to delete this sale order?"
-                                                            )
-                                                        ) {
-                                                            // Delete the sale order
-                                                        } else {
-                                                            return false;
-                                                        }
-                                                    }}
+                                                    onClick={() =>
+                                                        handleDelete(data.id)
+                                                    }
                                                 >
                                                     <img
                                                         src={DeleteIcon}
                                                         alt=""
                                                         className="h-4"
                                                     />
-                                                </Link>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

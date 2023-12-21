@@ -92,7 +92,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/sale/delete', [SaleController::class, 'destroy'])->name('sale.destroy');
     Route::post('/invoice/create', [SaleInvoiceController::class, 'create'])->name('invoice.create');
     Route::post('/invoice/status', [SaleInvoiceController::class, 'status'])->name('invoice.status');
-    Route::get('/invoice', [SaleInvoiceController::class, 'index'])->name('invoice.index');
+    Route::get('/invoice', [SaleInvoiceController::class, 'index'])->name('invoice');
     Route::get('/invoice/edit', [SaleInvoiceController::class, 'edit'])->name('invoice.edit');
     Route::delete('/invoice/delete', [SaleInvoiceController::class, 'destroy'])->name('invoice.destroy');
 });

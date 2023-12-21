@@ -6,7 +6,7 @@ export function StatusTag(props) {
     return (
         <div
             className={`px-2 py-1 w-fit 
-            ${props.status == "Proceed" && "bg-[#17c727] text-white"}
+            ${props.status == "Proceeded" && "bg-[#17c727] text-white"}
             ${props.status == "Finish" && "bg-[#17c727] text-white"}
             ${props.status == "Paid" && "bg-green-500 text-white"}
             ${props.status == "Waiting" && "bg-slate-300"}

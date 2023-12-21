@@ -18,6 +18,7 @@ import { Head, Link, router, usePage } from "@inertiajs/react";
 import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import { pickBy } from "lodash";
 
 export default function Vendor(props) {
     const { flash } = usePage().props;
@@ -31,14 +32,26 @@ export default function Vendor(props) {
     const getData = () => {
         router.get(
             route().current(),
-            {
+            pickBy({
                 search: search,
-            },
+            }),
             {
                 preserveScroll: true,
                 preserveState: true,
             }
         );
+    };
+
+    const handleDelete = (id) => {
+        if (confirm("Are you sure you want to delete this vendor?")) {
+            router.delete(route("vendor.destroy", { id: id }), {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: () => {
+                    getData();
+                },
+            });
+        }
     };
 
     useEffect(() => {
@@ -167,30 +180,24 @@ export default function Vendor(props) {
                                                         className="h-4"
                                                     />
                                                 </Link>
-                                                <Link
-                                                    href={route(
-                                                        "vendor.destroy"
-                                                    )}
+                                                <button
+                                                    // href={route(
+                                                    //     "vendor.destroy"
+                                                    // )}
                                                     data={{ id: vendor.id }}
                                                     method="delete"
                                                     as="button"
                                                     className="border-[1.5px] border-black rounded-md px-2 py-1 bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out text-white"
-                                                    onClick={() => {
-                                                        if (
-                                                            window.confirm(
-                                                                "Are you sure you want to delete this vendor?"
-                                                            )
-                                                        ) {
-                                                            // Delete the customer
-                                                        }
-                                                    }}
+                                                    onClick={() =>
+                                                        handleDelete(vendor.id)
+                                                    }
                                                 >
                                                     <img
                                                         src={DeleteIcon}
                                                         alt=""
                                                         className="h-4"
                                                     />
-                                                </Link>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

@@ -16,7 +16,7 @@ class ProductController extends Controller
             'title' => 'Inventory',
             'active' => 'inventory',
             'product' => Product::search($request->search)
-                ->query(fn (Builder $query) => $query->with('vendor')->orderBy('name', 'asc'))
+                ->query(fn (Builder $query) => $query->with('vendor')->with('saleOrderLine')->orderBy('name', 'asc'))
                 ->paginate(10),
         ]);
     }
@@ -114,6 +114,7 @@ class ProductController extends Controller
 
     public function destroy(Request $request)
     {
+        // dd($request->all());
         Product::find($request->id)->delete();
         return redirect()->route('inventory')->with(['message' => [
             'type' => 'success',

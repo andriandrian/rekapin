@@ -21,6 +21,11 @@ class Vendor extends Model
         'id'
     ];
 
+    public function purchase()
+    {
+        return $this->hasMany(Purchase::class);
+    }
+
     public function toSearchableArray(): array
     {
         return [

@@ -11,11 +11,13 @@ import { Head, Link, usePage, router } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { pickBy } from "lodash";
 
 export default function Inventory(props) {
     const { flash } = usePage().props;
     const [isLoading, setIsLoading] = useState(false);
     const [search, setSearch] = useState("");
+    console.log(props);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -26,9 +28,9 @@ export default function Inventory(props) {
         setIsLoading(true);
         router.get(
             route().current(),
-            {
+            pickBy({
                 search: search,
-            },
+            }),
             {
                 preserveScroll: true,
                 preserveState: true,
@@ -37,7 +39,17 @@ export default function Inventory(props) {
         );
     };
 
-    console.log(props);
+    const handleDelete = (id) => {
+        if (confirm("Are you sure you want to delete this product?")) {
+            router.delete(route("product.destroy", { id: id }), {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: () => {
+                    getData();
+                },
+            });
+        }
+    };
 
     useEffect(() => {
         if (flash.message?.type == "success") {
@@ -119,7 +131,11 @@ export default function Inventory(props) {
                             <td className="border-[1.5px] border-black">
                                 Product Code
                             </td>
+                            <td className="border-[1.5px] border-black">
+                                Vendor
+                            </td>
                             <td className="border-[1.5px] border-black">Qty</td>
+                            <td className="border-[1.5px] border-black">UOM</td>
                             <td className="border-[1.5px] border-black">
                                 Sales Price (@)
                             </td>
@@ -142,9 +158,15 @@ export default function Inventory(props) {
                                         {product.default_code}
                                     </td>
                                     <td className="border-[1.5px] border-black">
+                                        {product.vendor.name}
+                                    </td>
+                                    <td className="border-[1.5px] border-black">
                                         {Number(
                                             product.available_stock
                                         ).toLocaleString()}
+                                    </td>
+                                    <td className="border-[1.5px] border-black">
+                                        {product.uom}
                                     </td>
                                     <td className="border-[1.5px] border-black">
                                         Rp{" "}
@@ -168,21 +190,15 @@ export default function Inventory(props) {
                                                 />
                                                 {/* Edit */}
                                             </Link>
-                                            <Link
-                                                href={route("product.destroy")}
+                                            <button
+                                                // href={route("product.destroy")}
                                                 data={{ id: product.id }}
                                                 method="delete"
                                                 as="button"
                                                 className="border-[1.5px] border-black rounded-md px-2 py-1 bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out text-white"
-                                                onClick={() => {
-                                                    if (
-                                                        window.confirm(
-                                                            "Are you sure you want to delete this product?"
-                                                        )
-                                                    ) {
-                                                        // Delete the customer
-                                                    }
-                                                }}
+                                                onClick={() =>
+                                                    handleDelete(product.id)
+                                                }
                                             >
                                                 <img
                                                     src={DeleteIcon}
@@ -190,7 +206,7 @@ export default function Inventory(props) {
                                                     className="h-4"
                                                 />
                                                 {/* Delete */}
-                                            </Link>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

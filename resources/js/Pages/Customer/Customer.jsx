@@ -11,6 +11,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { DeleteIcon, EditIcon } from "@/Assets";
+import { pickBy } from "lodash";
 
 export default function Customer(props) {
     const { flash } = usePage().props;
@@ -25,14 +26,26 @@ export default function Customer(props) {
     const getData = () => {
         router.get(
             route().current(),
-            {
+            pickBy({
                 search: search,
-            },
+            }),
             {
                 preserveScroll: true,
                 preserveState: true,
             }
         );
+    };
+
+    const handleDelete = (id) => {
+        if (confirm("Are you sure you want to delete this customer?")) {
+            router.delete(route("customer.destroy", { id: id }), {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: () => {
+                    getData();
+                },
+            });
+        }
     };
 
     useEffect(() => {
@@ -165,30 +178,24 @@ export default function Customer(props) {
                                                     />
                                                 </Link>
 
-                                                <Link
-                                                    href={route(
-                                                        "customer.destroy"
-                                                    )}
+                                                <button
+                                                    // href={route(
+                                                    //     "customer.destroy"
+                                                    // )}
                                                     data={{ id: data.id }}
                                                     method="delete"
                                                     as="button"
                                                     className="border-[1.5px] border-black rounded-md px-2 py-1 bg-red-500 hover:bg-red-600 transition duration-300 ease-in-out text-white"
-                                                    onClick={() => {
-                                                        if (
-                                                            window.confirm(
-                                                                "Are you sure you want to delete this customer?"
-                                                            )
-                                                        ) {
-                                                            // Delete the customer
-                                                        }
-                                                    }}
+                                                    onClick={() =>
+                                                        handleDelete(data.id)
+                                                    }
                                                 >
                                                     <img
                                                         src={DeleteIcon}
                                                         alt=""
                                                         className="h-4"
                                                     />
-                                                </Link>
+                                                </button>
                                                 {/* <a
                                                     href={`/customer-edit/${data.id}`}
                                                 >

@@ -16,21 +16,21 @@ class SaleSeeder extends Seeder
     {
         Sale::create([
             'partner_id' => 1,
-            'date' => '2021-01-01',
+            'date' => '2023-01-01',
             'price_total' => '100000',
             'memo' => 'memo',
         ]);
 
         Sale::create([
             'partner_id' => 2,
-            'date' => '2021-01-02',
+            'date' => '2023-01-02',
             'price_total' => '200000',
             'memo' => 'memo',
         ]);
 
         Sale::create([
             'partner_id' => 3,
-            'date' => '2021-01-03',
+            'date' => '2023-01-03',
             'price_total' => '300000',
             'memo' => 'memo',
         ]);

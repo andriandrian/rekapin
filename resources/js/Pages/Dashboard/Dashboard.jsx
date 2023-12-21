@@ -8,10 +8,9 @@ import { Navbar, SeacrhBarMini } from "../../Components";
 import { Head, Link } from "@inertiajs/react";
 
 export default function Dashboard(props) {
-    console.log(props);
     return (
         <div className="flex flex-row h-screen w-full ">
-            <Head title="Inventory" />
+            <Head title="Dashboard" />
             <Navbar />
             <div className="flex flex-1 ml-64 px-5 pt-6 flex-col">
                 {/* <SeacrhBarMini placeholder="Search for any item" /> */}
@@ -128,6 +127,54 @@ export default function Dashboard(props) {
                         </div>
                         <div className="w-1/2">
                             <p className="text-xl font-semibold mb-2">
+                                Recent Activity
+                            </p>
+                            <table>
+                                <thead className="bg-[#B7C9C7] text-center font-semibold">
+                                    <tr>
+                                        <td className="border-[1.5px] border-black py-3 px-2">
+                                            No
+                                        </td>
+                                        <td className="border-[1.5px] border-black w-2/6">
+                                            Date & Time
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            Activity
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-center">
+                                    {props.recentActivity &&
+                                    props.recentActivity.length > 0 ? (
+                                        props.recentActivity.map(
+                                            (activity, i) => (
+                                                <tr key={i}>
+                                                    <td className="border-[1.5px] border-black py-3 px-2 w-8">
+                                                        {i + 1}
+                                                    </td>
+                                                    <td className="border-[1.5px] border-black">
+                                                        {activity.date}
+                                                    </td>
+                                                    <td className="border-[1.5px] border-black w-full">
+                                                        {activity.name}
+                                                    </td>
+                                                </tr>
+                                            )
+                                        )
+                                    ) : (
+                                        <tr>
+                                            <td
+                                                colSpan="3"
+                                                className="border-[1.5px] border-black py-3 px-2"
+                                            >
+                                                No Data
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+
+                            <p className="text-xl font-semibold mb-2 mt-[10px]">
                                 Top Customers
                             </p>
                             <table>
@@ -152,14 +199,18 @@ export default function Dashboard(props) {
                                                 <td className="border-[1.5px] border-black py-3 px-2 w-8">
                                                     {i + 1}
                                                 </td>
-                                                <td className="border-[1.5px] border-black w-full">
+                                                <td className="border-[1.5px] border-black w-4/5">
                                                     {customer.name}
                                                 </td>
-                                                <td className="border-[1.5px] border-black">
-                                                    Rp{" "}
-                                                    {Number(
-                                                        customer.sales
-                                                    ).toLocaleString()}
+                                                <td className="border-[1.5px] border-black w-full px-2">
+                                                    <span className="flex justify-between">
+                                                        <p>Rp </p>
+                                                        <p className="line-clamp1">
+                                                            {Number(
+                                                                customer.sales
+                                                            ).toLocaleString()}
+                                                        </p>
+                                                    </span>
                                                 </td>
                                             </tr>
                                         ))

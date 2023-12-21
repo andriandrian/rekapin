@@ -22,6 +22,13 @@ class VendorSeeder extends Seeder
         ]);
 
         Vendor::create([
+            'name' => "PT. Sehat Inti Perkasa",
+            'phone' => '0800 150 1212',
+            'email' => 'icw@antikorupsi.org',
+            'address' => 'Jl. Kalibata Timur IV/D No. 6 Jakarta Selatan 12740',
+        ]);
+
+        Vendor::create([
             'name' => "Toko Obat",
             'phone' => '081234567890',
             'email' => 'admin@mail.com',

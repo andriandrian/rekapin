@@ -33,6 +33,16 @@ class Product extends Model
         return $this->belongsTo(Vendor::class, 'vendor_id');
     }
 
+    public function saleOrderLine()
+    {
+        return $this->hasMany(SaleOrderLine::class, 'product_id');
+    }
+
+    public function purchaseOrderLine()
+    {
+        return $this->hasMany(PurchaseOrderLine::class, 'product_id');
+    }
+
     public function toSearchableArray(): array
     {
         return [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Product;
+use App\Models\Purchase;
 use App\Models\PurchaseOrderLine;
 use App\Models\Sale;
 use App\Models\SaleInvoice;
@@ -48,7 +49,7 @@ class DashboardController extends Controller
 
         // total product in table product
         $totalProducts = Product::count();
-        $totalSales = Sale::count();
+        $totalSalesCount = Sale::count();
         $totalCustomers = Customer::count();
         $totalVendors = Vendor::count();
         $totalInvoicePerDay = 0;
@@ -81,15 +82,13 @@ class DashboardController extends Controller
 
         $top10ProductSold = array_slice($topProductSold, 0, 10);
 
-        $customers = Customer::all();
+        $customers = Customer::with('sale')->get();
         $topCustomer = [];
+
         foreach ($customers as $customer) {
             $totalSales = 0;
-            $saleOrders = Sale::all();
-            foreach ($saleOrders as $saleOrder) {
-                if ($saleOrder->customer_id == $customer->id) {
-                    $totalSales += 1;
-                }
+            foreach ($customer->sale as $sale) {
+                $totalSales += $sale->price_total;
             }
             $topCustomer[] = [
                 'name' => $customer->name,
@@ -97,7 +96,56 @@ class DashboardController extends Controller
             ];
         }
 
-        $top5Customer = array_slice($topCustomer, 0, 5);
+        // foreach ($customers as $customer) {
+        //     $totalSales = 0;
+        //     $saleOrders = Sale::all();
+        //     foreach ($saleOrders as $saleOrder) {
+        //         if ($saleOrder->partner_id == $customer->id) {
+        //             $totalSales += 1;
+        //         }
+        //     }
+        //     $topCustomer[] = [
+        //         'name' => $customer->name,
+        //         'sales' => $totalSales,
+        //     ];
+        // }
+
+
+        usort($topCustomer, function ($item1, $item2) {
+            return $item2['sales'] <=> $item1['sales'];
+        });
+        $top5Customer = array_slice($topCustomer, 0, 4);
+
+
+        // recent activity
+        $recentActivity = [];
+        $saleOrders = Sale::all();
+        foreach ($saleOrders as $saleOrder) {
+            $recentActivity[] = [
+                'name' => $saleOrder->sale_no,
+                'type' => 'Sale',
+                // format date with hours and minutes
+                'date' => $saleOrder->created_at->format('d-m-Y H:i:s'),
+            ];
+        }
+
+        $purchaseOrders = Purchase::all();
+        foreach ($purchaseOrders as $purchaseOrder) {
+            $recentActivity[] = [
+                'name' => $purchaseOrder->purchase_no,
+                'type' => 'Purchase',
+                // 'date' => $purchaseOrder->created_at,
+                'date' => $purchaseOrder->created_at->format('d-m-Y H:i:s'),
+            ];
+        }
+
+        usort($recentActivity, function ($item1, $item2) {
+            return $item2['date'] <=> $item1['date'];
+        });
+
+        // dd($recentActivity);
+
+        $recentActivity = array_slice($recentActivity, 0, 4);
 
 
 
@@ -108,12 +156,13 @@ class DashboardController extends Controller
             'products' => $productsData,
             'totalProfits' => array_sum(array_column($productsData, 'profit')),
             'totalProducts' => $totalProducts,
-            'totalSales' => $totalSales,
+            'totalSales' => $totalSalesCount,
             'totalCustomers' => $totalCustomers,
             'totalVendors' => $totalVendors,
             'totalInvoicePerDay' => $totalInvoicePerDay,
             'topProductSold' => $top10ProductSold,
-            'topCustomer' => $top5Customer
+            'topCustomer' => $top5Customer,
+            'recentActivity' => $recentActivity,
         ]);
     }
 }

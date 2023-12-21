@@ -15,12 +15,48 @@ class SaleController extends Controller
 {
     public function index(Request $request)
     {
+        $startDate = $request->startDate ?? null;
+        $endDate = $request->endDate ?? null;
+        $status = $request->status ?? null;
+        $search = $request->search ?? null;
+        $customer = $request->customer ?? null;
+
+        if ($search != null) {
+            $sale = Sale::search($request->search)->orderBy('date', 'asc')
+                ->query(fn (Builder $query) => $query->with('customer')->orderBy('date', 'asc'))
+                ->paginate(10);
+        } else if ($startDate && $endDate && $customer) {
+            $sale = Sale::orderBy('date', 'asc')
+                ->where('partner_id', $customer)
+                ->whereBetween('date', [$startDate, $endDate])
+                ->where('status', 'like', '%' . $status . '%')
+                ->paginate(10);
+        } else if ($startDate && $endDate) {
+            $sale = Sale::orderBy('date', 'asc')
+                ->whereBetween('date', [$startDate, $endDate])
+                ->where('status', 'like', '%' . $status . '%')
+                ->paginate(10);
+        } else if ($customer) {
+            $sale = Sale::orderBy('date', 'asc')
+                ->where('partner_id', $customer)
+                ->where('status', 'like', '%' . $status . '%')
+                ->paginate(10);
+        } else {
+            $sale = Sale::orderBy('date', 'asc')
+                ->where('status', 'like', '%' . $status . '%')
+                ->paginate(10);
+        }
+        // dd($startDate);
+
         return Inertia::render('Sale/Sale', [
             'title' => 'Sale',
             'active' => 'sale',
-            'sale' => Sale::search($request->search)->orderBy('date', 'asc')
-                ->query(fn (Builder $query) => $query->with('customer')->orderBy('date', 'asc'))
-                ->paginate(10),
+            'customer' => Customer::all(),
+            // 'sale' => Sale::search($request->search)->orderBy('date', 'asc')
+            //     ->query(fn (Builder $query) => $query->with('customer')->orderBy('date', 'asc'))
+            //     ->paginate(10),
+            'sale' => $sale,
+
         ]);
     }
 
@@ -83,7 +119,7 @@ class SaleController extends Controller
 
             DB::commit();
 
-            return redirect()->route('sale.index')->with(['message' => [
+            return redirect()->route('sale')->with(['message' => [
                 'type' => 'success',
                 'text' => 'Sale created successfully.',
                 'button' => 'OK!',
@@ -189,7 +225,7 @@ class SaleController extends Controller
 
             DB::commit();
 
-            return redirect()->route('sale.index')->with('success', 'Sale created successfully.');
+            return redirect()->route('sale')->with('success', 'Sale created successfully.');
         } catch (\Exception $e) {
             DB::rollback();
             dd($e->getMessage());
@@ -204,12 +240,12 @@ class SaleController extends Controller
         //     'memo' => $request->memo,
         // ]);
 
-        return redirect()->route('sale.index');
+        return redirect()->route('sale');
     }
 
     public function destroy(Request $request)
     {
         Sale::find($request->id)->delete();
-        return redirect()->route('sale.index');
+        return redirect()->route('sale');
     }
 }

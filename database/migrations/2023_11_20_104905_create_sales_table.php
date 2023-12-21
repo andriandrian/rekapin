@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->string('price_total');
             $table->string('memo')->nullable();
-            $table->enum('status', ['Waiting', 'Proceed'])->default('Waiting');
+            $table->enum('status', ['Waiting', 'Proceeded'])->default('Waiting');
             $table->timestamps();
         });
     }
