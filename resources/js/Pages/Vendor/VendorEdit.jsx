@@ -1,5 +1,5 @@
 import { BackHeader, FormInput, Navbar, TextButton } from "../../Components";
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 
 export default function VendorEdit(props) {
     const { data, setData, post, processing, errors } = useForm({
@@ -17,6 +17,7 @@ export default function VendorEdit(props) {
 
     return (
         <div className="flex flex-row h-screen w-full">
+            <Head title="Edit Vendor Profile" />
             <Navbar />
             <div className="flex flex-1 px-5 ml-64 pt-14 flex-col">
                 <div>
@@ -78,7 +79,9 @@ export default function VendorEdit(props) {
                                     <TextButton
                                         title="Cancel"
                                         bgColor="#ffffff"
-                                        onClick="back"
+                                        onClick={() => {
+                                            window.location.href = "/vendor";
+                                        }}
                                     />
                                     <button
                                         type="submit"
@@ -90,14 +93,16 @@ export default function VendorEdit(props) {
                                 </div>
                             </div>
                             <div className="flex flex-col w-full gap-4"></div>
-                            <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
+                            {/* <div className="absolute bottom-0 right-0 mr-5 mb-5 flex gap-4">
                                 <TextButton
                                     title="Cancel"
                                     bgColor="#ffffff"
-                                    onClick="back"
+                                    onClick={() => {
+                                        window.location.href = "/vendor";
+                                    }}
                                 />
                                 <TextButton title="Save" bgColor="#CCE5E3" />
-                            </div>
+                            </div> */}
                         </form>
                     </div>
                 </div>

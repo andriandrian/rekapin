@@ -1,5 +1,5 @@
 import { BackHeader, FormInput, Navbar, TextButton } from "../../Components";
-import { useForm } from "@inertiajs/react";
+import { useForm, Head } from "@inertiajs/react";
 import React from "react";
 import Select from "react-select";
 
@@ -32,6 +32,7 @@ export default function InventoryCreate(props) {
     return (
         <div className="flex flex-row h-screen w-full">
             <Navbar />
+            <Head title="Add New Product" />
             <div className="flex flex-1 ml-64 px-5 pt-14 flex-col">
                 <div>
                     <div className="w-full">

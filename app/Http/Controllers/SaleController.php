@@ -22,27 +22,27 @@ class SaleController extends Controller
         $customer = $request->customer ?? null;
 
         if ($search != null) {
-            $sale = Sale::search($request->search)->orderBy('date', 'asc')
-                ->query(fn (Builder $query) => $query->with('customer')->orderBy('date', 'asc'))
+            $sale = Sale::search($request->search)->orderBy('date', 'desc')
+                ->query(fn (Builder $query) => $query->with('customer')->orderBy('date', 'desc'))
                 ->paginate(10);
         } else if ($startDate && $endDate && $customer) {
-            $sale = Sale::orderBy('date', 'asc')
+            $sale = Sale::orderBy('date', 'desc')
                 ->where('partner_id', $customer)
                 ->whereBetween('date', [$startDate, $endDate])
                 ->where('status', 'like', '%' . $status . '%')
                 ->paginate(10);
         } else if ($startDate && $endDate) {
-            $sale = Sale::orderBy('date', 'asc')
+            $sale = Sale::orderBy('date', 'desc')
                 ->whereBetween('date', [$startDate, $endDate])
                 ->where('status', 'like', '%' . $status . '%')
                 ->paginate(10);
         } else if ($customer) {
-            $sale = Sale::orderBy('date', 'asc')
+            $sale = Sale::orderBy('date', 'desc')
                 ->where('partner_id', $customer)
                 ->where('status', 'like', '%' . $status . '%')
                 ->paginate(10);
         } else {
-            $sale = Sale::orderBy('date', 'asc')
+            $sale = Sale::orderBy('date', 'desc')
                 ->where('status', 'like', '%' . $status . '%')
                 ->paginate(10);
         }

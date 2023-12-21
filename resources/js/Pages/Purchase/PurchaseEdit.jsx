@@ -8,7 +8,7 @@ import {
     SaveButton,
     SeacrhBarFull,
 } from "../../Components";
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import React from "react";
 import Select from "react-select";
 
@@ -132,6 +132,7 @@ export default function Edit(props) {
 
     return (
         <div className="flex flex-row h-screen w-full">
+            <Head title="Edit Purchasing" />
             <Navbar />
             <div className="flex flex-1 ml-64">
                 <div className="pt-14 px-5 w-full">
@@ -170,10 +171,12 @@ export default function Edit(props) {
                                     </div>
                                     <div className="absolute top-0 right-0 mr-5 mb-5 flex gap-4 mt-14">
                                         {data.status == "Unpaid" && (
-                                            <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
+                                            <button
+                                                className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16"
+                                                onClick={setFinish}
+                                            >
                                                 <img
                                                     src={CheckIcon}
-                                                    onClick={setFinish}
                                                     className="w-6"
                                                 />
                                             </button>

@@ -8,7 +8,7 @@ import {
     SaveButton,
     SeacrhBarFull,
 } from "../../Components";
-import { useForm } from "@inertiajs/react";
+import { Head, useForm } from "@inertiajs/react";
 import React from "react";
 import Select from "react-select";
 
@@ -125,6 +125,7 @@ export default function PurchaseCreate(props) {
     };
     return (
         <div className="flex flex-row h-screen w-full">
+            <Head title="Create Purchasing" />
             <Navbar />
             <div className="flex flex-1 ml-64 ">
                 <div className="pt-14 px-5 w-full">

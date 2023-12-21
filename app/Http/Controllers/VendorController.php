@@ -72,12 +72,20 @@ class VendorController extends Controller
         //     return redirect()->back()->with($error)->withInput();
         // }
 
-        $request->validate([
-            'name' => 'required',
-            'address' => 'required',
-            'phone' => 'required|min:10',
-            'email' => 'required|email:dns'
-        ]);
+        if ($request->email == null) {
+            $request->validate([
+                'name' => 'required',
+                'address' => 'required',
+                'phone' => 'required|min:10',
+            ]);
+        } else {
+            $request->validate([
+                'name' => 'required',
+                'address' => 'required',
+                'phone' => 'required|min:10',
+                'email' => 'email:dns'
+            ]);
+        }
 
         Vendor::create([
             'name' => $request->name,

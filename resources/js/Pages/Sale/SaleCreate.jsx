@@ -5,7 +5,7 @@ import {
     TrashIcon,
 } from "@/Assets";
 import { BackHeader, Navbar } from "../../Components";
-import { useForm } from "@inertiajs/react";
+import { useForm, Head } from "@inertiajs/react";
 import React from "react";
 import Select from "react-select";
 
@@ -125,6 +125,7 @@ export default function SaleCreate(props) {
 
     return (
         <div className="flex flex-row h-screen w-full">
+            <Head title="Create Sales Order" />
             <Navbar />
             <div className="flex flex-1 ml-64 ">
                 <div className="pt-14 px-5 w-full">

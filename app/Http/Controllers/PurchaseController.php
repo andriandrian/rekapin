@@ -25,45 +25,45 @@ class PurchaseController extends Controller
         $vendor = $request->vendor ?? null;
         // dd($request->all());
 
-        if ($search != null) {
-            $purchase = Purchase::search($request->search)->orderBy('date', 'asc')
-                ->query(fn (Builder $query) => $query->with('vendor')->orderBy('date', 'asc'))
+        if ($search) {
+            $purchase = Purchase::search($search)->orderBy('date', 'desc')
+                ->query(fn (Builder $query) => $query->with('vendor')->orderBy('date', 'desc'))
                 ->paginate(10);
         } else if ($startDate && $endDate && $vendor && $status) {
-            $purchase = Purchase::orderBy('date', 'asc')
+            $purchase = Purchase::orderBy('date', 'desc')
                 ->where('partner_id', $vendor)
                 ->whereBetween('date', [$startDate, $endDate])
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($startDate && $endDate && $status) {
-            $purchase = Purchase::orderBy('date', 'asc')
+            $purchase = Purchase::orderBy('date', 'desc')
                 ->whereBetween('date', [$startDate, $endDate])
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($startDate && $endDate && $vendor) {
-            $purchase = Purchase::orderBy('date', 'asc')
+            $purchase = Purchase::orderBy('date', 'desc')
                 ->where('partner_id', $vendor)
                 ->whereBetween('date', [$startDate, $endDate])
                 ->paginate(10);
         } else if ($startDate && $endDate) {
-            $purchase = Purchase::orderBy('date', 'asc')
+            $purchase = Purchase::orderBy('date', 'desc')
                 ->whereBetween('date', [$startDate, $endDate])
                 ->paginate(10);
         } else if ($status && $vendor) {
-            $purchase = Purchase::orderBy('date', 'asc')
+            $purchase = Purchase::orderBy('date', 'desc')
                 ->where('partner_id', $vendor)
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($status) {
-            $purchase = Purchase::orderBy('date', 'asc')
+            $purchase = Purchase::orderBy('date', 'desc')
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($vendor) {
-            $purchase = Purchase::orderBy('date', 'asc')
+            $purchase = Purchase::orderBy('date', 'desc')
                 ->where('partner_id', $vendor)
                 ->paginate(10);
         } else {
-            $purchase = Purchase::orderBy('date', 'asc')
+            $purchase = Purchase::orderBy('date', 'desc')
                 ->paginate(10);
         }
 
@@ -87,7 +87,7 @@ class PurchaseController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $rules = [
             'partner_id' => 'required',
             'date' => 'required',
@@ -300,7 +300,7 @@ class PurchaseController extends Controller
             ]]);
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e->getMessage());
+            // dd($e->getMessage());
 
             return redirect()->back()->with('error', 'Purchase failed to create.');
         }

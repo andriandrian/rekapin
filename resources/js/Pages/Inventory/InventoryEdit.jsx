@@ -32,6 +32,7 @@ export default function InventoryEdit(props) {
 
     return (
         <div className="flex flex-row h-screen w-full">
+            <Head title="Edit Product Detail" />
             <Navbar />
             <div className="flex flex-1 ml-64 px-5 pt-14 flex-col h-screen">
                 <div>

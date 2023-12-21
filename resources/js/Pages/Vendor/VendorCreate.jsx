@@ -76,7 +76,9 @@ export default function VendorCreate(props) {
                                     <TextButton
                                         title="Cancel"
                                         bgColor="#ffffff"
-                                        onClick="back"
+                                        onClick={() => {
+                                            window.history.back();
+                                        }}
                                     />
                                     <button
                                         type="submit"

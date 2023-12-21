@@ -27,44 +27,44 @@ class SaleInvoiceController extends Controller
         $customer = $request->customer ?? null;
 
         if ($search != null) {
-            $invoice = SaleInvoice::search($request->search)->orderBy('date', 'asc')
-                ->query(fn (Builder $query) => $query->with('customer')->orderBy('date', 'asc'))
+            $invoice = SaleInvoice::search($request->search)->orderBy('date', 'desc')
+                ->query(fn (Builder $query) => $query->with('customer')->orderBy('date', 'desc'))
                 ->paginate(10);
         } else if ($startDate && $endDate && $customer && $status) {
-            $invoice = SaleInvoice::orderBy('date', 'asc')
+            $invoice = SaleInvoice::orderBy('date', 'desc')
                 ->where('partner_id', $customer)
                 ->whereBetween('date', [$startDate, $endDate])
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($startDate && $endDate && $status) {
-            $invoice = SaleInvoice::orderBy('date', 'asc')
+            $invoice = SaleInvoice::orderBy('date', 'desc')
                 ->whereBetween('date', [$startDate, $endDate])
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($startDate && $endDate && $customer) {
-            $invoice = SaleInvoice::orderBy('date', 'asc')
+            $invoice = SaleInvoice::orderBy('date', 'desc')
                 ->where('partner_id', $customer)
                 ->whereBetween('date', [$startDate, $endDate])
                 ->paginate(10);
         } else if ($startDate && $endDate) {
-            $invoice = SaleInvoice::orderBy('date', 'asc')
+            $invoice = SaleInvoice::orderBy('date', 'desc')
                 ->whereBetween('date', [$startDate, $endDate])
                 ->paginate(10);
         } else if ($status && $customer) {
-            $invoice = SaleInvoice::orderBy('date', 'asc')
+            $invoice = SaleInvoice::orderBy('date', 'desc')
                 ->where('partner_id', $customer)
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($status) {
-            $invoice = SaleInvoice::orderBy('date', 'asc')
+            $invoice = SaleInvoice::orderBy('date', 'desc')
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($customer) {
-            $invoice = SaleInvoice::orderBy('date', 'asc')
+            $invoice = SaleInvoice::orderBy('date', 'desc')
                 ->where('partner_id', $customer)
                 ->paginate(10);
         } else {
-            $invoice = SaleInvoice::orderBy('date', 'asc')
+            $invoice = SaleInvoice::orderBy('date', 'desc')
                 ->paginate(10);
         }
 

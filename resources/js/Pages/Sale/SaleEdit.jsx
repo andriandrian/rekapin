@@ -5,7 +5,7 @@ import {
     TrashIcon,
 } from "@/Assets";
 import { BackHeader, Navbar } from "../../Components";
-import { useForm, usePage } from "@inertiajs/react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import React from "react";
 import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
@@ -137,6 +137,7 @@ export default function SaleEdit(props) {
 
     return (
         <div className="flex flex-row h-screen w-full">
+            <Head title="Edit Sale" />
             <Navbar />
             <ToastContainer />
             <div className="flex flex-1 ml-64">
@@ -220,10 +221,12 @@ export default function SaleEdit(props) {
                                 </div>
                                 <div className="absolute top-0 right-0 mr-5 mb-5 flex gap-4 mt-14">
                                     {data.status == "Waiting" && (
-                                        <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
+                                        <button
+                                            className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16"
+                                            onClick={createInvoice}
+                                        >
                                             <img
                                                 src={SalesInvoiceIcon}
-                                                onClick={createInvoice}
                                                 className="w-6"
                                             />
                                         </button>

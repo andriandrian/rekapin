@@ -75,12 +75,27 @@ class CustomerController extends Controller
         //     return redirect()->back()->with($error)->withInput();
         // }
 
-        $request->validate([
-            'name' => 'required',
-            'address' => 'required',
-            'phone' => 'required|min:10',
-            'email' => 'required|email:dns'
-        ]);
+        if ($request->email == null) {
+            $request->validate([
+                'name' => 'required',
+                'address' => 'required',
+                'phone' => 'required|min:10',
+            ]);
+        } else {
+            $request->validate([
+                'name' => 'required',
+                'address' => 'required',
+                'phone' => 'required|min:10',
+                'email' => 'email:dns'
+            ]);
+        }
+
+        // $request->validate([
+        //     'name' => 'required',
+        //     'address' => 'required',
+        //     'phone' => 'required|min:10',
+        //     'email' => 'email:dns'
+        // ]);
 
         Customer::create([
             'name' => $request->name,

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Purchase extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     // protected $fillable = [
     //     'partner_id',
@@ -54,5 +55,12 @@ class Purchase extends Model
         static::creating(function ($purchase) {
             $purchase->purchase_no = self::generatePurchaseNumber();
         });
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'purchase_no' => $this->purchase_no,
+        ];
     }
 }
