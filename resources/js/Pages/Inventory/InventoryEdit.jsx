@@ -1,5 +1,5 @@
 import { BackHeader, FormInput, Navbar, TextButton } from "../../Components";
-import { useForm } from "@inertiajs/react";
+import { useForm, Head } from "@inertiajs/react";
 import React from "react";
 import Select from "react-select";
 

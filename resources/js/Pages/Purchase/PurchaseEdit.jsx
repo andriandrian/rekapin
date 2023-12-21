@@ -314,7 +314,6 @@ export default function Edit(props) {
                                                             <span className="font-semibold mr-1">
                                                                 {row.label}
                                                             </span>
-                                                            ({row.batch_no})
                                                         </p>
                                                     </td>
                                                     <td className="pt-2 px-1">
