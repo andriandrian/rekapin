@@ -228,13 +228,18 @@ export default function SaleEdit(props) {
                                             />
                                         </button>
                                     )}
-                                    <button
-                                        type="submit"
-                                        disabled={processing}
-                                        className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16"
-                                    >
-                                        <img src={SaveIcon} className="w-6" />
-                                    </button>
+                                    {data.status == "Waiting" && (
+                                        <button
+                                            type="submit"
+                                            disabled={processing}
+                                            className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16"
+                                        >
+                                            <img
+                                                src={SaveIcon}
+                                                className="w-6"
+                                            />
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                             <div className="mt-4 flex flex-roW gap-4">
@@ -374,9 +379,7 @@ export default function SaleEdit(props) {
                                                         rowSpan="2"
                                                     >
                                                         <div
-                                                            onClick={(
-                                                                index
-                                                            ) => {
+                                                            onClick={() => {
                                                                 deleteRows(
                                                                     index
                                                                 );

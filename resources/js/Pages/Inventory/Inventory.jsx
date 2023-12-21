@@ -135,7 +135,7 @@ export default function Inventory(props) {
                                 Vendor
                             </td>
                             <td className="border-[1.5px] border-black">Qty</td>
-                            <td className="border-[1.5px] border-black">UOM</td>
+                            <td className="border-[1.5px] border-black">UoM</td>
                             <td className="border-[1.5px] border-black">
                                 Sales Price (@)
                             </td>

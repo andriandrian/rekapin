@@ -196,10 +196,28 @@ class SaleController extends Controller
                 'memo' => $request->memo,
             ]);
 
+            $saleOrderLines = SaleOrderLine::where('sale_id', $request->id)->get();
+            $products = $request->products;
+            foreach ($saleOrderLines as $salaOrderLine) {
+                $exists = false;
+                foreach ($products as $product) {
+                    if ($product['id'] == $salaOrderLine->id) {
+                        $exists = true;
+                        break;
+                    }
+                }
+
+                // If the id doesn't exist in the products array, delete the salaOrderLine
+                if (!$exists) {
+                    $salaOrderLine->delete();
+                }
+            }
+
             foreach ($request->products as $product) {
-                // dd(request()->all());
-                $saleOrderLine = SaleOrderLine::where('sale_id', $request->id)->where('product_id', $product['product_id'])->first();
-                // dd($saleOrderLine);
+                $productId = $product['id'] ?? null;
+                if ($productId) {
+                    $saleOrderLine = SaleOrderLine::where('sale_id', $request->id)->where('id', $productId)->first();
+                }
                 if ($saleOrderLine == null) {
                     SaleOrderLine::create([
                         'sale_id' => $request->id,

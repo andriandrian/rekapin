@@ -87,7 +87,7 @@ class PurchaseController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
         $rules = [
             'partner_id' => 'required',
             'date' => 'required',
@@ -197,13 +197,15 @@ class PurchaseController extends Controller
             'products.*.subtotal' => 'required|integer|min:0',
         ];
 
-        $messages = [
-            'partner_id.required' => 'The vendor field is required.',
-        ];
+        // $messages = [
+        //     'partner_id.required' => 'The vendor field is required.',
+        // ];
 
-        $request->validate($rules, $messages);
+        // $request->validate($rules, $messages);
 
         DB::beginTransaction();
+
+        // dd($request->all());
 
         try {
             $newPurchase = Purchase::find($request->id)->update([
@@ -213,20 +215,81 @@ class PurchaseController extends Controller
                 'memo' => $request->memo,
             ]);
 
-            foreach ($request->products as $product) {
-                PurchaseOrderLine::find($product['id'])->update([
-                    'purchase_id' => $newPurchase->id,
-                    'product_id' => $product['value'],
-                    'product_quantity' => $product['product_quantity'],
-                    'discount' => $product['discount'],
-                    'discount_percent' => $product['discount_percent'],
-                    'subtotal' => $product['subtotal'],
-                ]);
+            // foreach ($request->products as $product) {
+            //     $productId = $product['product_id'] ?? null;
+            //     if ($productId) {
+            //         $purchaseOrderLine = PurchaseOrderLine::where('purchase_id', $request->id)->where('product_id', $productId)->first();
+            //         $purchaseOrderLine->update([
+            //             'product_quantity' => $product['product_quantity'],
+            //             'discount' => $product['discount'],
+            //             'discount_percent' => $product['discount_percent'],
+            //             'subtotal' => $product['subtotal'],
+            //         ]);
+            //     } else {
+            //         PurchaseOrderLine::create(
+            //             [
+            //                 'purchase_id' => $request->id,
+            //                 'product_id' => $product['value'],
+            //                 'product_quantity' => $product['product_quantity'],
+            //                 'discount' => $product['discount'],
+            //                 'discount_percent' => $product['discount_percent'],
+            //                 'subtotal' => $product['subtotal'],
 
-                $selectedProduct = Product::find($product['value']);
-                $updatedStock = (int)$selectedProduct['available_stock'] - (int)$product['product_quantity'];
-                Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
+            //             ]
+            //         );
+            //         $selectedProduct = Product::find($product['value']);
+            //         $updatedStock = (int)$selectedProduct['available_stock'] + (int)$product['product_quantity'];
+            //         Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
+            //     }
+            // }
+            $purchaseOrderLines = PurchaseOrderLine::where('purchase_id', $request->id)->get();
+            $products = $request->products;
+            // dd($purchaseOrderLines, $products);
+            foreach ($purchaseOrderLines as $purchaseOrderLine) {
+                $exists = false;
+                foreach ($products as $product) {
+                    if ($product['id'] == $purchaseOrderLine->id) {
+                        $exists = true;
+                        break;
+                    }
+                }
+
+                // If the id doesn't exist in the products array, delete the purchaseOrderLine
+                if (!$exists) {
+                    $purchaseOrderLine->delete();
+                }
             }
+
+            foreach ($request->products as $product) {
+                $productId = $product['id'] ?? null;
+                $purchaseOrderLine = null;
+                if ($productId) {
+                    $purchaseOrderLine = PurchaseOrderLine::where('purchase_id', $request->id)->where('id', $productId)->first();
+                }
+                // $purchaseOrderLine = PurchaseOrderLine::where('purchase_id', $request->id)->where('product_id', $productId)->first() ?? null;
+                if ($purchaseOrderLine == null) {
+                    PurchaseOrderLine::create([
+                        'purchase_id' => $request->id,
+                        'product_id' => $product['value'],
+                        'product_quantity' => $product['product_quantity'],
+                        'discount' => $product['discount'],
+                        'discount_percent' => $product['discount_percent'],
+                        'subtotal' => $product['subtotal'],
+                    ]);
+
+                    $selectedProduct = Product::find($product['value']);
+                    $updatedStock = (int)$selectedProduct['available_stock'] + (int)$product['product_quantity'];
+                    Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
+                } else {
+                    $purchaseOrderLine->update([
+                        'product_quantity' => $product['product_quantity'],
+                        'discount' => $product['discount'],
+                        'discount_percent' => $product['discount_percent'],
+                        'subtotal' => $product['subtotal'],
+                    ]);
+                }
+            }
+
 
             DB::commit();
 
@@ -237,7 +300,7 @@ class PurchaseController extends Controller
             ]]);
         } catch (\Exception $e) {
             DB::rollback();
-            // dd($e->getMessage());
+            dd($e->getMessage());
 
             return redirect()->back()->with('error', 'Purchase failed to create.');
         }

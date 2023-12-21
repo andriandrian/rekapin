@@ -153,28 +153,7 @@ export default function Edit(props) {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-row align-middle gap-3">
-                            <div className="absolute top-0 right-0 mr-5 mb-5 flex gap-4 mt-14">
-                                {data.status == "Unpaid" && (
-                                    <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
-                                        <img
-                                            src={CheckIcon}
-                                            onClick={setFinish}
-                                            className="w-6"
-                                        />
-                                    </button>
-                                )}
-                                {data.status == "Unpaid" && (
-                                    <button
-                                        type="submit"
-                                        disabled={processing}
-                                        className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16"
-                                    >
-                                        <img src={SaveIcon} className="w-6" />
-                                    </button>
-                                )}
-                            </div>
-                        </div>
+                        <div className="flex flex-row align-middle gap-3"></div>
                     </div>
 
                     <div>
@@ -188,6 +167,29 @@ export default function Edit(props) {
                                         >
                                             <p>Vendor</p>
                                         </label>
+                                    </div>
+                                    <div className="absolute top-0 right-0 mr-5 mb-5 flex gap-4 mt-14">
+                                        {data.status == "Unpaid" && (
+                                            <button className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16">
+                                                <img
+                                                    src={CheckIcon}
+                                                    onClick={setFinish}
+                                                    className="w-6"
+                                                />
+                                            </button>
+                                        )}
+                                        {data.status == "Unpaid" && (
+                                            <button
+                                                type="submit"
+                                                disabled={processing}
+                                                className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16"
+                                            >
+                                                <img
+                                                    src={SaveIcon}
+                                                    className="w-6"
+                                                />
+                                            </button>
+                                        )}
                                     </div>
                                     <Select
                                         name="vendor"
@@ -377,9 +379,7 @@ export default function Edit(props) {
                                                             rowSpan="2"
                                                         >
                                                             <div
-                                                                onClick={(
-                                                                    index
-                                                                ) => {
+                                                                onClick={() => {
                                                                     deleteRows(
                                                                         index
                                                                     );

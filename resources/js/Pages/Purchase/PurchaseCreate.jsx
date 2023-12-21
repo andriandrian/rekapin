@@ -352,9 +352,7 @@ export default function PurchaseCreate(props) {
                                                         rowSpan="2"
                                                     >
                                                         <div
-                                                            onClick={(
-                                                                index
-                                                            ) => {
+                                                            onClick={() => {
                                                                 deleteRows(
                                                                     index
                                                                 );
