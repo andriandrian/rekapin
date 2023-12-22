@@ -55,6 +55,12 @@ export default function Edit(props) {
             ...prevState,
             products: [...prevState.products, data],
         }));
+        clearSelect();
+    };
+
+    const clearSelect = () => {
+        const select = document.querySelector(".react-select__input");
+        select.value = "";
     };
 
     const deleteRows = (index) => {

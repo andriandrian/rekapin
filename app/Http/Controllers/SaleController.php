@@ -65,8 +65,8 @@ class SaleController extends Controller
         return Inertia::render('Sale/SaleCreate', [
             'title' => 'Sale Create',
             'active' => 'sale',
-            'product' => Product::all(),
-            'customer' => Customer::all(),
+            'product' => Product::orderBy('name', 'asc')->get(),
+            'customer' => Customer::orderBy('name', 'asc')->get(),
         ]);
     }
 
@@ -161,8 +161,8 @@ class SaleController extends Controller
             'sale' => $saleToEdit,
             'partner' => $customerFields,
             'saleOrderLines' => $saleOrderLines,
-            'product' => Product::all(),
-            'customer' => Customer::all(),
+            'product' => Product::orderBy('name', 'asc')->get(),
+            'customer' => Customer::orderBy('name', 'asc')->get(),
         ]);
     }
 
@@ -228,16 +228,29 @@ class SaleController extends Controller
                         'subtotal' => $product['subtotal'],
                     ]);
 
-                    // $selectedProduct = Product::find($product['value']);
-                    // $updatedStock = (int)$selectedProduct['available_stock'] - (int)$product['product_quantity'];
-                    // Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
+                    $selectedProduct = Product::find($product['value']);
+                    $updatedStock = (int)$selectedProduct['available_stock'] - (int)$product['product_quantity'];
+                    Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
                 } else {
-                    $saleOrderLine->update([
-                        'product_quantity' => $product['product_quantity'],
-                        'discount' => $product['discount'],
-                        'discount_percent' => $product['discount_percent'],
-                        'subtotal' => $product['subtotal'],
-                    ]);
+                    if ($saleOrderLine->product_quantity != $product['product_quantity']) {
+                        $selectedProduct = Product::where('id', $product['product_id'])->first();
+                        $updatedStock = 0;
+                        if ($saleOrderLine->product_quantity > $product['product_quantity']) {
+                            $difference = (int)$saleOrderLine->product_quantity - (int)$product['product_quantity'];
+                            $updatedStock = (int)$selectedProduct['available_stock'] + $difference;
+                        } else {
+                            $difference = (int)$product['product_quantity'] - (int)$saleOrderLine->product_quantity;
+                            $updatedStock = (int)$selectedProduct['available_stock'] - $difference;
+                        }
+                        $selectedProduct->available_stock = $updatedStock;
+                        $selectedProduct->save();
+                    }
+
+                    // $saleOrderLine->product_quantity = $product['product_quantity'];
+                    $saleOrderLine->discount = $product['discount'];
+                    $saleOrderLine->discount_percent = $product['discount_percent'];
+                    $saleOrderLine->subtotal = $product['subtotal'];
+                    $saleOrderLine->save();
                 }
             }
 

@@ -205,8 +205,6 @@ class PurchaseController extends Controller
 
         DB::beginTransaction();
 
-        // dd($request->all());
-
         try {
             $newPurchase = Purchase::find($request->id)->update([
                 'partner_id' => $request->partner_id["value"],
@@ -215,36 +213,8 @@ class PurchaseController extends Controller
                 'memo' => $request->memo,
             ]);
 
-            // foreach ($request->products as $product) {
-            //     $productId = $product['product_id'] ?? null;
-            //     if ($productId) {
-            //         $purchaseOrderLine = PurchaseOrderLine::where('purchase_id', $request->id)->where('product_id', $productId)->first();
-            //         $purchaseOrderLine->update([
-            //             'product_quantity' => $product['product_quantity'],
-            //             'discount' => $product['discount'],
-            //             'discount_percent' => $product['discount_percent'],
-            //             'subtotal' => $product['subtotal'],
-            //         ]);
-            //     } else {
-            //         PurchaseOrderLine::create(
-            //             [
-            //                 'purchase_id' => $request->id,
-            //                 'product_id' => $product['value'],
-            //                 'product_quantity' => $product['product_quantity'],
-            //                 'discount' => $product['discount'],
-            //                 'discount_percent' => $product['discount_percent'],
-            //                 'subtotal' => $product['subtotal'],
-
-            //             ]
-            //         );
-            //         $selectedProduct = Product::find($product['value']);
-            //         $updatedStock = (int)$selectedProduct['available_stock'] + (int)$product['product_quantity'];
-            //         Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
-            //     }
-            // }
             $purchaseOrderLines = PurchaseOrderLine::where('purchase_id', $request->id)->get();
             $products = $request->products;
-            // dd($purchaseOrderLines, $products);
             foreach ($purchaseOrderLines as $purchaseOrderLine) {
                 $exists = false;
                 foreach ($products as $product) {
@@ -253,8 +223,6 @@ class PurchaseController extends Controller
                         break;
                     }
                 }
-
-                // If the id doesn't exist in the products array, delete the purchaseOrderLine
                 if (!$exists) {
                     $purchaseOrderLine->delete();
                 }
@@ -266,7 +234,6 @@ class PurchaseController extends Controller
                 if ($productId) {
                     $purchaseOrderLine = PurchaseOrderLine::where('purchase_id', $request->id)->where('id', $productId)->first();
                 }
-                // $purchaseOrderLine = PurchaseOrderLine::where('purchase_id', $request->id)->where('product_id', $productId)->first() ?? null;
                 if ($purchaseOrderLine == null) {
                     PurchaseOrderLine::create([
                         'purchase_id' => $request->id,
@@ -281,15 +248,33 @@ class PurchaseController extends Controller
                     $updatedStock = (int)$selectedProduct['available_stock'] + (int)$product['product_quantity'];
                     Product::where('id', $product['value'])->update(['available_stock' => $updatedStock]);
                 } else {
-                    $purchaseOrderLine->update([
-                        'product_quantity' => $product['product_quantity'],
-                        'discount' => $product['discount'],
-                        'discount_percent' => $product['discount_percent'],
-                        'subtotal' => $product['subtotal'],
-                    ]);
+                    if ($purchaseOrderLine->product_quantity != $product['product_quantity']) {
+                        $selectedProduct = Product::where('id', $product['product_id'])->first();
+                        $updatedStock = 0;
+                        if ($purchaseOrderLine->product_quantity > $product['product_quantity']) {
+                            $difference = (int)$purchaseOrderLine->product_quantity - (int)$product['product_quantity'];
+                            $updatedStock = (int)$selectedProduct['available_stock'] + $difference;
+                        } else {
+                            $difference = (int)$product['product_quantity'] - (int)$purchaseOrderLine->product_quantity;
+                            $updatedStock = (int)$selectedProduct['available_stock'] - $difference;
+                        }
+                        $selectedProduct->available_stock = $updatedStock;
+                        $selectedProduct->save();
+                    }
+
+                    // $purchaseOrderLine->product_quantity = $product['product_quantity'];
+                    $purchaseOrderLine->discount = $product['discount'];
+                    $purchaseOrderLine->discount_percent = $product['discount_percent'];
+                    $purchaseOrderLine->subtotal = $product['subtotal'];
+                    $purchaseOrderLine->save();
+                    // $purchaseOrderLine->update([
+                    //     'product_quantity' => $product['product_quantity'],
+                    //     'discount' => $product['discount'],
+                    //     'discount_percent' => $product['discount_percent'],
+                    //     'subtotal' => $product['subtotal'],
+                    // ]);
                 }
             }
-
 
             DB::commit();
 
@@ -300,13 +285,14 @@ class PurchaseController extends Controller
             ]]);
         } catch (\Exception $e) {
             DB::rollback();
-            // dd($e->getMessage());
+            dd($e->getMessage());
 
             return redirect()->back()->with('error', 'Purchase failed to create.');
         }
 
         return redirect()->route('purchase');
     }
+
 
     public function status(Request $request)
     {
@@ -320,6 +306,7 @@ class PurchaseController extends Controller
             'button' => 'OK!',
         ]]);
     }
+
 
     public function destroy(Request $request)
     {
