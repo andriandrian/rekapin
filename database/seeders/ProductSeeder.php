@@ -134,24 +134,24 @@ class ProductSeeder extends Seeder
             'vendor_id' => 2,
         ]);
 
-        $productData = [];
+        // $productData = [];
 
-        for ($i = 1; $i <= 25; $i++) {
-            $productData[] = [
-                'name' => "Product $i",
-                'purchase_price' => '12000',
-                'sale_price' => '13000',
-                'default_code' => "PR$i",
-                'barcode_no' => "000$i",
-                'batch_no' => '2310',
-                'available_stock' => '100',
-                'uom' => 'pcs',
-                'vendor_id' => $i,
-            ];
-        }
+        // for ($i = 1; $i <= 25; $i++) {
+        //     $productData[] = [
+        //         'name' => "Product $i",
+        //         'purchase_price' => '12000',
+        //         'sale_price' => '13000',
+        //         'default_code' => "PR$i",
+        //         'barcode_no' => "000$i",
+        //         'batch_no' => '2310',
+        //         'available_stock' => '100',
+        //         'uom' => 'pcs',
+        //         'vendor_id' => $i,
+        //     ];
+        // }
 
-        foreach ($productData as $product) {
-            Product::create($product);
-        }
+        // foreach ($productData as $product) {
+        //     Product::create($product);
+        // }
     }
 }

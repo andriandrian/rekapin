@@ -36,9 +36,9 @@ export default function VendorEdit(props) {
                         >
                             <div className="flex flex-col gap-4 w-full pr-7">
                                 <FormInput
-                                    label="Customer Name"
-                                    placeholder="Enter Customer Name"
-                                    name="customer-name"
+                                    label="Vendor Name"
+                                    placeholder="Enter Vendor Name"
+                                    name="vendor-name"
                                     value={data.name}
                                     onChange={(e) =>
                                         setData("name", e.target.value)

@@ -8,10 +8,10 @@ export function StatusTag(props) {
             className={`px-2 py-1 w-fit 
             ${props.status == "Proceeded" && "bg-[#17c727] text-white"}
             ${props.status == "Finish" && "bg-[#17c727] text-white"}
-            ${props.status == "Paid" && "bg-green-500 text-white"}
+            ${props.status == "Received" && "bg-green-500 text-white"}
             ${props.status == "Waiting" && "bg-slate-300"}
             ${props.status == "Unfinish" && "bg-slate-300"}
-            ${props.status == "Unpaid" && "bg-slate-300"}
+            ${props.status == "Unreceived" && "bg-slate-300"}
             rounded-md text-sm font-normal`}
         >
             {props.status}

@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { pickBy } from "lodash";
 import React from "react";
 import Select from "react-select";
+import { format } from "date-fns";
 
 export default function Purchase(props) {
     const { flash } = usePage().props;
@@ -150,7 +151,7 @@ export default function Purchase(props) {
                 <div className="border-[1.5px] border-black rounded-xl mt-5 px-5 py-8 w-auto ">
                     <div className="flex flex-row gap-3 text-xl font-semibold">
                         <img src={PurchasingIcon} className="w-7" />
-                        <h1>Purchase Order</h1>
+                        <h1>Purchasing</h1>
                     </div>
                     <form
                         className="flex flex-row justify-between gap-6 mt-5"
@@ -210,8 +211,10 @@ export default function Purchase(props) {
                                     }}
                                 >
                                     <option value="all">All</option>
-                                    <option value="unpaid">Unpaid</option>
-                                    <option value="paid">Paid</option>
+                                    <option value="unreceived">
+                                        Unreceived
+                                    </option>
+                                    <option value="received">Received</option>
                                 </select>
                                 <GoButton type="submit" />
                             </div>
@@ -227,7 +230,7 @@ export default function Purchase(props) {
                                 No
                             </td>
                             <td className="border-[1.5px] border-black">
-                                Purchase Order No
+                                Purchasing No
                             </td>
                             <td className="border-[1.5px] border-black">
                                 Purchase Date
@@ -259,7 +262,10 @@ export default function Purchase(props) {
                                             {data.purchase_no}
                                         </td>
                                         <td className="border-[1.5px] border-black">
-                                            {data.date}
+                                            {format(
+                                                new Date(data.date),
+                                                "d-M-yyyy"
+                                            )}
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {data.vendor.name}

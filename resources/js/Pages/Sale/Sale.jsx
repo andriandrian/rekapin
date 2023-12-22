@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { pickBy } from "lodash";
 import React from "react";
 import Select from "react-select";
+import { format } from "date-fns";
 
 export default function Sale(props) {
     // console.log(props);
@@ -239,6 +240,9 @@ export default function Sale(props) {
                                 Sales Order No
                             </td>
                             <td className="border-[1.5px] border-black">
+                                Date
+                            </td>
+                            <td className="border-[1.5px] border-black">
                                 Customer Name
                             </td>
                             <td className="border-[1.5px] border-black">
@@ -265,6 +269,12 @@ export default function Sale(props) {
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {data.sale_no}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            {format(
+                                                new Date(data.date),
+                                                "d-M-yyyy"
+                                            )}
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {data.customer.name}
@@ -327,7 +337,7 @@ export default function Sale(props) {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan="7"
+                                    colSpan="8"
                                     className="border-[1.5px] border-black py-3 px-2"
                                 >
                                     No Data
@@ -336,11 +346,9 @@ export default function Sale(props) {
                         )}
                     </tbody>
                 </table>
-                {props.sale.total > 10 && (
-                    <div className="flex justify-center mt-5">
-                        <Paginator meta={props.sale} />
-                    </div>
-                )}
+                <div className="flex justify-center mt-5">
+                    <Paginator meta={props.sale} />
+                </div>
             </div>
         </div>
     );

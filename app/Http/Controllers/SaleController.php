@@ -22,27 +22,27 @@ class SaleController extends Controller
         $customer = $request->customer ?? null;
 
         if ($search != null) {
-            $sale = Sale::search($request->search)->orderBy('date', 'desc')
-                ->query(fn (Builder $query) => $query->with('customer')->orderBy('date', 'desc'))
+            $sale = Sale::search($request->search)->orderBy('created_at', 'desc')
+                ->query(fn (Builder $query) => $query->with('customer')->orderBy('created_at', 'desc'))
                 ->paginate(10);
         } else if ($startDate && $endDate && $customer) {
-            $sale = Sale::orderBy('date', 'desc')
+            $sale = Sale::orderBy('created_at', 'desc')
                 ->where('partner_id', $customer)
                 ->whereBetween('date', [$startDate, $endDate])
                 ->where('status', 'like', '%' . $status . '%')
                 ->paginate(10);
         } else if ($startDate && $endDate) {
-            $sale = Sale::orderBy('date', 'desc')
+            $sale = Sale::orderBy('created_at', 'desc')
                 ->whereBetween('date', [$startDate, $endDate])
                 ->where('status', 'like', '%' . $status . '%')
                 ->paginate(10);
         } else if ($customer) {
-            $sale = Sale::orderBy('date', 'desc')
+            $sale = Sale::orderBy('created_at', 'desc')
                 ->where('partner_id', $customer)
                 ->where('status', 'like', '%' . $status . '%')
                 ->paginate(10);
         } else {
-            $sale = Sale::orderBy('date', 'desc')
+            $sale = Sale::orderBy('created_at', 'desc')
                 ->where('status', 'like', '%' . $status . '%')
                 ->paginate(10);
         }
@@ -168,13 +168,14 @@ class SaleController extends Controller
 
     public function update(Request $request)
     {
+        dd($request->all());
         $rules = [
             'partner_id' => 'required',
             'date' => 'required',
             'price_total' => 'required',
             'memo' => 'nullable',
             'products' => 'required|array',
-            // 'products.*.value' => 'required|exists:products,id',
+            'products.*.value' => 'required|exists:products,id',
             'products.*.product_quantity' => 'required|integer|min:1',
             'products.*.discount' => 'nullable|integer|min:0',
             'products.*.discount_percent' => 'nullable|integer|min:0|max:100',
@@ -198,18 +199,21 @@ class SaleController extends Controller
 
             $saleOrderLines = SaleOrderLine::where('sale_id', $request->id)->get();
             $products = $request->products;
-            foreach ($saleOrderLines as $salaOrderLine) {
+            foreach ($saleOrderLines as $saleOrderLine) {
                 $exists = false;
                 foreach ($products as $product) {
-                    if ($product['id'] == $salaOrderLine->id) {
+                    if ($product['id'] == $saleOrderLine->id) {
                         $exists = true;
                         break;
                     }
                 }
 
-                // If the id doesn't exist in the products array, delete the salaOrderLine
+                // If the id doesn't exist in the products array, delete the saleOrderLine
                 if (!$exists) {
-                    $salaOrderLine->delete();
+                    $selectedProduct = Product::find($saleOrderLine->product_id);
+                    $updatedStock = (int)$selectedProduct['available_stock'] + (int)$saleOrderLine->product_quantity;
+                    Product::where('id', $saleOrderLine->product_id)->update(['available_stock' => $updatedStock]);
+                    $saleOrderLine->delete();
                 }
             }
 

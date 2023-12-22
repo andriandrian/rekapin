@@ -141,7 +141,8 @@ export default function Customer(props) {
                         </tr>
                     </thead>
                     <tbody className="text-center">
-                        {props.customer.data ? (
+                        {props.customer.data &&
+                        props.customer.data.length > 0 ? (
                             props.customer.data.map((data, i) => {
                                 return (
                                     <tr key={i}>

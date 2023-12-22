@@ -26,51 +26,51 @@ class PurchaseController extends Controller
         // dd($request->all());
 
         if ($search) {
-            $purchase = Purchase::search($search)->orderBy('date', 'desc')
-                ->query(fn (Builder $query) => $query->with('vendor')->orderBy('date', 'desc'))
+            $purchase = Purchase::search($search)->orderBy('created_at', 'desc')
+                ->query(fn (Builder $query) => $query->with('vendor')->orderBy('created_at', 'desc'))
                 ->paginate(10);
         } else if ($startDate && $endDate && $vendor && $status) {
-            $purchase = Purchase::orderBy('date', 'desc')
+            $purchase = Purchase::orderBy('created_at', 'desc')
                 ->where('partner_id', $vendor)
                 ->whereBetween('date', [$startDate, $endDate])
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($startDate && $endDate && $status) {
-            $purchase = Purchase::orderBy('date', 'desc')
+            $purchase = Purchase::orderBy('created_at', 'desc')
                 ->whereBetween('date', [$startDate, $endDate])
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($startDate && $endDate && $vendor) {
-            $purchase = Purchase::orderBy('date', 'desc')
+            $purchase = Purchase::orderBy('created_at', 'desc')
                 ->where('partner_id', $vendor)
                 ->whereBetween('date', [$startDate, $endDate])
                 ->paginate(10);
         } else if ($startDate && $endDate) {
-            $purchase = Purchase::orderBy('date', 'desc')
+            $purchase = Purchase::orderBy('created_at', 'desc')
                 ->whereBetween('date', [$startDate, $endDate])
                 ->paginate(10);
         } else if ($status && $vendor) {
-            $purchase = Purchase::orderBy('date', 'desc')
+            $purchase = Purchase::orderBy('created_at', 'desc')
                 ->where('partner_id', $vendor)
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($status) {
-            $purchase = Purchase::orderBy('date', 'desc')
+            $purchase = Purchase::orderBy('created_at', 'desc')
                 ->where('status', $status)
                 ->paginate(10);
         } else if ($vendor) {
-            $purchase = Purchase::orderBy('date', 'desc')
+            $purchase = Purchase::orderBy('created_at', 'desc')
                 ->where('partner_id', $vendor)
                 ->paginate(10);
         } else {
-            $purchase = Purchase::orderBy('date', 'desc')
+            $purchase = Purchase::orderBy('created_at', 'desc')
                 ->paginate(10);
         }
 
         return Inertia::render('Purchase/Purchase', [
             'title' => 'Purchase',
             'active' => 'purchase',
-            'vendor' => Vendor::all(),
+            'vendor' => Vendor::orderBy('name', 'asc')->get(),
             'purchase' => $purchase,
         ]);
     }
@@ -80,14 +80,13 @@ class PurchaseController extends Controller
         return Inertia::render('Purchase/PurchaseCreate', [
             'title' => 'Purchase Create',
             'active' => 'purchase',
-            'product' => Product::all(),
-            'vendor' => Vendor::all(),
+            'product' => Product::orderBy('name', 'asc')->get(),
+            'vendor' => Vendor::orderBy('name', 'asc')->get(),
         ]);
     }
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $rules = [
             'partner_id' => 'required',
             'date' => 'required',
@@ -177,8 +176,8 @@ class PurchaseController extends Controller
             'purchase' => $purchaseToEdit,
             'partner' => $vendorFields,
             'purchaseOrderLines' => $purchaseOrderLines,
-            'product' => Product::all(),
-            'vendor' => Vendor::all(),
+            'product' => Product::orderBy('name', 'asc')->get(),
+            'vendor' => Vendor::orderBy('name', 'asc')->get(),
         ]);
     }
 
@@ -224,6 +223,9 @@ class PurchaseController extends Controller
                     }
                 }
                 if (!$exists) {
+                    $selectedProduct = Product::find($purchaseOrderLine->product_id);
+                    $updatedStock = (int)$selectedProduct['available_stock'] - (int)$purchaseOrderLine->product_quantity;
+                    Product::where('id', $purchaseOrderLine->product_id)->update(['available_stock' => $updatedStock]);
                     $purchaseOrderLine->delete();
                 }
             }
@@ -297,7 +299,7 @@ class PurchaseController extends Controller
     public function status(Request $request)
     {
         Purchase::find($request->id)->update([
-            'status' => "Paid",
+            'status' => "Received",
         ]);
 
         return redirect()->route('purchase')->with(['message' => [

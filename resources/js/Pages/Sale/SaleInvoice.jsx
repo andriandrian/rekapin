@@ -8,6 +8,7 @@ import {
     AddButton,
     GoButton,
     Navbar,
+    Paginator,
     RefreshButton,
     SeacrhBarFull,
     StatusTag,
@@ -19,9 +20,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { pickBy } from "lodash";
 import React from "react";
 import Select from "react-select";
+import { format } from "date-fns";
 
 export default function SaleInvoice(props) {
     // router.reload({ only: ["invoice"] });
+    console.log(props);
     const { flash } = usePage().props;
     const [search, setSearch] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -232,6 +235,9 @@ export default function SaleInvoice(props) {
                                 Sales Invoice No
                             </td>
                             <td className="border-[1.5px] border-black">
+                                Date
+                            </td>
+                            <td className="border-[1.5px] border-black">
                                 Customer Name
                             </td>
                             <td className="border-[1.5px] border-black">
@@ -258,6 +264,12 @@ export default function SaleInvoice(props) {
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {data.invoice_no}
+                                        </td>
+                                        <td className="border-[1.5px] border-black">
+                                            {format(
+                                                new Date(data.date),
+                                                "d-M-yyyy"
+                                            )}
                                         </td>
                                         <td className="border-[1.5px] border-black">
                                             {data.customer.name}
@@ -322,7 +334,7 @@ export default function SaleInvoice(props) {
                         ) : (
                             <tr>
                                 <td
-                                    colSpan="7"
+                                    colSpan="8"
                                     className="border-[1.5px] border-black py-3 px-2"
                                 >
                                     No Data
@@ -331,6 +343,9 @@ export default function SaleInvoice(props) {
                         )}
                     </tbody>
                 </table>
+                <div className="flex justify-center mt-5">
+                    <Paginator meta={props.invoice} />
+                </div>
             </div>
         </div>
     );

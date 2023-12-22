@@ -20,6 +20,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "date-fns": "^3.0.6",
         "lodash": "^4.17.21",
         "react-select": "^5.8.0",
         "react-toastify": "^9.1.3"

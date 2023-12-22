@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('memo')->nullable();
             $table->enum(
                 'status',
-                ['Unpaid', 'Paid']
-            )->default('Unpaid');
+                ['Unreceived', 'Received']
+            )->default('Unreceived');
             $table->timestamps();
         });
     }

@@ -76,7 +76,7 @@ export default function Dashboard(props) {
                             <p className="text-xl font-semibold mb-2">
                                 Top Products
                             </p>
-                            <table>
+                            <table className="w-full">
                                 <thead className="bg-[#B7C9C7] text-center font-semibold">
                                     <tr>
                                         <td className="border-[1.5px] border-black py-3 px-2">
@@ -129,7 +129,7 @@ export default function Dashboard(props) {
                             <p className="text-xl font-semibold mb-2">
                                 Recent Activity
                             </p>
-                            <table>
+                            <table className="w-full">
                                 <thead className="bg-[#B7C9C7] text-center font-semibold">
                                     <tr>
                                         <td className="border-[1.5px] border-black py-3 px-2">
@@ -177,7 +177,7 @@ export default function Dashboard(props) {
                             <p className="text-xl font-semibold mb-2 mt-[10px]">
                                 Top Customers
                             </p>
-                            <table>
+                            <table className="w-full">
                                 <thead className="bg-[#B7C9C7] text-center font-semibold">
                                     <tr>
                                         <td className="border-[1.5px] border-black py-3 px-2">

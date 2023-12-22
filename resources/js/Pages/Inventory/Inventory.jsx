@@ -215,7 +215,7 @@ export default function Inventory(props) {
                             <>
                                 <tr>
                                     <td
-                                        colSpan="6"
+                                        colSpan="8"
                                         className="border-[1.5px] border-black py-3 px-2"
                                     >
                                         No Data

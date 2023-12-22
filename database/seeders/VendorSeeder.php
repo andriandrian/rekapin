@@ -42,19 +42,19 @@ class VendorSeeder extends Seeder
             'address' => 'Jl. Doang No. 2',
         ]);
 
-        $vendorsData = [];
+        // $vendorsData = [];
 
-        for ($i = 1; $i <= 25; $i++) {
-            $vendorsData[] = [
-                'name' => "Vendor $i",
-                'phone' => '081234567890',
-                'email' => "vendor$i@mail.com",
-                'address' => "Jl. Raya No. $i",
-            ];
-        }
+        // for ($i = 1; $i <= 25; $i++) {
+        //     $vendorsData[] = [
+        //         'name' => "Vendor $i",
+        //         'phone' => '081234567890',
+        //         'email' => "vendor$i@mail.com",
+        //         'address' => "Jl. Raya No. $i",
+        //     ];
+        // }
 
-        foreach ($vendorsData as $vendor) {
-            Vendor::create($vendor);
-        }
+        // foreach ($vendorsData as $vendor) {
+        //     Vendor::create($vendor);
+        // }
     }
 }

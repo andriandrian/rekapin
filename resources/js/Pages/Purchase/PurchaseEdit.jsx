@@ -176,7 +176,7 @@ export default function Edit(props) {
                                         </label>
                                     </div>
                                     <div className="absolute top-0 right-0 mr-5 mb-5 flex gap-4 mt-14">
-                                        {data.status == "Unpaid" && (
+                                        {data.status == "Unreceived" && (
                                             <button
                                                 className="flex bg-[#B7C9C7] border-[1.5px] border-black rounded-xl place-items-center px-5 h-16"
                                                 onClick={setFinish}
@@ -187,7 +187,7 @@ export default function Edit(props) {
                                                 />
                                             </button>
                                         )}
-                                        {data.status == "Unpaid" && (
+                                        {data.status == "Unreceived" && (
                                             <button
                                                 type="submit"
                                                 disabled={processing}
@@ -246,7 +246,7 @@ export default function Edit(props) {
                                 </div>
                             </div>
                             <div className="mt-4 flex flex-roW gap-4">
-                                {props.purchase.status == "Unpaid" && (
+                                {props.purchase.status == "Unreceived" && (
                                     <Select
                                         name="product"
                                         options={productOptions}
@@ -293,7 +293,8 @@ export default function Edit(props) {
                                         <td className="px-3 border-2 border-black">
                                             Total
                                         </td>
-                                        {props.purchase.status == "Unpaid" && (
+                                        {props.purchase.status ==
+                                            "Unreceived" && (
                                             <td className="px-3 border-2 border-black w-14"></td>
                                         )}
                                     </tr>
@@ -381,7 +382,7 @@ export default function Edit(props) {
                                                         </div>
                                                     </td>
                                                     {props.purchase.status ==
-                                                        "Unpaid" && (
+                                                        "Unreceived" && (
                                                         <td
                                                             className="mx-auto h-full pt-2 px-1"
                                                             rowSpan="2"
