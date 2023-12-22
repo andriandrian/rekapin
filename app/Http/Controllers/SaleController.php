@@ -168,7 +168,7 @@ class SaleController extends Controller
 
     public function update(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         $rules = [
             'partner_id' => 'required',
             'date' => 'required',
@@ -263,7 +263,7 @@ class SaleController extends Controller
             return redirect()->route('sale')->with('success', 'Sale created successfully.');
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e->getMessage());
+            // dd($e->getMessage());
 
             return redirect()->back()->with('error', 'Sale failed to create.');
         }

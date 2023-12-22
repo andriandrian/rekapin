@@ -287,7 +287,7 @@ class PurchaseController extends Controller
             ]]);
         } catch (\Exception $e) {
             DB::rollback();
-            dd($e->getMessage());
+            // dd($e->getMessage());
 
             return redirect()->back()->with('error', 'Purchase failed to create.');
         }
