@@ -111,27 +111,32 @@ class CustomerController extends Controller
         ]]);
     }
 
-    public function edit(Request $request)
+    public function edit(Request $request, Customer $customer)
     {
-        $id = $request->id;
-        $client = new Client();
-        $url = "http://localhost:8000/api/customer/$id";
-        $response = $client->request('GET', $url);
-        $content = $response->getBody()->getContents();
-        $contentArray = json_decode($content, true);
-        if ($contentArray['status'] != 'success') {
-            return redirect()->route('customer')->with(['message' => [
-                'type' => 'danger',
-                'text' => 'Customer not found.',
-            ]]);
-        } else {
-            $customer = $contentArray['data'];
-            return Inertia::render('Customer/CustomerEdit', [
-                'title' => 'Customer Edit',
-                'active' => 'customer',
-                'customer' => $customer
-            ]);
-        }
+        // $id = $request->id;
+        // $client = new Client();
+        // $url = "http://localhost:8000/api/customer/$id";
+        // $response = $client->request('GET', $url);
+        // $content = $response->getBody()->getContents();
+        // $contentArray = json_decode($content, true);
+        // if ($contentArray['status'] != 'success') {
+        //     return redirect()->route('customer')->with(['message' => [
+        //         'type' => 'danger',
+        //         'text' => 'Customer not found.',
+        //     ]]);
+        // } else {
+        //     $customer = $contentArray['data'];
+        //     return Inertia::render('Customer/CustomerEdit', [
+        //         'title' => 'Customer Edit',
+        //         'active' => 'customer',
+        //         'customer' => $customer
+        //     ]);
+        // }
+
+        return Inertia::render('Customer/CustomerEdit', [
+            'active' => 'customer',
+            'customer' => $customer->find($request->id)
+        ]);
     }
 
     public function update(Request $request)
