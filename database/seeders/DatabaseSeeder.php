@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder
             VendorSeeder::class,
             CustomerSeeder::class,
             ProductSeeder::class,
-            SaleSeeder::class,
-            SaleOrderLineSeeder::class,
+            // SaleSeeder::class,
+            // SaleOrderLineSeeder::class,
         ]);
     }
 }

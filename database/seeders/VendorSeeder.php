@@ -16,30 +16,73 @@ class VendorSeeder extends Seeder
     {
         Vendor::create([
             'name' => "PT. Tempo Scan",
-            'phone' => '0800 150 8888',
-            'email' => 'tempo@gmail.com',
-            'address' => 'Jl. Majapahit, Kp. Seraya, Kec. Batu Ampar, Kota Batam, Kepulauan Riau 29432',
+            'phone' => '0800 0000 0001',
+            'email' => 'email1@gmail.com',
+            'address' => 'Batam',
         ]);
 
         Vendor::create([
             'name' => "PT. Sehat Inti Perkasa",
-            'phone' => '0800 150 1212',
-            'email' => 'icw@antikorupsi.org',
-            'address' => 'Jl. Kalibata Timur IV/D No. 6 Jakarta Selatan 12740',
+            'phone' => '0800 0000 0002',
+            'email' => 'email2@gmail.com',
+            'address' => 'Batam',
         ]);
 
         Vendor::create([
-            'name' => "Toko Obat",
-            'phone' => '081234567890',
-            'email' => 'admin@mail.com',
-            'address' => 'Jl. Raya No. 1',
+            'name' => "PT. Anugerah Pharmindo Lestari",
+            'phone' => '0800 0000 0003',
+            'email' => 'email3@gmail.com',
+            'address' => 'Batam',
         ]);
 
         Vendor::create([
-            'name' => "Sido Muncul",
-            'phone' => '081234567890',
-            'email' => 'sido@mail.com',
-            'address' => 'Jl. Doang No. 2',
+            'name' => "PT. Anugerah Argon Medica",
+            'phone' => '0800 0000 0004',
+            'email' => 'email4@gmail.com',
+            'address' => 'Batam',
+        ]);
+
+        Vendor::create([
+            'name' => "PT. Bina San Prima",
+            'phone' => '0800 0000 0005',
+            'email' => 'email5@gmail.com',
+            'address' => 'Batam',
+        ]);
+
+        Vendor::create([
+            'name' => "PT. Bintang Intan Sarana",
+            'phone' => '0800 0000 0006',
+            'email' => 'email6@gmail.com',
+            'address' => 'Batam',
+        ]);
+
+        Vendor::create([
+            'name' => "PT. Bintang Sarimaas Batam",
+            'phone' => '0800 0000 0007',
+            'email' => 'email7@gmail.com',
+            'address' => 'Batam',
+        ]);
+
+        Vendor::create([
+            'name' => "PT. Dilindo Berkah Sejahtera",
+            'phone' => '0800 0000 0008',
+            'email' => 'email8@gmail.com',
+            'address' => 'Batam',
+        ]);
+
+
+        Vendor::create([
+            'name' => "PT.Enseval Putera Megatradir",
+            'phone' => '0800 0000 0009',
+            'email' => 'email9@gmail.com',
+            'address' => 'Batam',
+        ]);
+
+        Vendor::create([
+            'name' => "PT. Great Batam Global",
+            'phone' => '0800 0000 0010',
+            'email' => 'email10@gmail.com',
+            'address' => 'Batam',
         ]);
 
         // $vendorsData = [];
